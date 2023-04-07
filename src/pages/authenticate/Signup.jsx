@@ -22,7 +22,7 @@ const Signup = () => {
     delete data.passwordConfirm;
     console.log("data", data);
     axios
-      .post(`${process.env.REACT_APP_BASEURL}/join`, data)
+      .post(`https://sosohandiary.shop/join`, data)
       .then(() => {
         navigate("/signup-success");
         window.localStorage.setItem("already signed up", true);
