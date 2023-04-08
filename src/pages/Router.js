@@ -14,7 +14,6 @@ import MainPage from "./main-layout/MainPage";
 import NewDiary from "./NewDiary";
 import NewFriend from "./main-layout/NewFriend";
 import DiaryDetail from "./DiaryDetail";
-import AcceptTest from "./AcceptTest";
 import SubPage from "./SubPage";
 import Diary from "./main-layout/Diary";
 import MainLayout from "./main-layout/MainLayout";
@@ -44,8 +43,7 @@ const Router = () => {
         <Route path="/diaries/:diaryId/:detailId" element={<Detail />} />
         <Route path="/new-diary" element={<NewDiary />} />
         <Route path="/diary-detail" element={<DiaryDetail />} />
-        <Route path="/myfriends/:mode" element={<MyFriends />} />
-        <Route path="/acceptTest" element={<AcceptTest />} />
+        <Route path="/myfriends" element={<MyFriends />} />
         <Route path="/diaries/:diaryId" element={<SubPage />} />
         <Route path="/diary/:diaryId" element={<Page />} />
         <Route path="/diaryedit/:diaryId" element={<DiaryEdit />} />

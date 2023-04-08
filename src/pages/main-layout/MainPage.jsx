@@ -6,7 +6,6 @@ import "swiper/css/pagination";
 import { useInView } from "react-intersection-observer";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Pagination } from "swiper";
-import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -27,7 +26,7 @@ const MainPage = () => {
   }, []);
 
   // 로그인 유저 정보
-  const { data: dataOfUserInfo, isSuccess } = useQuery(["getUserInfo"], () => {
+  const { data: dataOfUserInfo } = useQuery(["getUserInfo"], () => {
     return axios.get(`${process.env.REACT_APP_BASEURL}/mypage/profile`, {
       headers: { Authorization: accessToken },
     });
@@ -302,7 +301,7 @@ const CurProfileImage = styled.div`
   position: relative;
   top: 50px;
   background-image: url(${({ url }) => url});
-  background-size: 200% 200%;
+  background-size: cover;
   background-position: center;
 `;
 

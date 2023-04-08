@@ -1,60 +1,38 @@
-import React, { useState } from "react";
+import React from "react";
 import styled from "styled-components";
 import TitleBox from "../../components/TitleBox";
-import { useQuery } from "react-query";
-import axios from "axios";
 import AlarmList from "../../components/notification/AlarmList";
-import AlarmListForFriend from "../../components/notification/AlarmList";
+import { useSelector } from "react-redux";
 
 const Notification = () => {
-  const accessToken = window.localStorage.getItem("accessToken");
+  const alarmStore = useSelector((state) => state.alarmSlice);
 
-  const { data: dataForFriendRequest } = useQuery(["getFriendRequests"], () => {
-    return axios.get(`${process.env.REACT_APP_BASEURL}/friend/request`, {
-      headers: { Authorization: accessToken },
-    });
-  });
+  const dataListForFriendRequset = alarmStore.friend;
+  const dataListForInviteAlarm = alarmStore.invite;
+  const dataListForCommentAlarm = alarmStore.comment;
 
-  const { data: dataForInviteAlarm } = useQuery(["getInviteAlarm"], () => {
-    return axios.get(`${process.env.REACT_APP_BASEURL}/invite/alarm`, {
-      headers: { Authorization: accessToken },
-    });
-  });
-
-  const { data: dataForCommentAlarm } = useQuery(["getCommentAlarm"], () => {
-    return axios.get(`${process.env.REACT_APP_BASEURL}/comment/alarm`, {
-      headers: { Authorization: accessToken },
-    });
-  });
-
-  const dataListForFriendRequset = dataForFriendRequest?.data;
-  const dataListForInviteAlarm = dataForInviteAlarm?.data;
-  const dataListForCommentAlarm = dataForCommentAlarm?.data;
-
-  const testForButton = () => {
-    axios
-      .patch(`${process.env.REACT_APP_BASEURL}/friend/request/read/2`, {
-        headers: { Authorization: accessToken },
-      })
-      .then((res) => console.log(res))
-      .catch((err) => console.log(err));
-  };
+  const testItem = dataListForCommentAlarm.filter(
+    (item) => item.alarm === false
+  );
+  console.log(testItem);
   return (
     <>
       <TitleBox />
 
-      <button onClick={testForButton}>뻐튼</button>
       <AlarmBox>
         {dataListForFriendRequset?.map((item, i) => (
           <AlarmList key={i} alarmType="friend" item={item} />
         ))}
-        {dataListForInviteAlarm?.map((item, i) => (
-          <AlarmList key={i} alarmType="invite" item={item} />
-        ))}
-        {dataListForCommentAlarm?.map((item, i) => (
-          <AlarmList key={i} alarmType="comment" item={item} />
-        ))}
-        <AlarmList />
+        {dataListForInviteAlarm
+          ?.filter((item) => item.alarm === false)
+          .map((item, i) => (
+            <AlarmList key={i} alarmType="invite" item={item} />
+          ))}
+        {dataListForCommentAlarm
+          ?.filter((item) => item.alarm === false)
+          .map((item, i) => (
+            <AlarmList key={i} alarmType="comment" item={item} />
+          ))}
       </AlarmBox>
     </>
   );

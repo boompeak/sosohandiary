@@ -4,8 +4,6 @@ import { useForm } from "react-hook-form";
 import { TbAlertCircle } from "react-icons/tb";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
-
-import BackButtonTitle from "../../styles/BackButtonTitle";
 import { MintButtonLargeForSubmitInput } from "../../styles/Buttons";
 import { WholeAreaWithMargin } from "../../styles/WholeAreaStyle";
 
@@ -20,11 +18,11 @@ const Signup = () => {
   } = useForm();
   const onSubmit = async (data) => {
     delete data.passwordConfirm;
-    console.log("data", data);
+    console.log("nickname : ", data.nickname);
     axios
       .post(`https://sosohandiary.shop/join`, data)
       .then(() => {
-        navigate("/signup-success");
+        navigate("/signup-success", { state: data.nickname });
         window.localStorage.setItem("already signed up", true);
       })
       .catch((err) => console.log(err));

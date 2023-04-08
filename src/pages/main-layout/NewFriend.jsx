@@ -6,22 +6,25 @@ import debounce from "lodash.debounce";
 import Searchbox from "../../components/Searchbox";
 import { WholeViewWidth } from "../../styles/WholeAreaStyle";
 import { ProfilePicSmall } from "../../components/ProfilePics";
-import { useQuery, useMutation,useQueryClient } from "react-query";
-
+import defaultProfileImg from "../../assets/defaultProfileImg.jpeg";
+import { useQuery, useMutation, useQueryClient } from "react-query";
 const NewFriend = () => {
   const accessToken = window.localStorage.getItem("accessToken");
 
   const [userId, setUserId] = useState(null);
-
   const [searchInput, setSearchInput] = useState("");
+  const [profileStatus, setProfileStatus] = useState(true);
 
   const queryClient = useQueryClient();
 
   //프로필 get 해오기!!!
   const getProfile = async () => {
-    const res = await axios.get(`${process.env.REACT_APP_BASEURL}/mypage/profile`, {
-      headers: { Authorization: accessToken },
-    });
+    const res = await axios.get(
+      `${process.env.REACT_APP_BASEURL}/mypage/profile`,
+      {
+        headers: { Authorization: accessToken },
+      }
+    );
     setUserId(res.data.memberId);
   };
 
@@ -32,6 +35,9 @@ const NewFriend = () => {
   const { data: friendList = [], isLoading: isFriendsLoading } = useQuery(
     ["getNewFriend", searchInput],
     async () => {
+      if (searchInput.trim() === "") {
+        return [];
+      }
       const res = await axios.get(
         `${process.env.REACT_APP_BASEURL}/search?name=${searchInput}`,
         { headers: { Authorization: accessToken } }
@@ -40,6 +46,12 @@ const NewFriend = () => {
     },
     {
       enabled: searchInput.trim() !== "",
+      onSuccess: (data) => {
+        const hasNullProfileImageUrl = data.some(
+          (friend) => friend.profileImageUrl === null
+        );
+        setProfileStatus(!hasNullProfileImageUrl);
+      },
     }
   );
 
@@ -69,20 +81,26 @@ const NewFriend = () => {
     <>
       <WholeViewWidth>
         <Searchbox
-          placeholder="아이디를 검색해 친구를 추가해보세요"
+          placeholder='아이디를 검색해 친구를 추가해보세요'
           onChangeInput={onChangeInput}
           onKeyPress={handleKeyDown}
           setSearchInput={setSearchInput}
         />
-        {isFriendsLoading ? (
-          <StText>Loading...</StText>
+        {searchInput.trim() === "" ? (
+          <TextBox>친구를 검색해주세요.</TextBox>
+        ) : isFriendsLoading ? (
+          <TextBox>Loading...</TextBox>
         ) : friendList.length > 0 ? (
           friendList.map((item) => (
             <ListCards key={item.memberId}>
               <ListBox>
-                <ProfilePicSmall src={item.profileImageUrl} />
+                {item.profileImageUrl ? (
+                  <ProfilePicSmall src={item.profileImageUrl} />
+                ) : (
+                  <ProfilePicSmall src={defaultProfileImg} />
+                )}
                 <ListContentBox>
-                  <StText fontWeight="bold">{item.name}</StText>
+                  <StText fontWeight='bold'>{item.name}</StText>
                   <StText>{item.statusMessage}</StText>
                 </ListContentBox>
               </ListBox>
@@ -90,9 +108,11 @@ const NewFriend = () => {
               <ButtonBox>
                 {item.friendStatus !== "ACCEPTED" &&
                   userId != item.memberId &&
-                  item.friendStatus !== "PENDING" &&(
-                    <AddButton onClick={() => addFriendMutation.mutate(item.memberId)}>
-                      <StText color="#9A9A9A" fontWeight="700">
+                  item.friendStatus !== "PENDING" && (
+                    <AddButton
+                      onClick={() => addFriendMutation.mutate(item.memberId)}
+                    >
+                      <StText color='#9A9A9A' fontWeight='700'>
                         추가하기 +
                       </StText>
                     </AddButton>
@@ -101,7 +121,7 @@ const NewFriend = () => {
             </ListCards>
           ))
         ) : (
-          <StText>검색 결과가 없습니다.</StText>
+          <TextBox>검색 결과가 없습니다.</TextBox>
         )}
       </WholeViewWidth>
     </>
@@ -137,6 +157,12 @@ const StText = styled.div`
   font-size: ${({ size }) => `${size}px`};
   font-weight: ${(props) => props.fontWeight};
   color: ${(props) => props.color};
+`;
+
+const TextBox = styled.div`
+  display: flex;
+  justify-content: center;
+  padding: 10px;
 `;
 
 const ButtonBox = styled.div``;

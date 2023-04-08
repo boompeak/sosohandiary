@@ -47,6 +47,13 @@ const MyFriends = () => {
 
   const friends = myFriends?.data;
 
+  // 이름순 정렬을 위한 compare 함수 정의
+const collator = new Intl.Collator("ko-KR");
+const compare = (a, b) => collator.compare(a.name, b.name);
+
+// 정렬된 친구 목록
+const sortedFriends = friends?.sort(compare);
+
   useEffect(() => {
     setSearchFriends(friends);
   }, [friends]);
@@ -91,9 +98,10 @@ const MyFriends = () => {
         </Label>
 
         <SwipeableList threshold={0.5} type={ListType.IOS}>
-          {friends &&
+          {sortedFriends &&
             searchFriends
               ?.filter((item) => item.friendStatus === "ACCEPTED")
+              .sort(compare)
               .map((item) => {
                 return (
                   <StyledSwipeableListItem
@@ -108,7 +116,7 @@ const MyFriends = () => {
                           <ListCards>
                             <ProfilePicSmall src={item.profileImageUrl} />
                             <ListContentBox>
-                              <StText fontWeight='bold'>{item.nickname}</StText>
+                              <StText fontWeight='bold'>{item.name}</StText>
                               <StText>{item.statusMessage}</StText>
                             </ListContentBox>
                           </ListCards>

@@ -33,7 +33,9 @@ const DiaryCardTopBig = ({ item, color, idx, activeIdxForSelfmade }) => {
           flexDirection: "column",
         }}
       >
-        <Title>{item?.title}</Title>
+        <Title idx={idx} activeIdxForSelfmade={activeIdxForSelfmade}>
+          {item?.title}
+        </Title>
 
         <CoverImg
           src={item?.img}
@@ -52,15 +54,12 @@ const DiaryCardTopBig = ({ item, color, idx, activeIdxForSelfmade }) => {
 export default DiaryCardTopBig;
 
 const Card = styled.div`
+  transition: 0.1s;
   background-color: #fff;
   width: 120px;
   height: 160px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 13px;
-
-  transition: 0.1s;
-  transition-timing-function: cubic-bezier(0.2, 0.4, 0.78, 1);
-
   height: ${({ idx, activeIdxForSelfmade }) =>
     idx === activeIdxForSelfmade ? "196px" : "140px"};
   width: ${({ idx, activeIdxForSelfmade }) =>
@@ -82,8 +81,6 @@ const Card = styled.div`
 
 const SideLabel = styled.div`
   transition: 0.1s;
-  transition-timing-function: cubic-bezier(0.2, 0.4, 0.78, 1);
-
   background-color: ${({ colorCode }) => colorCode};
   width: 15px;
   height: ${({ idx, activeIdxForSelfmade }) =>
@@ -93,31 +90,31 @@ const SideLabel = styled.div`
 `;
 
 const Title = styled.div`
+  transition: 0.1s;
+  font-size: ${({ idx, activeIdxForSelfmade }) =>
+    idx === activeIdxForSelfmade ? "18px" : "13px"};
   font-weight: 700;
   margin: 20px 0 20px 15px;
 `;
 const CreatedAt = styled.div`
   transition: 0.1s;
-  transition-timing-function: cubic-bezier(0.2, 0.4, 0.78, 1);
-  font-size: 10px;
+
   position: relative;
   top: ${({ idx, activeIdxForSelfmade }) =>
-    idx === activeIdxForSelfmade ? "20px" : "20px"};
+    idx === activeIdxForSelfmade ? "35px" : "13px"};
   right: ${({ idx, activeIdxForSelfmade }) =>
     idx === activeIdxForSelfmade ? "-25px" : "-15px"};
   font-size: ${({ idx, activeIdxForSelfmade }) =>
-    idx === activeIdxForSelfmade ? "10px" : "6px"};
+    idx === activeIdxForSelfmade ? "10px" : "7px"};
 `;
 
 const CoverImg = styled.div`
   background-image: url(${({ src }) => src});
   background-size: cover;
   background-repeat: no-repeat;
-  transition: 0.1s;
-  transition-timing-function: cubic-bezier(0.2, 0.4, 0.78, 1);
   width: ${({ idx, activeIdxForSelfmade }) =>
-    idx === activeIdxForSelfmade ? "95px" : "45px"};
+    idx === activeIdxForSelfmade ? "84px" : "60px"};
   height: ${({ idx, activeIdxForSelfmade }) =>
-    idx === activeIdxForSelfmade ? "95px" : "45px"};
+    idx === activeIdxForSelfmade ? "84px" : "60px"};
   margin-left: 15px;
 `;

@@ -11,6 +11,7 @@ import {
 } from "../../api/mypage";
 import { getDate } from "../../utils/getDate";
 import { WholeArea, WholeViewWidth } from "../../styles/WholeAreaStyle";
+import defaultProfileImg from "../../assets/defaultProfileImg.jpeg";
 import { ProfilePicLarge } from "../../components/ProfilePics";
 import { IoIosArrowForward } from "react-icons/io";
 import { MdArrowBack } from "react-icons/md";
@@ -19,6 +20,7 @@ import Navigationbar from "../../components/Navigationbar";
 function MyPage() {
   const accessToken = localStorage.getItem("accessToken");
   const [dataStatus, setDataStatus] = useState(true);
+  const [profileStatus, setProfileStatus] = useState(true);
 
   const { data: myPageData } = useQuery(
     ["getMypage"],
@@ -33,7 +35,13 @@ function MyPage() {
   );
 
   const { data: profileData } = useQuery(["getProfile"], () =>
-    getProfile(accessToken)
+    getProfile(accessToken),{
+      onSuccess: (data) => {
+        if(data.data.profileImageUrl === null){
+          setProfileStatus(false);
+        }
+      }
+    }
   );
 
   const { data: friendsCount } = useQuery(["getFriendsCount"], () =>
@@ -47,7 +55,6 @@ function MyPage() {
   const mypage = myPageData?.data;
   const profile = profileData?.data;
 
-  console.log(mypage);
   const navigate = useNavigate();
 
   const navToProfile = () => {
@@ -55,7 +62,7 @@ function MyPage() {
   };
 
   const navToFriendsList = () => {
-    navigate("/myfriends/list");
+    navigate("/myfriends");
   };
 
   const navToModifyCover = (diaryId, index) => {
@@ -84,7 +91,7 @@ function MyPage() {
         </StArrow>
         <Title size="18">마이페이지</Title>
         <FlexContainer justifyContent="center">
-          <ProfilePicLarge src={profile?.profileImageUrl} />
+          {profileStatus ?      <ProfilePicLarge src={profile?.profileImageUrl} /> :     <ProfilePicLarge src={defaultProfileImg.toString()} /> }
         </FlexContainer>
 
         <Title size="22">{profile?.nickname}</Title>

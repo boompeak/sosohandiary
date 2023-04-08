@@ -182,117 +182,61 @@ function DiaryEdit() {
           />
         </TitleContent>
       </form>
+      <Addbutton onClick={getMyfriends}>멤버 추가</Addbutton>
+      {modalOpen && (
+        <ModalWrapper>
+          <ModalContent>
+            <div>
+              <h2>추가할 멤버를 체크하세요</h2>
+              <ul
+                style={{
+                  listStyleType: "none",
+                  display: "flex",
+                  flexDirection: "column",
+                }}>
+                {friends.map((friend) => (
+                  <li
+                    key={friend.id}
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      marginBottom: "8px",
+                      marginRight: "30px",
+                    }}>
+                    <label style={{ flex: 1 }}>
+                      <img
+                        src={friend.profileImageUrl}
+                        style={{
+                          width: "20px",
+                          height: "20px",
+                          borderRadius: "50%",
+                          marginRight: "7px",
+                        }}
+                      />
+                      {friend.name} ({friend.nickname}):
+                    </label>
+                    <input
+                      type="checkbox"
+                      style={{
+                        width: "20px",
+                        height: "20px",
+                        backgroundColor: "white",
+                        marginTop: "8px",
+                      }}
+                    />
+                  </li>
+                ))}
+              </ul>
+
+              <ModalCloseButton onClick={handleCloseModal}>
+                닫기
+              </ModalCloseButton>
+            </div>
+          </ModalContent>
+        </ModalWrapper>
+      )}
 
       <SubmitButton onClick={handleClick}>생성하기</SubmitButton>
-    </Wholebox>
-  );
-
-  return (
-    <Wholebox>
-      <TopBox>
-        <VscBlank className="VscBlank" />
-        <Textbox>다이어리 만들기</Textbox>
-        <VscBlank className="VscBlank" />
-      </TopBox>
-
-      {previewImage && ( // 업로드하려는 이미지를 미리 보여줌
-        <img
-          alt="preview"
-          src={previewImage}
-          style={{
-            margin: "auto",
-            width: "200px",
-            height: "300px",
-            borderRadius: "7px",
-          }}
-        />
-      )}
-      <InputBox>
-        <FileInput
-          type="file"
-          onChange={handleChange}
-          className="StyledInput"
-        />
-      </InputBox>
-      <form onSubmit={handleClick}>
-        <TitleText>제목</TitleText>
-        <TitleContent>
-          <input
-            type="text"
-            value={title}
-            onChange={(e) => setTitle(e.target.value)}
-          />
-        </TitleContent>
-
-        <PrivateorPublicBox>
-          <VscBlank className="VscBlank" />
-          <RadioWrapper>
-            <label>
-              <input
-                type="radio"
-                value="PRIVATE"
-                checked={diaryCondition === "PRIVATE"}
-                onChange={handleConditionChange}
-              />
-              <span>비공개</span>
-            </label>
-            <label>
-              <input
-                type="radio"
-                value="PUBLIC"
-                checked={diaryCondition === "PUBLIC"}
-                onChange={handleConditionChange}
-              />
-              <span>공개</span>
-            </label>
-          </RadioWrapper>
-        </PrivateorPublicBox>
-
-        <Addbutton onClick={getMyfriends}>멤버 추가</Addbutton>
-        {modalOpen && (
-          <ModalWrapper>
-            <ModalContent>
-              <div>
-                <h2>추가할 멤버를 체크하세요</h2>
-                <ul
-                  style={{
-                    listStyleType: "none",
-                    display: "flex",
-                    flexDirection: "column",
-                  }}
-                >
-                  {friends.map((friend) => (
-                    <li
-                      key={friend.id}
-                      style={{
-                        display: "flex",
-                        justifyContent: "space-between",
-                        marginBottom: "8px",
-                      }}
-                    >
-                      <label style={{ flex: 1 }}>
-                        <img src={friend.profileImageUrl} alt="Profile Image" />
-                        {friend.name} ({friend.nickname}):
-                      </label>
-                      <input type="checkbox" />
-                    </li>
-                  ))}
-                </ul>
-
-                <ModalCloseButton onClick={handleCloseModal}>
-                  닫기
-                </ModalCloseButton>
-              </div>
-            </ModalContent>
-          </ModalWrapper>
-        )}
-
-        <UpButtonBox>
-          <VscBlank className="VscBlank" />
-          <Upbutton onClick={handleClick}>완료</Upbutton>
-          <VscBlank className="VscBlank" />
-        </UpButtonBox>
-      </form>
     </Wholebox>
   );
 }

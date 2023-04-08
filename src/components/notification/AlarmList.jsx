@@ -13,12 +13,10 @@ import AlarmReadCard from "./AlarmReadCard";
 import styled from "styled-components";
 import AlarmUnReadCard from "./AlarmUnReadCard";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 const handleReject = () => {
   console.log("reject");
-};
-const handleDelete = () => {
-  console.log("delete");
 };
 
 const acceptDiary = (id) => {};
@@ -26,8 +24,59 @@ const acceptDiary = (id) => {};
 const goToDetailOfComment = () => {};
 
 const AlarmList = ({ item, alarmType }) => {
+  const navigate = useNavigate();
   const accessToken = window.localStorage.getItem("accessToken");
-  console.log("item : ", item?.friendListId);
+
+  const handleDelete = () => {
+    switch (alarmType) {
+      case "friend":
+        axios
+          .patch(
+            `${process.env.REACT_APP_BASEURL}/friend/request/read/${item.friendListId}`,
+            {},
+            { headers: { Authorization: accessToken } }
+          )
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => console.log(err));
+      case "invite":
+        return axios
+          .patch(
+            `${process.env.REACT_APP_BASEURL}/invite/alarm/read/${item.id}`,
+            {},
+            { headers: { Authorization: accessToken } }
+          )
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => console.log(err));
+      case "comment":
+        return axios
+          .patch(
+            `${process.env.REACT_APP_BASEURL}/comment/alarm/${item.commentId}`,
+            {},
+            { headers: { Authorization: accessToken } }
+          )
+          .then((res) => {})
+          .catch((err) => console.log(err));
+      default:
+        return;
+    }
+  };
+
+  const getButtonMsg = () => {
+    switch (alarmType) {
+      case "friend":
+        return { acceptMsg: "수락하기", rejectMsg: "삭제하기" };
+      case "invite":
+        return { acceptMsg: "다이어리로 가기", rejectMsg: "삭제하기" };
+      case "comment":
+        return { acceptMsg: "다이어리로 가기", rejectMsg: "삭제하기" };
+      default:
+        return;
+    }
+  };
 
   const acceptFriend = (id) => {
     axios
@@ -42,15 +91,35 @@ const AlarmList = ({ item, alarmType }) => {
       .catch((err) => console.log(err));
   };
 
+  const goToComment = () => {
+    console.log(item.diaryDetailId);
+    navigate(`/diaries/${item.diaryDetailId}`);
+  };
+
   const trailingActions = () => (
     <TrailingActions>
       <SwipeAction onClick={handleReject}>
-        <ActionContent onClick={() => acceptFriend(item?.friendListId)}>
-          수락하기
+        <ActionContent
+          onClick={() => {
+            switch (alarmType) {
+              case "friend":
+                acceptFriend(item?.friendListId);
+                return;
+              case "invite":
+                return;
+              case "comment":
+                goToComment();
+                return;
+              default:
+                return;
+            }
+          }}
+        >
+          {getButtonMsg()?.acceptMsg}
         </ActionContent>
       </SwipeAction>
       <SwipeAction destructive={true} onClick={handleDelete}>
-        <Button color="red">삭제하기</Button>
+        <Button color="red"> {getButtonMsg()?.rejectMsg}</Button>
       </SwipeAction>
     </TrailingActions>
   );
@@ -59,11 +128,7 @@ const AlarmList = ({ item, alarmType }) => {
     <>
       <SwipeableList threshold={0.5} type={ListType.IOS}>
         <SwipeableListItem trailingActions={trailingActions()}>
-          {item?.alarm === false ? (
-            <AlarmUnReadCard item={item} alarmType={alarmType} />
-          ) : (
-            <AlarmReadCard item={item} alarmType={alarmType} />
-          )}
+          <AlarmUnReadCard item={item} alarmType={alarmType} />
         </SwipeableListItem>
       </SwipeableList>
     </>

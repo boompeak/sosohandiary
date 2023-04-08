@@ -79,14 +79,3 @@ export const getRequested = async (accessToken) => {
     headers: { Authorization: accessToken },
   });
 };
-
-//친구 추가 수락 테스트
-export const acceptFriend = async (friend_id, accessToken) => {
-  return await axios.put(
-    `${process.env.REACT_APP_BASEURL}/friend/request/accept/${friend_id}`,
-    {},
-    {
-      headers: { Authorization: accessToken },
-    }
-  );
-};

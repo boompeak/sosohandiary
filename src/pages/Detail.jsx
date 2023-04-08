@@ -30,7 +30,7 @@ function Detail() {
 
   const myDiary = diaryData?.data;
 
-  // console.log(myDiary);
+  console.log("data", myDiary);
 
   useEffect(() => {
     sheetRef.current.click();

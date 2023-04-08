@@ -29,18 +29,6 @@ const AlarmUnReadCard = ({ alarmType, item }) => {
     }
   };
 
-  const { mutate, isLoading, isError, error, isSuccess } = useMutation(
-    (friendId) => {
-      return axios.put(
-        `${process.env.REACT_APP_BASEURL}/friend/request/accept/${friendId}`,
-        {},
-        {
-          headers: { Authorization: accessToken },
-        }
-      );
-    }
-  );
-
   return (
     <AlarmArea alarm={item?.alarm}>
       <TbBellRingingFilled className="TbBellRingingFilled" />
@@ -102,14 +90,17 @@ const AlarmUnreadTextBox = styled.div`
 const AlarmArea = styled.div`
   display: flex;
   flex-direction: row;
-  background-color: ${({ alarm }) => (alarm === false ? "#cbf0ff" : "gray")};
+  background-color: ${({ alarm }) =>
+    alarm === false
+      ? "rgba(224, 237, 251, 0.89)"
+      : "rgba(227, 239, 251, 0.45)"};
   border-bottom: 1px solid #38383818;
   width: 100%;
   height: 80px;
   .TbBellRingingFilled {
     font-size: 30px;
     margin: 10px 10px 10px 20px;
-    color: ${({ alarm }) => (alarm === false ? "gold" : "gray")};
+    color: ${({ alarm }) => (alarm === false ? "#FFD88C" : "#C6C5C3")};
   }
 `;
 

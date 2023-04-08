@@ -4,6 +4,7 @@ import { useQuery, useMutation, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 
 import { getProfile, editProfile, deleteAccount } from "../api/mypage";
+import defaultProfileImg from "../assets/defaultProfileImg.jpeg";
 import {
   HiPencil,
   HiOutlineXCircle,
@@ -25,6 +26,7 @@ function Profile() {
   const [newimage, setNewImage] = useState("");
   const [file, setFile] = useState("");
   const [previewImg, setPreviewImg] = useState(false);
+  const [profileStatus, setProfileStatus] = useState(true);
 
   const { data: profileData } = useQuery(
     ["getProfile"],
@@ -33,6 +35,9 @@ function Profile() {
       onSuccess: (data) => {
         setNickname(data.data.nickname);
         setStatusMessage(data.data.statusMessage);
+        if(data.data.profileImageUrl === null){
+          setProfileStatus(false);
+        }
       },
     }
   );
@@ -93,7 +98,6 @@ function Profile() {
   };
 
   const handleDelete = () => {
-    //alert창 수정하기
     alert("탈퇴 완료!");
     deleteAccountMutate();
     localStorage.removeItem("accessToken");
@@ -121,6 +125,7 @@ function Profile() {
     );
 
     mutation.mutate(formData);
+    alert('프로필 변경 성공');
   }
 
   return (
@@ -144,11 +149,18 @@ function Profile() {
                       alt='profile image'
                     />
                   ) : (
-                    <img
+                    profileStatus ? (    <img
                       style={ProfileImg}
                       src={profile?.profileImageUrl}
                       alt='profile image'
+                    />):(
+                      <img
+                      style={ProfileImg}
+                      src={defaultProfileImg}
+                      alt='profile image'
                     />
+                    )
+                
                   )}
                 </StButton>
 
@@ -250,7 +262,7 @@ const ProfileImg = {
 const ProfileArea = styled.div`
   display: flex;
   justify-content: center;
-  margin-top: 30px;
+  margin-top: 17px;
 `;
 
 const Title = styled.div`
