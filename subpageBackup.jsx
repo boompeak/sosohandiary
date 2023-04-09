@@ -9,7 +9,6 @@ import leftArrow from "../assets/leftArrow.png";
 import { Editor, EditorState, convertFromRaw } from "draft-js";
 import { Image, Layer, Line, Stage } from "react-konva";
 import useImage from "use-image";
-import Thumbnail from "../components/drawing/Thumbnail";
 
 function SubPage() {
   const navigate = useNavigate();
@@ -188,17 +187,50 @@ function SubPage() {
         style={{ zIndex: 1000, position: "fixed", top: "0px" }}
         onClick={() => goToInnerPaperDetail(data[0]?.id)}
       >
-        0번 속지 디테일 임시 버튼
+        dddd
       </button>
       <FlipStyle>
         <HTMLFlipBook width={300} height={500}>
           {[0, 1, 2, 3, 4].map((item) => (
-            <InnerThumb style={{ overflow: "hidden" }}>
-              <Thumbnail diaryId={5} paperId={27} width={300} height={500} />
+            <InnerThumb>
+              <Editor editorState={getTextData(0)} />
+              <Stage
+                width={dimensions.width}
+                height={dimensions.height}
+                style={{ position: "absolute", top: "0px", zIndex: "1" }}
+              >
+                <Layer>
+                  {getLineData(0).map((line, i) => (
+                    <Line
+                      key={i}
+                      points={line.points}
+                      stroke={line.lineColor}
+                      strokeWidth={line.lineWidth}
+                      tension={0.5}
+                      lineCap="round"
+                      lineJoin="round"
+                      globalCompositeOperation={
+                        line.lineTool === "eraser"
+                          ? "destination-out"
+                          : "source-over"
+                      }
+                    />
+                  ))}
+                  {getStickerData(0).map((sticker, i) => {
+                    return (
+                      <ImageSticker
+                        key={i}
+                        shapeProps={sticker}
+                        sticker={sticker}
+                      />
+                    );
+                  })}
+                </Layer>
+              </Stage>
             </InnerThumb>
           ))}
 
-          <InnerThumb>
+          <InnerThumb onClick={() => goToInnerPaperDetail(data[0]?.id)}>
             <div id="thumbnail" ref={thumbAreaRef} style={{ height: "100%" }}>
               <Editor editorState={getTextData(0)} />
               <Stage

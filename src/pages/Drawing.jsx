@@ -158,10 +158,6 @@ const Drawing = () => {
   const isDrawing = useRef(false);
   const { diaryid, paperid } = useParams();
 
-  const changeModeHandler = (target) => {
-    setMode(target);
-  };
-
   const accessToken = localStorage.getItem("accessToken");
 
   // 드래그 시  스크롤 방지
@@ -293,20 +289,14 @@ const Drawing = () => {
     const allJSON = JSON.stringify(allData);
 
     const sendData = { thumbnail: "dd", customJson: allJSON };
-    console.log(sendData);
 
-    axios
-      .patch(
-        `${process.env.REACT_APP_BASEURL}/diary/${diaryid}/detail/${paperid}`,
-        sendData,
-        {
-          headers: { Authorization: accessToken },
-        }
-      )
-      .then((res) => {
-        console.log("res : ", res);
-      })
-      .catch((err) => console.log(err));
+    axios.patch(
+      `${process.env.REACT_APP_BASEURL}/diary/${diaryid}/detail/${paperid}`,
+      sendData,
+      {
+        headers: { Authorization: accessToken },
+      }
+    );
   };
 
   //툴바 관련
@@ -314,8 +304,6 @@ const Drawing = () => {
   const [isOpenTextToolbar, setIsOpenTextToolbar] = useState(false);
   const [isOpenDrawToolbar, setIsOpenDrawToolbar] = useState(false);
   const [isOpenStickerToolbar, setIsOpenStickerToolbar] = useState(false);
-  const [isOpenPenWidth, setIsOpenPenWidth] = useState(false);
-  const [isOpenEraserWidth, setIsOpenEraserWidth] = useState(false);
 
   const [lineColor, setLineColor] = useState("#e74b24");
   const [lineWidth, setLineWidth] = useState(5);
@@ -361,8 +349,6 @@ const Drawing = () => {
   return (
     <div style={{ overflow: "hidden", width: "100vw" }}>
       <DiaryBack src={diaryBack} onClick={goBackDiaryHandler} />
-
-      <TextAreaStyle mode={mode}></TextAreaStyle>
 
       <Stage
         width={window.innerWidth}
@@ -417,7 +403,7 @@ const Drawing = () => {
         <Editor
           editorState={editorState}
           onChange={setEditorState}
-          handleKeyCommand={handleKeyCommand}
+          onEditorStateChange={handleKeyCommand}
         />
       </TextAreaStyle>
       <AllToolbarStyle isOpenAllToolbar={isOpenAllToolbar}>

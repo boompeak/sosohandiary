@@ -19,11 +19,11 @@ const MainPage = () => {
 
   //비로그인 -> 로그인창으로
   const accessToken = window.localStorage.getItem("accessToken");
-  useEffect(() => {
-    if (accessToken === null) {
-      navigate("/login");
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (accessToken === null) {
+  //     navigate("/login");
+  //   }
+  // }, []);
 
   // 로그인 유저 정보
   const { data: dataOfUserInfo } = useQuery(["getUserInfo"], () => {

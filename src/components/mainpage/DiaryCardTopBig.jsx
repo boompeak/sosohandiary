@@ -98,7 +98,6 @@ const Title = styled.div`
 `;
 const CreatedAt = styled.div`
   transition: 0.1s;
-
   position: relative;
   top: ${({ idx, activeIdxForSelfmade }) =>
     idx === activeIdxForSelfmade ? "35px" : "13px"};
