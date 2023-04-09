@@ -13,6 +13,7 @@ code {
     monospace;
 }
 
+/* 오버스크롤 방지 */
 html {
   overflow: hidden;
   height: 100%;

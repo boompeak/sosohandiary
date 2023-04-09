@@ -54,7 +54,7 @@ const DiaryCardTopBig = ({ item, color, idx, activeIdxForSelfmade }) => {
 export default DiaryCardTopBig;
 
 const Card = styled.div`
-  transition: 0.1s;
+  transition: 0.2s;
   background-color: #fff;
   width: 120px;
   height: 160px;
@@ -80,7 +80,7 @@ const Card = styled.div`
 `;
 
 const SideLabel = styled.div`
-  transition: 0.1s;
+  transition: 0.2s;
   background-color: ${({ colorCode }) => colorCode};
   width: 15px;
   height: ${({ idx, activeIdxForSelfmade }) =>
@@ -90,14 +90,15 @@ const SideLabel = styled.div`
 `;
 
 const Title = styled.div`
-  transition: 0.1s;
+  transition: 0.2s;
   font-size: ${({ idx, activeIdxForSelfmade }) =>
     idx === activeIdxForSelfmade ? "18px" : "13px"};
   font-weight: 700;
   margin: 20px 0 20px 15px;
 `;
 const CreatedAt = styled.div`
-  transition: 0.1s;
+  transition: 0.2s;
+
   position: relative;
   top: ${({ idx, activeIdxForSelfmade }) =>
     idx === activeIdxForSelfmade ? "35px" : "13px"};
@@ -108,6 +109,7 @@ const CreatedAt = styled.div`
 `;
 
 const CoverImg = styled.div`
+  transition: 0.2s;
   background-image: url(${({ src }) => src});
   background-size: cover;
   background-repeat: no-repeat;

@@ -154,6 +154,7 @@ const Drawing = () => {
   const [mode, setMode] = useState("TEXT");
   const [lineTool, setLineTool] = useState("pen");
   const [lines, setLines] = useState([]);
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [touchStartY, setTouchStartY] = useState(0);
   const isDrawing = useRef(false);
   const { diaryid, paperid } = useParams();
@@ -182,9 +183,8 @@ const Drawing = () => {
           const resJson = JSON.parse(res.data.customJson);
           setStickers(resJson.stickers);
           setLines(resJson.lines);
-          window.localStorage.setItem(
-            "draft-js-example-item",
-            JSON.stringify(resJson.texts)
+          setEditorState(
+            EditorState.createWithContent(convertFromRaw(resJson.texts))
           );
         }
       })
@@ -255,13 +255,6 @@ const Drawing = () => {
   };
 
   // 텍스트 - Draft관련
-  const TEXT_EDITOR_ITEM = "draft-js-example-item";
-
-  const data = localStorage.getItem(TEXT_EDITOR_ITEM);
-  const initialState = data
-    ? EditorState.createWithContent(convertFromRaw(JSON.parse(data)))
-    : EditorState.createEmpty();
-  const [editorState, setEditorState] = useState(initialState);
 
   const handleKeyCommand = (command) => {
     const newState = RichUtils.handleKeyCommand(editorState, command);
@@ -278,7 +271,7 @@ const Drawing = () => {
 
   const handleSave = () => {
     const data = JSON.stringify(convertToRaw(editorState.getCurrentContent()));
-    localStorage.setItem(TEXT_EDITOR_ITEM, data);
+    // localStorage.setItem(TEXT_EDITOR_ITEM, data);
 
     const allData = {
       stickers,

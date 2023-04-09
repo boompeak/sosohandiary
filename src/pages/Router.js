@@ -13,13 +13,13 @@ import OnBoarding from "./authenticate/OnBoarding";
 import MainPage from "./main-layout/MainPage";
 import NewDiary from "./NewDiary";
 import NewFriend from "./main-layout/NewFriend";
-import DiaryDetail from "./DiaryDetail";
-import SubPage from "./SubPage";
 import Diary from "./main-layout/Diary";
 import MainLayout from "./main-layout/MainLayout";
 import Drawing from "./Drawing";
 import Page from "./Page";
 import DiaryEdit from "./DiaryEdit";
+import BookDetail from "./DiaryDetail";
+import DiaryDetail from "./DiaryDetail";
 
 const Router = () => {
   return (
@@ -42,9 +42,8 @@ const Router = () => {
         <Route path="/oauth" element={<Oauth />} />
         <Route path="/diaries/:diaryId/:detailId" element={<Detail />} />
         <Route path="/new-diary" element={<NewDiary />} />
-        <Route path="/diary-detail" element={<DiaryDetail />} />
         <Route path="/myfriends" element={<MyFriends />} />
-        <Route path="/diaries/:diaryId" element={<SubPage />} />
+        <Route path="/diaries/:diaryId" element={<DiaryDetail />} />
         <Route path="/diary/:diaryId" element={<Page />} />
         <Route path="/diaryedit/:diaryId" element={<DiaryEdit />} />
       </Routes>
