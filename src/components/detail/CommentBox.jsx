@@ -155,15 +155,15 @@ const CommentBox = () => {
 
   return (
     <div>
-      <WholeAreaWithMargin>
+      <WholeAreaWithMargin style={{ zIndex: 100 }}>
         <h3>댓글</h3>
         {mycomment?.length === 0 && <h5>"아직 댓글이 없어요"</h5>}
-        <CommentsContainer style={{ overflow: "hidden" }}>
+        <CommentsContainer style={{ overflow: "hidden", zIndex: 101 }}>
           <SwipeableList
             threshold={0.5}
             type={ListType.IOS}
             disableSwipe={isEditing}
-            style={{ zIndex: 100 }}
+            style={{ zIndex: 102 }}
           >
             {mycomment?.map((comment) => {
               const createdAtAgo = <GetTimeAgo createdAt={comment.createdAt} />;
@@ -171,6 +171,7 @@ const CommentBox = () => {
                 <SwipeableListItem
                   key={comment.commentId}
                   trailingActions={trailingActions(comment)}
+                  style={{ zIndex: 103 }}
                 >
                   <React.Fragment key={comment.commentId}>
                     <div>
