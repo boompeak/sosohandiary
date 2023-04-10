@@ -163,7 +163,7 @@ const CommentBox = () => {
             threshold={0.5}
             type={ListType.IOS}
             disableSwipe={isEditing}
-            style={{ height: "100%" }}
+            style={{ height: "100%", minHeight: "400px" }}
           >
             {mycomment?.map((comment) => {
               const createdAtAgo = <GetTimeAgo createdAt={comment.createdAt} />;
@@ -193,7 +193,7 @@ const CommentBox = () => {
 
       <WholeAreaWithMargin>
         <CommentInput
-          style={{ position: "relative", bottom: "90px" }}
+          style={{ position: "relative", bottom: "15px" }}
           name="comment"
           placeholder={isEditing ? "댓글 수정하기" : "댓글 입력 후 엔터"}
           value={comment.comment}
