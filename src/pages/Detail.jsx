@@ -121,16 +121,10 @@ function Detail() {
           defaultSnap={({ snapPoints }) => snapPoints}
           snapPoints={({ minHeight, maxHeight }) => [60, maxHeight]}
           blocking={false}
+          style={{ height: "80px" }}
         >
           <CommentBox />
-          <CommentInput
-            style={{ position: "relative", bottom: "15px" }}
-            // name="comment"
-            // placeholder={isEditing ? "댓글 수정하기" : "댓글 입력 후 엔터"}
-            // value={comment.comment}
-            // onChange={inputChangeHandler}
-            // onKeyPress={handleKeyDown}
-          />
+          <input type="text" />
         </BottomSheet>
       ) : (
         <div
