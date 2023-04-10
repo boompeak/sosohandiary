@@ -191,7 +191,7 @@ const CommentBox = () => {
         </CommentsContainer>
       </WholeAreaWithMargin>
 
-      <WholeAreaWithMargin>
+      <CommentArea>
         <CommentInput
           style={{ position: "relative", bottom: "15px" }}
           name="comment"
@@ -200,7 +200,7 @@ const CommentBox = () => {
           onChange={inputChangeHandler}
           onKeyPress={handleKeyDown}
         />
-      </WholeAreaWithMargin>
+      </CommentArea>
     </div>
   );
 };
@@ -279,6 +279,12 @@ const CommentsContainer = styled.div`
   height: 100%;
   margin-top: 0;
   margin-bottom: 0;
+`;
+
+const CommentArea = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-top: -120px;
 `;
 
 const CommentInput = styled.input`
