@@ -155,8 +155,15 @@ const CommentBox = () => {
   );
 
   return (
-    <AllStyle>
-      <WholeAreaWithMargin>
+    <AllStyle style={{ overflow: "hidden" }}>
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          flexDirection: "column",
+        }}
+      >
         <h3>댓글</h3>
         {mycomment?.length === 0 && <h5>"아직 댓글이 없어요"</h5>}
         <CommentsContainer style={{ marginBottom: "100px" }}>
@@ -190,7 +197,7 @@ const CommentBox = () => {
             })}
           </SwipeableList>
         </CommentsContainer>
-      </WholeAreaWithMargin>
+      </div>
 
       <CommentArea>
         <CommentInput
