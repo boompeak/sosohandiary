@@ -81,7 +81,7 @@ function Detail() {
           <div>
             <StyledDetailCardWrapper>
               <StyledDetailCard>
-                <div style={{ position: "relative", top: "-10px" }}>
+                <div style={{ position: "relative", top: "-10px", zIndex: 0 }}>
                   <Thumbnail
                     diaryId={diaryId}
                     paperId={detailId}
@@ -101,7 +101,7 @@ function Detail() {
       ></button>
       {myDiary ? (
         <BottomSheet
-          style={{ position: "absolute", top: "100px" }}
+          style={{ position: "absolute", top: "100px", zIndex: 9999 }}
           open={open}
           header={
             <DetailElement>
