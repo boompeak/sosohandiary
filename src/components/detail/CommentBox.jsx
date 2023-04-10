@@ -163,7 +163,7 @@ const CommentBox = () => {
             threshold={0.5}
             type={ListType.IOS}
             disableSwipe={isEditing}
-            style={{ height: "100%" }}
+            style={{ zIndex: 100 }}
           >
             {mycomment?.map((comment) => {
               const createdAtAgo = <GetTimeAgo createdAt={comment.createdAt} />;
