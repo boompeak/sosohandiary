@@ -27,9 +27,7 @@ function Detail() {
 
   const accessToken = localStorage.getItem("accessToken");
 
-  const { data: diaryData } = useQuery(["getDiary"], () =>
-    getDiary(diaryId, detailId, accessToken)
-  );
+  const { data: diaryData } = useQuery(["getDiary"], () => getDiary(diaryId, detailId, accessToken));
 
   const myDiary = diaryData?.data;
 
@@ -40,10 +38,7 @@ function Detail() {
   }, []);
 
   //delete
-  const { mutate: deleteDiaryMutate } = useMutation(
-    (detailId) => deleteDiary(diaryId, detailId, accessToken),
-    {}
-  );
+  const { mutate: deleteDiaryMutate } = useMutation((detailId) => deleteDiary(diaryId, detailId, accessToken), {});
 
   const navToModify = () => {
     navigate(`/drawing/${diaryId}/${detailId}`);
@@ -65,18 +60,10 @@ function Detail() {
       <StyledGobackButton onClick={() => navigate(-1)} />
       {myDiary && (
         <StyledDerailPage>
-          <GetUser
-            ProfileImg={myDiary.profileImageUrl}
-            createdAt={myDiary.createdAt}
-            nickname={myDiary.nickname}
-          />
+          <GetUser ProfileImg={myDiary.profileImageUrl} createdAt={myDiary.createdAt} nickname={myDiary.nickname} />
 
           <DiaryModalWrapper>
-            <DiaryModal
-              navToModify={navToModify}
-              onDeleteHandler={onDeleteHandler}
-              detailId={detailId}
-            />
+            <DiaryModal navToModify={navToModify} onDeleteHandler={onDeleteHandler} detailId={detailId} />
           </DiaryModalWrapper>
 
           <div>
@@ -95,11 +82,7 @@ function Detail() {
           </div>
         </StyledDerailPage>
       )}
-      <button
-        style={{ display: "none" }}
-        ref={sheetRef}
-        onClick={() => setOpen(true)}
-      ></button>
+      <button style={{ display: "none" }} ref={sheetRef} onClick={() => setOpen(true)}></button>
       {myDiary ? (
         <BottomSheet
           style={{ position: "absolute", top: "100px" }}
@@ -149,10 +132,10 @@ const StyledDerailPage = styled.div`
 
 const StyledGobackButton = styled(MdArrowBack)`
   position: absolute;
-  top: 25px;
+  top: 10px;
   left: 50%;
   transform: translateX(-500%);
-  font-size: 40px;
+  font-size: 38px;
   color: #adaaaa;
   cursor: pointer;
   z-index: 1;
@@ -162,7 +145,7 @@ const StyledDetailCardWrapper = styled(WholeViewWidth)`
   display: flex;
   justify-content: center;
   align-items: center;
-  margin-top: 10px;
+  margin-top: 30px;
   overflow: hidden;
 `;
 
@@ -184,7 +167,7 @@ const DiaryModalWrapper = styled.div`
   background-color: #fff;
   border: none;
   position: absolute;
-  top: 36px;
+  top: 25px;
   right: 50%;
   transform: translateX(460%);
 `;

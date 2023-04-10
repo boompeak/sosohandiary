@@ -369,7 +369,7 @@ const StLogout = styled.div`
   color: #8e8f94;
 
   margin-top: 10px;
-  padding-bottom: 80px;
+  padding-bottom: 100px;
 `;
 
 const StEmptyBox = styled.div`

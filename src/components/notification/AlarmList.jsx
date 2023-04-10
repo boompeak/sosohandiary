@@ -1,6 +1,5 @@
-import React, { useEffect } from "react";
+import React from "react";
 import {
-  LeadingActions,
   SwipeableList,
   SwipeableListItem,
   SwipeAction,
@@ -9,23 +8,55 @@ import {
 } from "react-swipeable-list";
 
 import "react-swipeable-list/dist/styles.css";
-import AlarmReadCard from "./AlarmReadCard";
 import styled from "styled-components";
 import AlarmUnReadCard from "./AlarmUnReadCard";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-const handleReject = () => {
-  console.log("reject");
-};
-
-const acceptDiary = (id) => {};
-
-const goToDetailOfComment = () => {};
-
 const AlarmList = ({ item, alarmType }) => {
   const navigate = useNavigate();
   const accessToken = window.localStorage.getItem("accessToken");
+
+  const handleAccept = () => {
+    switch (alarmType) {
+      case "friend":
+        axios
+          .patch(
+            `${process.env.REACT_APP_BASEURL}/friend/request/read/${item.friendListId}`,
+            {},
+            { headers: { Authorization: accessToken } }
+          )
+          .then((res) => {
+            acceptFriend(item?.friendListId);
+            console.log(res);
+          })
+          .catch((err) => console.log(err));
+      case "invite":
+        return axios
+          .patch(
+            `${process.env.REACT_APP_BASEURL}/invite/alarm/read/${item.inviteId}`,
+            {},
+            { headers: { Authorization: accessToken } }
+          )
+          .then((res) => {
+            console.log(res);
+          })
+          .catch((err) => console.log(err));
+      case "comment":
+        return axios
+          .patch(
+            `${process.env.REACT_APP_BASEURL}/comment/alarm/${item.commentId}`,
+            {},
+            { headers: { Authorization: accessToken } }
+          )
+          .then((res) => {
+            navigate(`/diaries/${item.diaryDetailId}`);
+          })
+          .catch((err) => console.log(err));
+      default:
+        return;
+    }
+  };
 
   const handleDelete = () => {
     switch (alarmType) {
@@ -87,37 +118,21 @@ const AlarmList = ({ item, alarmType }) => {
           headers: { Authorization: accessToken },
         }
       )
-      .then((res) => console.log(res))
+      .then((res) => {
+        console.log(res);
+      })
       .catch((err) => console.log(err));
-  };
-
-  const goToComment = () => {
-    console.log(item.diaryDetailId);
-    navigate(`/diaries/${item.diaryDetailId}`);
   };
 
   const trailingActions = () => (
     <TrailingActions>
-      <SwipeAction onClick={handleReject}>
-        <ActionContent
-          onClick={() => {
-            switch (alarmType) {
-              case "friend":
-                acceptFriend(item?.friendListId);
-                return;
-              case "invite":
-                return;
-              case "comment":
-                goToComment();
-                return;
-              default:
-                return;
-            }
-          }}
-        >
-          {getButtonMsg()?.acceptMsg}
-        </ActionContent>
-      </SwipeAction>
+      {alarmType === "invite" ? (
+        <SwipeAction destructive={true} onClick={handleAccept}>
+          <ActionContent>{getButtonMsg()?.acceptMsg}</ActionContent>
+        </SwipeAction>
+      ) : (
+        ""
+      )}
       <SwipeAction destructive={true} onClick={handleDelete}>
         <Button color="red"> {getButtonMsg()?.rejectMsg}</Button>
       </SwipeAction>

@@ -24,6 +24,8 @@ function Page() {
 
   // 삭제
   const handleDelete = async () => {
+    const confirmed = window.confirm("삭제하시겠습니까?");
+    if (!confirmed) return;
     try {
       const config = {
         headers: {

@@ -7,6 +7,7 @@ import Searchbox from "../../components/Searchbox";
 import { WholeViewWidth } from "../../styles/WholeAreaStyle";
 import { ProfilePicSmall } from "../../components/ProfilePics";
 import defaultProfileImg from "../../assets/defaultProfileImg.jpeg";
+import addFriendButton from "../../assets/addFriendButton.png";
 import { useQuery, useMutation, useQueryClient } from "react-query";
 const NewFriend = () => {
   const accessToken = window.localStorage.getItem("accessToken");
@@ -113,8 +114,9 @@ const NewFriend = () => {
                       onClick={() => addFriendMutation.mutate(item.memberId)}
                     >
                       <StText color='#9A9A9A' fontWeight='700'>
-                        추가하기 +
+                        추가하기
                       </StText>
+                      <img src={addFriendButton} />
                     </AddButton>
                   )}
               </ButtonBox>
@@ -176,4 +178,9 @@ const AddButton = styled.button`
   background: #e3e3e3;
 
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  gap: 5px;
 `;

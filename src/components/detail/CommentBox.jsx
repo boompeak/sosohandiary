@@ -16,7 +16,6 @@ const CommentBox = () => {
     comment: "",
   });
 
-  const [swipeOpen, setSwipeOpen] = useState(false);
   const [editingComment, setEditingComment] = useState(null);
   const [isEditing, setIsEditing] = useState(false);
   const [test, setTest] = useState(null);
@@ -105,7 +104,6 @@ const CommentBox = () => {
     setIsEditing(false);
     setEditingComment(null);
     setComment({ comment: "" });
-    setSwipeOpen(false);
   };
 
   const trailingActions = (comment) => (
@@ -143,12 +141,7 @@ const CommentBox = () => {
             {mycomment?.map((comment) => {
               const createdAtAgo = <GetTimeAgo createdAt={comment.createdAt} />;
               return (
-                <SwipeableListItem
-                  key={comment.commentId}
-                  trailingActions={trailingActions(comment)}
-                  onSwipeOpen={() => setSwipeOpen(true)}
-                  onSwipeClose={() => setSwipeOpen(false)}
-                >
+                <SwipeableListItem key={comment.commentId} trailingActions={trailingActions(comment)}>
                   <React.Fragment key={comment.commentId}>
                     <div>
                       <CommentStyle>

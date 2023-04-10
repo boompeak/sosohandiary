@@ -20,11 +20,7 @@ const DiaryCardTopBig = ({ item, color, idx, activeIdxForSelfmade }) => {
 
   return (
     <Card idx={idx} activeIdxForSelfmade={activeIdxForSelfmade}>
-      <SideLabel
-        colorCode={colorCode}
-        idx={idx}
-        activeIdxForSelfmade={activeIdxForSelfmade}
-      ></SideLabel>
+      <SideLabel colorCode={colorCode} idx={idx} activeIdxForSelfmade={activeIdxForSelfmade}></SideLabel>
       <div
         style={{
           display: "flex",
@@ -37,14 +33,10 @@ const DiaryCardTopBig = ({ item, color, idx, activeIdxForSelfmade }) => {
           {item?.title}
         </Title>
 
-        <CoverImg
-          src={item?.img}
-          idx={idx}
-          activeIdxForSelfmade={activeIdxForSelfmade}
-        />
+        <CoverImg src={item?.img} idx={idx} activeIdxForSelfmade={activeIdxForSelfmade} />
 
         <CreatedAt idx={idx} activeIdxForSelfmade={activeIdxForSelfmade}>
-          {item?.createdAt.split(" ")[0]}
+          {item?.createdAt?.split(" ")[0]}
         </CreatedAt>
       </div>
     </Card>
@@ -60,10 +52,8 @@ const Card = styled.div`
   height: 160px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 13px;
-  height: ${({ idx, activeIdxForSelfmade }) =>
-    idx === activeIdxForSelfmade ? "196px" : "140px"};
-  width: ${({ idx, activeIdxForSelfmade }) =>
-    idx === activeIdxForSelfmade ? "140px" : "100px"};
+  height: ${({ idx, activeIdxForSelfmade }) => (idx === activeIdxForSelfmade ? "196px" : "140px")};
+  width: ${({ idx, activeIdxForSelfmade }) => (idx === activeIdxForSelfmade ? "140px" : "100px")};
   border-radius: 25px;
   margin-bottom: ${({ idx, activeIdxForSelfmade }) =>
     idx === activeIdxForSelfmade
@@ -72,27 +62,23 @@ const Card = styled.div`
       ? "80px"
       : "160px"};
 
-  margin-left: ${({ idx, activeIdxForSelfmade }) =>
-    idx < activeIdxForSelfmade ? "-50%" : "0px"};
+  margin-left: ${({ idx, activeIdxForSelfmade }) => (idx < activeIdxForSelfmade ? "-50%" : "0px")};
 
-  margin-right: ${({ idx, activeIdxForSelfmade }) =>
-    idx > activeIdxForSelfmade ? "-50%" : ""};
+  margin-right: ${({ idx, activeIdxForSelfmade }) => (idx > activeIdxForSelfmade ? "-50%" : "")};
 `;
 
 const SideLabel = styled.div`
   transition: 0.2s;
   background-color: ${({ colorCode }) => colorCode};
   width: 15px;
-  height: ${({ idx, activeIdxForSelfmade }) =>
-    idx === activeIdxForSelfmade ? "196px" : "140px"};
+  height: ${({ idx, activeIdxForSelfmade }) => (idx === activeIdxForSelfmade ? "196px" : "140px")};
   border-radius: 13px 0 0 13px;
   position: absolute;
 `;
 
 const Title = styled.div`
   transition: 0.2s;
-  font-size: ${({ idx, activeIdxForSelfmade }) =>
-    idx === activeIdxForSelfmade ? "18px" : "13px"};
+  font-size: ${({ idx, activeIdxForSelfmade }) => (idx === activeIdxForSelfmade ? "18px" : "13px")};
   font-weight: 700;
   margin: 20px 0 20px 15px;
 `;
@@ -100,12 +86,9 @@ const CreatedAt = styled.div`
   transition: 0.2s;
 
   position: relative;
-  top: ${({ idx, activeIdxForSelfmade }) =>
-    idx === activeIdxForSelfmade ? "35px" : "13px"};
-  right: ${({ idx, activeIdxForSelfmade }) =>
-    idx === activeIdxForSelfmade ? "-25px" : "-15px"};
-  font-size: ${({ idx, activeIdxForSelfmade }) =>
-    idx === activeIdxForSelfmade ? "10px" : "7px"};
+  top: ${({ idx, activeIdxForSelfmade }) => (idx === activeIdxForSelfmade ? "35px" : "13px")};
+  right: ${({ idx, activeIdxForSelfmade }) => (idx === activeIdxForSelfmade ? "-25px" : "-15px")};
+  font-size: ${({ idx, activeIdxForSelfmade }) => (idx === activeIdxForSelfmade ? "10px" : "7px")};
 `;
 
 const CoverImg = styled.div`
@@ -113,9 +96,7 @@ const CoverImg = styled.div`
   background-image: url(${({ src }) => src});
   background-size: cover;
   background-repeat: no-repeat;
-  width: ${({ idx, activeIdxForSelfmade }) =>
-    idx === activeIdxForSelfmade ? "84px" : "60px"};
-  height: ${({ idx, activeIdxForSelfmade }) =>
-    idx === activeIdxForSelfmade ? "84px" : "60px"};
+  width: ${({ idx, activeIdxForSelfmade }) => (idx === activeIdxForSelfmade ? "84px" : "60px")};
+  height: ${({ idx, activeIdxForSelfmade }) => (idx === activeIdxForSelfmade ? "84px" : "60px")};
   margin-left: 15px;
 `;
