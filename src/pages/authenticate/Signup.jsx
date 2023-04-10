@@ -18,7 +18,6 @@ const Signup = () => {
   } = useForm();
   const onSubmit = async (data) => {
     delete data.passwordConfirm;
-    console.log("nickname : ", data.nickname);
     axios
       .post(`https://sosohandiary.shop/join`, data)
       .then(() => {

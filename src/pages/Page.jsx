@@ -22,6 +22,7 @@ function Page() {
     });
   };
 
+  console.log(mypage.data);
   // 삭제
   const handleDelete = async () => {
     const confirmed = window.confirm("삭제하시겠습니까?");

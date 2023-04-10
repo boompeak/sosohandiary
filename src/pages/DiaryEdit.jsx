@@ -9,6 +9,7 @@ import checkedImg from "../assets/diary-edit/checkedImg.png";
 import uncheckedImg from "../assets/diary-edit/uncheckedImg.png";
 import { Badge } from "@mui/material";
 import { data } from "jquery";
+import { disableColor, subColor1 } from "../constants/colorPalette";
 
 function DiaryEdit() {
   const accessToken = window.localStorage.getItem("accessToken");
@@ -108,8 +109,10 @@ function DiaryEdit() {
     }
   };
 
+  // 모달 닫기 버튼
   const handleCloseModal = () => {
     setModalOpen(false);
+    setCheckedList([]);
   };
 
   //이미지 업로드 관련
@@ -158,8 +161,14 @@ function DiaryEdit() {
           {},
           { headers: { Authorization: accessToken } }
         )
-        .then((res) => console.log(res))
-        .catch((err) => console.log(err));
+        .then((res) => {
+          console.log(res);
+          alert("멤버 추가 요청을 보냈습니다.");
+        })
+        .catch((err) => {
+          console.log(err);
+          alert("이미 요청을 보냈습니다!");
+        });
     });
   };
 
@@ -201,7 +210,7 @@ function DiaryEdit() {
                 src={previewImage}
                 style={{
                   position: "absolute",
-                  top: "145px",
+                  top: "170px",
                   width: "100px",
                   height: "100px",
                   borderRadius: "25px",
@@ -259,26 +268,25 @@ function DiaryEdit() {
             <CheckedListBox>
               {checkedList.map((item, i) => {
                 return (
-                  <div key={i}>
+                  <MemberBox key={i}>
                     <Badge
                       badgeContent="-"
                       color="primary"
                       onClick={() => {
                         onRemove(item);
-                      }}
-                    >
+                      }}>
                       <img
                         src={item.profileImageUrl}
                         style={{
-                          width: "50px",
-                          height: "50px",
+                          width: "40px",
+                          height: "40px",
                           borderRadius: "50%",
                           marginRight: "7px",
                         }}
                       />
                     </Badge>
-                    <div>{item.name}</div>
-                  </div>
+                    <TopName>{item.name}</TopName>
+                  </MemberBox>
                 );
               })}
             </CheckedListBox>
@@ -299,8 +307,7 @@ function DiaryEdit() {
                       marginBottom: "8px",
                       marginLeft: "10px",
                       marginRight: "10px",
-                    }}
-                  >
+                    }}>
                     <label style={{ flex: 1 }}>
                       <ImgAndName>
                         <img
@@ -323,18 +330,18 @@ function DiaryEdit() {
                         onCheckedElement(friend);
                       }}
                       checkedList={checkedList}
-                      friend={friend}
-                    ></CheckBox>
+                      friend={friend}></CheckBox>
                     <AlreadyMember
-                      disabled={alreadyMembersId.includes(friend.memberId)}
-                    >
+                      disabled={alreadyMembersId.includes(friend.memberId)}>
                       이미 멤버입니다
                     </AlreadyMember>
                   </ListStyle>
                 ))}
               <ModalCloseButton onClick={handleCloseModal}>x</ModalCloseButton>
               <CompleteButtonArea>
-                <button onClick={addMemberCompleteHandler}>완료</button>
+                <Completebutton onClick={addMemberCompleteHandler}>
+                  완료
+                </Completebutton>
               </CompleteButtonArea>
             </div>
           </ModalContent>
@@ -540,11 +547,6 @@ const SubmitButton = styled.div`
   height: 50px;
 `;
 
-const FriendListArea = styled.li`
-  display: flex;
-  align-items: center;
-`;
-
 const CheckBox = styled.div`
   display: ${({ disabled }) => (disabled ? "none" : "")};
   width: 20px;
@@ -557,6 +559,18 @@ const CheckBox = styled.div`
 
 const CheckedListBox = styled.div`
   display: flex;
+  flex-wrap: wrap;
+  padding-left: 32px;
+  padding-right: 10px;
+  border-bottom: 1px solid #dcdcdc;
+`;
+
+const MemberBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 60px;
+  margin: 7px;
 `;
 
 const CompleteButtonArea = styled.div`
@@ -564,7 +578,18 @@ const CompleteButtonArea = styled.div`
   justify-content: center;
   margin: 10px;
 `;
-
+const Completebutton = styled.button`
+  color: black;
+  background-color: rgb(${subColor1});
+  width: 100px;
+  height: 35px;
+  border: none;
+  border-radius: 5px;
+  margin: 0px auto;
+  font-weight: 700;
+  font-size: 100%;
+  cursor: pointer;
+`;
 const ListStyle = styled.div`
   display: flex;
   align-items: center;
@@ -572,4 +597,9 @@ const ListStyle = styled.div`
 
 const AlreadyMember = styled.div`
   display: ${({ disabled }) => (disabled ? "" : "none")};
+`;
+const TopName = styled.div`
+  font-size: 16px;
+  font-weight: bolder;
+  margin-bottom: 10px;
 `;

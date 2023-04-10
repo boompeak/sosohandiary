@@ -128,13 +128,13 @@ const AlarmList = ({ item, alarmType }) => {
     <TrailingActions>
       {alarmType === "invite" ? (
         <SwipeAction destructive={true} onClick={handleAccept}>
-          <ActionContent>{getButtonMsg()?.acceptMsg}</ActionContent>
+          <ActionContent>{getButtonMsg().acceptMsg}</ActionContent>
         </SwipeAction>
       ) : (
         ""
       )}
       <SwipeAction destructive={true} onClick={handleDelete}>
-        <Button color="red"> {getButtonMsg()?.rejectMsg}</Button>
+        <Button color="red"> {getButtonMsg().rejectMsg}</Button>
       </SwipeAction>
     </TrailingActions>
   );
@@ -142,7 +142,7 @@ const AlarmList = ({ item, alarmType }) => {
   return (
     <>
       <SwipeableList threshold={0.5} type={ListType.IOS}>
-        <SwipeableListItem trailingActions={trailingActions()}>
+        <SwipeableListItem trailingActions={() => trailingActions()}>
           <AlarmUnReadCard item={item} alarmType={alarmType} />
         </SwipeableListItem>
       </SwipeableList>

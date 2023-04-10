@@ -93,9 +93,9 @@ const Login = () => {
                 minLength: { value: 2, message: "2자리 이상 입력하세요" },
               })}
             />
-            <button>
+            <div>
               <HiOutlineXCircle className="HiOutlineXCircle" />
-            </button>
+            </div>
           </Content>
           {errors.password && (
             <ValidationAlert role="alert">

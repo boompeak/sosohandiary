@@ -73,42 +73,6 @@ const Navigationbar = () => {
     navigate(to);
   };
 
-  const checkAllAlarm = () => {
-    dataForFriendAlarm.data.map((item) => {
-      return axios
-        .patch(
-          `${process.env.REACT_APP_BASEURL}/friend/request/read/${item.friendListId}`,
-          {},
-          { headers: { Authorization: accessToken } }
-        )
-        .then((res) => {})
-        .catch((err) => console.log(err));
-    });
-
-    dataForCommentAlarm.data.map((item) => {
-      console.log("item.commentId", item.commentId);
-      return axios
-        .patch(
-          `${process.env.REACT_APP_BASEURL}/comment/alarm/${item.commentId}`,
-          {},
-          { headers: { Authorization: accessToken } }
-        )
-        .then((res) => {})
-        .catch((err) => console.log(err));
-    });
-
-    dataForInviteAlarm.data.map((item) => {
-      return axios
-        .patch(
-          `${process.env.REACT_APP_BASEURL}/invite/alarm/read/${item.id}`,
-          {},
-          { headers: { Authorization: accessToken } }
-        )
-        .then((res) => {})
-        .catch((err) => console.log(err));
-    });
-  };
-
   return (
     <NavbarArea>
       <div

@@ -23,10 +23,14 @@ function Profile() {
   const [nickname, setNickname] = useState("");
   const [statusMessage, setStatusMessage] = useState("");
 
+  const [nicknameInput, setNicknameInput] = useState("");
+
   const [newimage, setNewImage] = useState("");
   const [file, setFile] = useState("");
   const [previewImg, setPreviewImg] = useState(false);
   const [profileStatus, setProfileStatus] = useState(true);
+
+  const regNickname = /^[ㄱ-ㅎ|가-힣A-Za-z0-9]{1,7}$/;
 
   const { data: profileData } = useQuery(
     ["getProfile"],
@@ -87,11 +91,23 @@ function Profile() {
   };
 
   const handleDelete = () => {
-    alert("탈퇴 완료!");
     deleteAccountMutate();
     localStorage.removeItem("accessToken");
     navigate("/login");
   };
+
+  const clearButtonHandler = (e) => {
+    e.preventDefault();
+    setNickname("");
+  }
+  
+  const onNicknameHandler = (e) => {
+    setNickname(e.target.value);
+
+    !regNickname.test(e.target.value)
+    ? setNicknameInput("닉네임은 1-7자 이내입니다.")
+    : setNicknameInput("");
+  }
 
   const navToBack = () => {
     navigate("/mypage");
@@ -154,9 +170,9 @@ function Profile() {
                   )}
                 </StButton>
 
-                {/* <EditPencilArea>
+                <EditPencilArea>
                 <HiPencil />
-              </EditPencilArea> */}
+              </EditPencilArea>
               </ProfileArea>
 
               <input
@@ -175,12 +191,13 @@ function Profile() {
                       name='nickname'
                       placeholder={profile?.nickname}
                       value={nickname || ""}
-                      onChange={(e) => setNickname(e.target.value)}
+                      onChange={onNicknameHandler}
                     />
-                    <ClearButton disabled>
+                    <ClearButton onClick={clearButtonHandler}>
                       <HiOutlineXCircle color='#D0D0D0' />
                     </ClearButton>
                   </IconContainer>
+                  <Label>{nicknameInput}</Label>
 
                   <Label>소개</Label>
                   <StTextarea
@@ -254,6 +271,7 @@ const ProfileArea = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 17px;
+  position: relative;
 `;
 
 const Title = styled.div`
@@ -267,13 +285,13 @@ const Title = styled.div`
 
 const EditPencilArea = styled.div`
   background-color: gray;
-  position: relative;
-  right: 20px;
-  top: 60px;
+  position: absolute;
+  top:70%;
+  left:55%;
   border-radius: 70%;
   overflow: hidden;
-  width: 20px;
-  height: 20px;
+  width: 25px;
+  height: 25px;
   display: flex;
   justify-content: center;
   align-items: center;

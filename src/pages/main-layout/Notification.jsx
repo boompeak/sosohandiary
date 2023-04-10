@@ -15,11 +15,6 @@ const Notification = () => {
     (item) => item.alarm === false
   );
 
-  console.log(
-    dataListForFriendRequset,
-    dataListForInviteAlarm,
-    dataListForCommentAlarm
-  );
   return (
     <>
       <TitleBox />
@@ -28,10 +23,10 @@ const Notification = () => {
         {dataListForFriendRequset?.map((item, i) => (
           <AlarmList key={i} alarmType="friend" item={item} />
         ))}
-        {dataListForInviteAlarm.map((item, i) => (
+        {dataListForInviteAlarm?.map((item, i) => (
           <AlarmList key={i} alarmType="invite" item={item} />
         ))}
-        {dataListForCommentAlarm.map((item, i) => (
+        {dataListForCommentAlarm?.map((item, i) => (
           <AlarmList key={i} alarmType="comment" item={item} />
         ))}
         {dataListForCommentAlarm?.length === 0 &&

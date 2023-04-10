@@ -4,7 +4,7 @@ import "react-spring-bottom-sheet/dist/style.css";
 import CommentBox from "../components/detail/CommentBox";
 import "react-spring-bottom-sheet/dist/style.css";
 import Like from "../components/detail/Like";
-import { WholeAreaWithMargin, WholeViewWidth } from "../styles/WholeAreaStyle";
+import { WholeViewWidth } from "../styles/WholeAreaStyle";
 import GetUser from "../components/detail/GetUser";
 import styled from "styled-components";
 import { MdArrowBack } from "react-icons/md";
@@ -27,7 +27,9 @@ function Detail() {
 
   const accessToken = localStorage.getItem("accessToken");
 
-  const { data: diaryData } = useQuery(["getDiary"], () => getDiary(diaryId, detailId, accessToken));
+  const { data: diaryData } = useQuery(["getDiary"], () =>
+    getDiary(diaryId, detailId, accessToken)
+  );
 
   const myDiary = diaryData?.data;
 
@@ -38,14 +40,16 @@ function Detail() {
   }, []);
 
   //delete
-  const { mutate: deleteDiaryMutate } = useMutation((detailId) => deleteDiary(diaryId, detailId, accessToken), {});
+  const { mutate: deleteDiaryMutate } = useMutation(
+    (detailId) => deleteDiary(diaryId, detailId, accessToken),
+    {}
+  );
 
   const navToModify = () => {
     navigate(`/drawing/${diaryId}/${detailId}`);
   };
 
   const onDeleteHandler = async (detailId) => {
-    console.log("dd");
     try {
       await deleteDiaryMutate(detailId);
       alert("삭제되었습니다");
@@ -60,10 +64,18 @@ function Detail() {
       <StyledGobackButton onClick={() => navigate(-1)} />
       {myDiary && (
         <StyledDerailPage>
-          <GetUser ProfileImg={myDiary.profileImageUrl} createdAt={myDiary.createdAt} nickname={myDiary.nickname} />
+          <GetUser
+            ProfileImg={myDiary.profileImageUrl}
+            createdAt={myDiary.createdAt}
+            nickname={myDiary.nickname}
+          />
 
           <DiaryModalWrapper>
-            <DiaryModal navToModify={navToModify} onDeleteHandler={onDeleteHandler} detailId={detailId} />
+            <DiaryModal
+              navToModify={navToModify}
+              onDeleteHandler={onDeleteHandler}
+              detailId={detailId}
+            />
           </DiaryModalWrapper>
 
           <div>
@@ -73,7 +85,7 @@ function Detail() {
                   <Thumbnail
                     diaryId={diaryId}
                     paperId={detailId}
-                    width={window.innerWidth}
+                    width={350}
                     height={window.innerHeight}
                   />
                 </div>
@@ -82,7 +94,11 @@ function Detail() {
           </div>
         </StyledDerailPage>
       )}
-      <button style={{ display: "none" }} ref={sheetRef} onClick={() => setOpen(true)}></button>
+      <button
+        style={{ display: "none" }}
+        ref={sheetRef}
+        onClick={() => setOpen(true)}
+      ></button>
       {myDiary ? (
         <BottomSheet
           style={{ position: "absolute", top: "100px" }}

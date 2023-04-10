@@ -56,7 +56,7 @@ const Diary = () => {
       })
       .catch((error) => {
         console.error(error);
-        alert("오류가 발생했습니다. 다시 시도해주세요.");
+        alert("다이어리 표지 사진을 첨부하세요!");
       });
   };
 
@@ -131,8 +131,7 @@ const Diary = () => {
             diaryCondition={diaryCondition}
             onClick={() => {
               setDiaryCondition("PUBLIC");
-            }}
-          >
+            }}>
             공개
           </SelectButtonLeft>
           <CenterColumn></CenterColumn>
@@ -140,8 +139,7 @@ const Diary = () => {
             diaryCondition={diaryCondition}
             onClick={() => {
               setDiaryCondition("PRIVATE");
-            }}
-          >
+            }}>
             비공개
           </SelectButtonRight>
         </PublicSelectBox>

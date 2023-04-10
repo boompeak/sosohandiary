@@ -199,8 +199,7 @@ const MainPage = () => {
                 idx={0}
                 activeIdxForSelfmade={activeIdxForSelfmade}
                 item={{
-                  title: `다이어리가 
-                없습니다`,
+                  title: "다이어리가 \n없습니다",
                 }}
               ></DiaryCardTopBig>
             </SwiperSlide>

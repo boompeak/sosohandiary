@@ -80,7 +80,6 @@ function MyPage() {
 
   const LogoutHandler = () => {
     localStorage.removeItem("accessToken");
-    alert("로그아웃! 이 메세지 없애주세요");
     navigate("/login");
   };
   return (
