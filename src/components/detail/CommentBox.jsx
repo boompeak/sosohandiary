@@ -1,14 +1,29 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { ProfilePicSmall } from "../ProfilePics";
-import { RiPencilFill, RiDeleteBin6Fill, RiCheckFill, RiCloseFill } from "react-icons/ri";
+import {
+  RiPencilFill,
+  RiDeleteBin6Fill,
+  RiCheckFill,
+  RiCloseFill,
+} from "react-icons/ri";
 import { useQuery, useMutation, useQueryClient } from "react-query";
-import { addComment, getComment, deleteComment, updatedComment } from "../../api/detail";
+import {
+  addComment,
+  getComment,
+  deleteComment,
+  updatedComment,
+} from "../../api/detail";
 import { useParams } from "react-router-dom";
 import GetTimeAgo from "../GetTimeAgo";
 import { WholeAreaWithMargin } from "../../styles/WholeAreaStyle";
 
-import { SwipeableList, SwipeableListItem, TrailingActions, Type as ListType } from "react-swipeable-list";
+import {
+  SwipeableList,
+  SwipeableListItem,
+  TrailingActions,
+  Type as ListType,
+} from "react-swipeable-list";
 import "react-swipeable-list/dist/styles.css";
 
 const CommentBox = () => {
@@ -25,7 +40,9 @@ const CommentBox = () => {
   const accessToken = localStorage.getItem("accessToken");
 
   // get
-  const { data: commentData } = useQuery(["getComment"], () => getComment(detailId, accessToken));
+  const { data: commentData } = useQuery(["getComment"], () =>
+    getComment(detailId, accessToken)
+  );
   const mycomment = commentData?.data;
 
   // console.log("??", mycomment);
@@ -33,20 +50,26 @@ const CommentBox = () => {
   // <----Mutation----> //
 
   //add
-  const { mutate: addmutation } = useMutation(() => addComment(detailId, comment, accessToken), {
-    onSuccess: (data) => {
-      queryClient.invalidateQueries("getComment");
-      queryClient.invalidateQueries("getDiary");
-    },
-  });
+  const { mutate: addmutation } = useMutation(
+    () => addComment(detailId, comment, accessToken),
+    {
+      onSuccess: (data) => {
+        queryClient.invalidateQueries("getComment");
+        queryClient.invalidateQueries("getDiary");
+      },
+    }
+  );
 
   //delete
-  const { mutate: deleteCommentMutate } = useMutation((commentId) => deleteComment(detailId, commentId, accessToken), {
-    onSuccess: () => {
-      queryClient.invalidateQueries("getComment");
-      queryClient.invalidateQueries("getDiary");
-    },
-  });
+  const { mutate: deleteCommentMutate } = useMutation(
+    (commentId) => deleteComment(detailId, commentId, accessToken),
+    {
+      onSuccess: () => {
+        queryClient.invalidateQueries("getComment");
+        queryClient.invalidateQueries("getDiary");
+      },
+    }
+  );
 
   //edit
   const { mutate: updatedCommentMutate } = useMutation(
@@ -135,12 +158,20 @@ const CommentBox = () => {
       <WholeAreaWithMargin>
         <h3>댓글</h3>
         {mycomment?.length === 0 && <h5>"아직 댓글이 없어요"</h5>}
-        <CommentsContainer>
-          <SwipeableList threshold={0.5} type={ListType.IOS} disableSwipe={isEditing}>
+        <CommentsContainer style={{ overflow: "hidden" }}>
+          <SwipeableList
+            threshold={0.5}
+            type={ListType.IOS}
+            disableSwipe={isEditing}
+            style={{ height: "100%" }}
+          >
             {mycomment?.map((comment) => {
               const createdAtAgo = <GetTimeAgo createdAt={comment.createdAt} />;
               return (
-                <SwipeableListItem key={comment.commentId} trailingActions={trailingActions(comment)}>
+                <SwipeableListItem
+                  key={comment.commentId}
+                  trailingActions={trailingActions(comment)}
+                >
                   <React.Fragment key={comment.commentId}>
                     <div>
                       <CommentStyle>
