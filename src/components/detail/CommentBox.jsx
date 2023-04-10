@@ -155,48 +155,71 @@ const CommentBox = () => {
   );
 
   return (
-    <AllStyle style={{ overflow: "hidden" }}>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          flexDirection: "column",
-        }}
-      >
-        <h3>댓글</h3>
-        {mycomment?.length === 0 && <h5>"아직 댓글이 없어요"</h5>}
-        <CommentsContainer style={{ marginBottom: "100px" }}>
-          <SwipeableList
-            threshold={0.5}
-            type={ListType.IOS}
-            disableSwipe={isEditing}
-            style={{ height: "100%", maxHeight: "400px" }}
+    <SwipeableList
+      threshold={0.5}
+      type={ListType.IOS}
+      disableSwipe={isEditing}
+      style={{ height: "100%", maxHeight: "400px" }}
+    >
+      {mycomment?.map((comment) => {
+        const createdAtAgo = <GetTimeAgo createdAt={comment.createdAt} />;
+        return (
+          <SwipeableListItem
+            key={comment.commentId}
+            trailingActions={trailingActions(comment)}
           >
-            {mycomment?.map((comment) => {
-              const createdAtAgo = <GetTimeAgo createdAt={comment.createdAt} />;
-              return (
-                <SwipeableListItem
-                  key={comment.commentId}
-                  trailingActions={trailingActions(comment)}
-                >
-                  <React.Fragment key={comment.commentId}>
-                    <div>
-                      <CommentStyle>
-                        <ProfilePicSmall src={comment.commentProfileImageUrl} />
-                        <UserBox>
-                          <span>{comment.commentName}</span>
-                          <span>{createdAtAgo}</span>
-                        </UserBox>
-                      </CommentStyle>
-                      <CommentText>{comment.comment}</CommentText>
-                    </div>
-                  </React.Fragment>
-                </SwipeableListItem>
-              );
-            })}
-          </SwipeableList>
-        </CommentsContainer>
+            <React.Fragment key={comment.commentId}>
+              <div>
+                <CommentStyle>
+                  <ProfilePicSmall src={comment.commentProfileImageUrl} />
+                  <UserBox>
+                    <span>{comment.commentName}</span>
+                    <span>{createdAtAgo}</span>
+                  </UserBox>
+                </CommentStyle>
+                <CommentText>{comment.comment}</CommentText>
+              </div>
+            </React.Fragment>
+          </SwipeableListItem>
+        );
+      })}
+    </SwipeableList>
+  );
+
+  return (
+    <AllStyle>
+      <h3>댓글</h3>
+      {mycomment?.length === 0 && <h5>"아직 댓글이 없어요"</h5>}
+      <div style={{ marginBottom: "100px" }}>
+        <SwipeableList
+          threshold={0.5}
+          type={ListType.IOS}
+          disableSwipe={isEditing}
+          style={{ height: "100%", maxHeight: "400px" }}
+        >
+          {mycomment?.map((comment) => {
+            const createdAtAgo = <GetTimeAgo createdAt={comment.createdAt} />;
+            return (
+              <SwipeableListItem
+                key={comment.commentId}
+                trailingActions={trailingActions(comment)}
+              >
+                <React.Fragment key={comment.commentId}>
+                  <div>
+                    <CommentStyle>
+                      <ProfilePicSmall src={comment.commentProfileImageUrl} />
+                      <UserBox>
+                        <span>{comment.commentName}</span>
+                        <span>{createdAtAgo}</span>
+                      </UserBox>
+                    </CommentStyle>
+                    <CommentText>{comment.comment}</CommentText>
+                  </div>
+                </React.Fragment>
+              </SwipeableListItem>
+            );
+          })}
+        </SwipeableList>
       </div>
 
       <CommentArea>
