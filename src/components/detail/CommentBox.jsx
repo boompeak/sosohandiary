@@ -158,37 +158,42 @@ const CommentBox = () => {
       <WholeAreaWithMargin style={{ zIndex: 100 }}>
         <h3>댓글</h3>
         {mycomment?.length === 0 && <h5>"아직 댓글이 없어요"</h5>}
-        <CommentsContainer style={{ overflow: "hidden", zIndex: 101 }}>
-          <SwipeableList
-            threshold={0.5}
-            type={ListType.IOS}
-            disableSwipe={isEditing}
-            style={{ zIndex: 102 }}
-          >
-            {mycomment?.map((comment) => {
-              const createdAtAgo = <GetTimeAgo createdAt={comment.createdAt} />;
-              return (
-                <SwipeableListItem
-                  key={comment.commentId}
-                  trailingActions={trailingActions(comment)}
-                  style={{ zIndex: 103 }}
-                >
-                  <React.Fragment key={comment.commentId}>
-                    <div>
-                      <CommentStyle>
-                        <ProfilePicSmall src={comment.commentProfileImageUrl} />
-                        <UserBox>
-                          <span>{comment.commentName}</span>
-                          <span>{createdAtAgo}</span>
-                        </UserBox>
-                      </CommentStyle>
-                      <CommentText>{comment.comment}</CommentText>
-                    </div>
-                  </React.Fragment>
-                </SwipeableListItem>
-              );
-            })}
-          </SwipeableList>
+        <CommentsContainer>
+          <TestForOverScroll>
+            <SwipeableList
+              threshold={0.5}
+              type={ListType.IOS}
+              disableSwipe={isEditing}
+            >
+              {mycomment?.map((comment) => {
+                const createdAtAgo = (
+                  <GetTimeAgo createdAt={comment.createdAt} />
+                );
+                return (
+                  <SwipeableListItem
+                    key={comment.commentId}
+                    trailingActions={trailingActions(comment)}
+                    style={{ zIndex: 103 }}
+                  >
+                    <React.Fragment key={comment.commentId}>
+                      <div>
+                        <CommentStyle>
+                          <ProfilePicSmall
+                            src={comment.commentProfileImageUrl}
+                          />
+                          <UserBox>
+                            <span>{comment.commentName}</span>
+                            <span>{createdAtAgo}</span>
+                          </UserBox>
+                        </CommentStyle>
+                        <CommentText>{comment.comment}</CommentText>
+                      </div>
+                    </React.Fragment>
+                  </SwipeableListItem>
+                );
+              })}
+            </SwipeableList>
+          </TestForOverScroll>
         </CommentsContainer>
       </WholeAreaWithMargin>
 
@@ -239,6 +244,7 @@ const CheckIconStyled = styled(RiCheckFill)`
 `;
 
 const CommentsContainer = styled.div`
+  -webkit-overflow-scrolling: touch;
   width: 375px;
   height: 400px;
   /* height: 80%; */
@@ -344,4 +350,8 @@ const UserBox = styled.div`
       color: gray;
     }
   }
+`;
+
+const TestForOverScroll = styled.div`
+  -webkit-overflow-scrolling: touch;
 `;
