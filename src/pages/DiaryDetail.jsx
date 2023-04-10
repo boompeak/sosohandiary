@@ -1,27 +1,28 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams, useSearchParams } from "react-router-dom";
 import styled from "styled-components";
-import HTMLFlipBook from "react-pageflip";
 import ReactPaginate from "react-paginate";
 import { getDate } from "../utils/getDate";
 import leftArrow from "../assets/leftArrow.png";
-import Thumbnail from "../components/drawing/Thumbnail";
+import FlipBook from "../components/FlipBook";
+import { Pagination } from "@mui/material";
 
 const DiaryDetail = () => {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [pageCount, setPageCount] = useState(0);
-  const [currentPage, setCurrentPage] = useState(0);
 
   const { diaryId } = useParams();
+  const [searchParams, setSearchParams] = useSearchParams();
+  const curPage = searchParams.get("page");
 
   const accessToken = window.localStorage.getItem("accessToken");
 
   const fetchData = async (page) => {
     const response = await axios
       .get(
-        `${process.env.REACT_APP_BASEURL}/diary/${diaryId}/detail?page=${page}&size=5`,
+        `${process.env.REACT_APP_BASEURL}/diary/${diaryId}/detail?page=${curPage}&size=5`,
         {
           headers: { Authorization: accessToken },
         }
@@ -35,16 +36,8 @@ const DiaryDetail = () => {
   };
 
   useEffect(() => {
-    fetchData(currentPage);
-  }, [currentPage]);
-
-  const handlePageClick = (data) => {
-    setCurrentPage(data.selected);
-  };
-
-  const goToInnerPaperDetail = (paperId) => {
-    navigate(`/diaries/${diaryId}/${paperId}`);
-  };
+    fetchData();
+  }, []);
 
   const newInnerPaper = () => {
     axios
@@ -70,7 +63,13 @@ const DiaryDetail = () => {
   };
 
   const goBackHandler = () => {
-    navigate(-1);
+    navigate("/");
+  };
+
+  const handlePagenationChange = (e, page) => {
+    searchParams.set("page", page - 1);
+    setSearchParams(searchParams);
+    window.location.reload();
   };
 
   return (
@@ -89,29 +88,16 @@ const DiaryDetail = () => {
       </div>
 
       <FlipStyle>
-        <HTMLFlipBook width={300} height={500}>
-          {data?.map((item, i) => (
-            <InnerThumb key={i} onClick={() => goToInnerPaperDetail(item?.id)}>
-              <Thumbnail
-                diaryId={diaryId}
-                paperId={item.id}
-                width={300}
-                height={500}
-              />
-            </InnerThumb>
-          ))}
-        </HTMLFlipBook>
+        <FlipBook data={data} diaryId={diaryId} />
       </FlipStyle>
-      <div>
-        <StyledPagination
-          pageCount={pageCount}
-          onPageChange={handlePageClick}
-          containerClassName={"pagination"}
-          activeClassName={"active"}
-          previousLabel="<"
-          nextLabel=">"
+      <PaginationStyle>
+        <Pagination
+          count={pageCount}
+          color="primary"
+          onChange={handlePagenationChange}
+          page={Number(curPage) + 1}
         />
-      </div>
+      </PaginationStyle>
     </>
   );
 };
@@ -188,10 +174,6 @@ const StyledPagination = styled(ReactPaginate)`
   }
 `;
 
-const InnerThumb = styled.div`
-  background-color: #f3f3f3;
-`;
-
 const MorePageButton = styled.div`
   display: flex;
   justify-content: space-around;
@@ -217,4 +199,10 @@ const LeftArrow = styled.img`
   position: absolute;
   top: 50px;
   z-index: 11;
+`;
+
+const PaginationStyle = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 80px;
 `;

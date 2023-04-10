@@ -50,10 +50,11 @@ function Detail() {
   };
 
   const onDeleteHandler = async (detailId) => {
+    console.log("dd");
     try {
       await deleteDiaryMutate(detailId);
       alert("삭제되었습니다");
-      navigate("/");
+      navigate(`/diaries/${diaryId}`);
     } catch (error) {
       console.log(error);
     }
@@ -81,7 +82,7 @@ function Detail() {
           <div>
             <StyledDetailCardWrapper>
               <StyledDetailCard>
-                <div style={{ position: "relative" }}>
+                <div style={{ position: "relative", top: "-10px" }}>
                   <Thumbnail
                     diaryId={diaryId}
                     paperId={detailId}

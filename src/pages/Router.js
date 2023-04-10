@@ -18,7 +18,6 @@ import MainLayout from "./main-layout/MainLayout";
 import Drawing from "./Drawing";
 import Page from "./Page";
 import DiaryEdit from "./DiaryEdit";
-import BookDetail from "./DiaryDetail";
 import DiaryDetail from "./DiaryDetail";
 
 const Router = () => {
