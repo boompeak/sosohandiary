@@ -101,7 +101,6 @@ function Detail() {
       ></button>
       {myDiary ? (
         <BottomSheet
-          style={{ position: "absolute", top: "100px", zIndex: 9999 }}
           open={open}
           header={
             <DetailElement>

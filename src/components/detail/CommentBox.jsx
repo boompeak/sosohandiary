@@ -37,6 +37,7 @@ const CommentBox = () => {
 
   const queryClient = useQueryClient();
   const { detailId } = useParams();
+
   const accessToken = localStorage.getItem("accessToken");
 
   // get
@@ -154,7 +155,7 @@ const CommentBox = () => {
   );
 
   return (
-    <div>
+    <AllStyle>
       <WholeAreaWithMargin>
         <h3>댓글</h3>
         {mycomment?.length === 0 && <h5>"아직 댓글이 없어요"</h5>}
@@ -201,7 +202,7 @@ const CommentBox = () => {
           onKeyPress={handleKeyDown}
         />
       </CommentArea>
-    </div>
+    </AllStyle>
   );
 };
 
@@ -355,4 +356,9 @@ const UserBox = styled.div`
       color: gray;
     }
   }
+`;
+
+const AllStyle = styled.div`
+  -webkit-overflow-scrolling: touch;
+  overflow-y: scroll;
 `;
