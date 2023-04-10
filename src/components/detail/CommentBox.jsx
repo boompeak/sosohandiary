@@ -155,50 +155,45 @@ const CommentBox = () => {
 
   return (
     <div>
-      <WholeAreaWithMargin style={{ zIndex: 100 }}>
+      <WholeAreaWithMargin>
         <h3>댓글</h3>
         {mycomment?.length === 0 && <h5>"아직 댓글이 없어요"</h5>}
-        <CommentsContainer>
-          <TestForOverScroll>
-            <SwipeableList
-              threshold={0.5}
-              type={ListType.IOS}
-              disableSwipe={isEditing}
-            >
-              {mycomment?.map((comment) => {
-                const createdAtAgo = (
-                  <GetTimeAgo createdAt={comment.createdAt} />
-                );
-                return (
-                  <SwipeableListItem
-                    key={comment.commentId}
-                    trailingActions={trailingActions(comment)}
-                    style={{ zIndex: 103 }}
-                  >
-                    <React.Fragment key={comment.commentId}>
-                      <div>
-                        <CommentStyle>
-                          <ProfilePicSmall
-                            src={comment.commentProfileImageUrl}
-                          />
-                          <UserBox>
-                            <span>{comment.commentName}</span>
-                            <span>{createdAtAgo}</span>
-                          </UserBox>
-                        </CommentStyle>
-                        <CommentText>{comment.comment}</CommentText>
-                      </div>
-                    </React.Fragment>
-                  </SwipeableListItem>
-                );
-              })}
-            </SwipeableList>
-          </TestForOverScroll>
+        <CommentsContainer style={{ marginBottom: "100px" }}>
+          <SwipeableList
+            threshold={0.5}
+            type={ListType.IOS}
+            disableSwipe={isEditing}
+            style={{ height: "100%" }}
+          >
+            {mycomment?.map((comment) => {
+              const createdAtAgo = <GetTimeAgo createdAt={comment.createdAt} />;
+              return (
+                <SwipeableListItem
+                  key={comment.commentId}
+                  trailingActions={trailingActions(comment)}
+                >
+                  <React.Fragment key={comment.commentId}>
+                    <div>
+                      <CommentStyle>
+                        <ProfilePicSmall src={comment.commentProfileImageUrl} />
+                        <UserBox>
+                          <span>{comment.commentName}</span>
+                          <span>{createdAtAgo}</span>
+                        </UserBox>
+                      </CommentStyle>
+                      <CommentText>{comment.comment}</CommentText>
+                    </div>
+                  </React.Fragment>
+                </SwipeableListItem>
+              );
+            })}
+          </SwipeableList>
         </CommentsContainer>
       </WholeAreaWithMargin>
 
       <WholeAreaWithMargin>
         <CommentInput
+          style={{ position: "relative", bottom: "90px" }}
           name="comment"
           placeholder={isEditing ? "댓글 수정하기" : "댓글 입력 후 엔터"}
           value={comment.comment}
@@ -244,7 +239,6 @@ const CheckIconStyled = styled(RiCheckFill)`
 `;
 
 const CommentsContainer = styled.div`
-  -webkit-overflow-scrolling: touch;
   width: 375px;
   height: 400px;
   /* height: 80%; */
@@ -280,6 +274,11 @@ const CommentsContainer = styled.div`
   & > div {
     margin-bottom: 5px;
   }
+
+  width: 100%;
+  height: 100%;
+  margin-top: 0;
+  margin-bottom: 0;
 `;
 
 const CommentInput = styled.input`
@@ -350,8 +349,4 @@ const UserBox = styled.div`
       color: gray;
     }
   }
-`;
-
-const TestForOverScroll = styled.div`
-  -webkit-overflow-scrolling: touch;
 `;
