@@ -53,9 +53,21 @@ const Navigationbar = () => {
     }
   );
 
-  dispatch(getCommentAlarm(dataForCommentAlarm?.data));
-  dispatch(getFriendAlarm(dataForFriendAlarm?.data));
-  dispatch(getInviteAlarm(dataForInviteAlarm?.data));
+  dispatch(
+    getCommentAlarm(
+      dataForCommentAlarm?.data.filter((item) => item.alarm === false)
+    )
+  );
+  dispatch(
+    getFriendAlarm(
+      dataForFriendAlarm?.data.filter((item) => item.alarm === false)
+    )
+  );
+  dispatch(
+    getInviteAlarm(
+      dataForInviteAlarm?.data.filter((item) => item.alarm === false)
+    )
+  );
 
   const friendAlarmCnt = dataForFriendAlarm?.data.filter(
     (item) => item.alarm === false

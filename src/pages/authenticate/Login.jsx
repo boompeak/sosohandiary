@@ -35,6 +35,7 @@ const Login = () => {
     register,
     handleSubmit,
     formState: { isSubmitting, errors },
+    reset,
   } = useForm();
 
   const onSubmit = async (data) => {
@@ -75,9 +76,11 @@ const Login = () => {
                 },
               })}
             />
-            <button>
-              <HiOutlineXCircle className="HiOutlineXCircle" />
-            </button>
+
+            <HiOutlineXCircle
+              className="HiOutlineXCircle"
+              onClick={() => reset({ email: "" })}
+            />
           </Content>
           {errors.email && (
             <ValidationAlert role="alert">
@@ -94,7 +97,10 @@ const Login = () => {
               })}
             />
             <div>
-              <HiOutlineXCircle className="HiOutlineXCircle" />
+              <HiOutlineXCircle
+                className="HiOutlineXCircle"
+                onClick={() => reset({ password: "" })}
+              />
             </div>
           </Content>
           {errors.password && (

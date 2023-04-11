@@ -19,6 +19,7 @@ const DiaryDetail = () => {
 
   const accessToken = window.localStorage.getItem("accessToken");
 
+  //속지 조회
   const fetchData = async (page) => {
     const response = await axios
       .get(
@@ -176,7 +177,7 @@ const StyledPagination = styled(ReactPaginate)`
 
 const MorePageButton = styled.div`
   display: flex;
-  justify-content: space-around;
+  justify-content: center;
   align-items: center;
   margin: 0 auto 80px auto;
   border: 1px solid rgba(0, 0, 0, 0);
@@ -186,11 +187,6 @@ const MorePageButton = styled.div`
   height: 50px;
   cursor: pointer;
   z-index: 10;
-  position: relative;
-`;
-
-const FlipStyle = styled.div`
-  margin: -130px auto;
 `;
 
 const LeftArrow = styled.img`
@@ -204,5 +200,11 @@ const LeftArrow = styled.img`
 const PaginationStyle = styled.div`
   display: flex;
   justify-content: center;
-  margin: 80px;
+  align-items: center;
+`;
+
+const FlipStyle = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;

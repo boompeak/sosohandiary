@@ -33,16 +33,19 @@ const ImageSticker = ({
   // 스티커 사전
 
   const [imgUrl0] = useImage(
-    "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FQI9l1%2Fbtr4t7oeBhs%2FMYKvXRiLsy4mINf9Egxb30%2Fimg.png"
+    "https://mysosodiary.s3.ap-northeast-2.amazonaws.com/sticker/Group+1404.png"
   );
   const [imgUrl1] = useImage(
-    "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FdXWxWU%2Fbtr4tOJkV2M%2FdYfSWPVUkDz5i7K0lZnJ80%2Fimg.png"
+    "https://mysosodiary.s3.ap-northeast-2.amazonaws.com/sticker/Group+1405.png"
   );
   const [imgUrl2] = useImage(
-    "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fcl8BFN%2Fbtr4voJMOf7%2FdmfbZkelRI171YwUDcRdj0%2Fimg.png"
+    "https://mysosodiary.s3.ap-northeast-2.amazonaws.com/sticker/Group+1406.png"
+  );
+  const [imgUrl3] = useImage(
+    "https://mysosodiary.s3.ap-northeast-2.amazonaws.com/sticker/Group+1407.png"
   );
 
-  const imgList = [imgUrl0, imgUrl1, imgUrl2];
+  const imgList = [imgUrl0, imgUrl1, imgUrl2, imgUrl3];
 
   return (
     <React.Fragment>
@@ -56,7 +59,6 @@ const ImageSticker = ({
         innerRadius={20}
         outerRadius={40}
         opacity={0.8}
-        draggable={mode === "STICKER" ? true : false}
         rotation={sticker.rotation}
         shadowColor="black"
         shadowBlur={10}
@@ -65,61 +67,9 @@ const ImageSticker = ({
         shadowOffsetY={sticker.isDragging ? 10 : 5}
         scaleX={sticker.isDragging ? 1.2 : 1}
         scaleY={sticker.isDragging ? 1.2 : 1}
-        onDragStart={(e) => {
-          onChange({
-            ...shapeProps,
-            x: e.target.x(),
-            y: e.target.y(),
-            isDragging: true,
-          });
-        }}
-        // onDragEnd={handleDragEnd}
-        onClick={onSelect}
-        onTap={onSelect}
         ref={shapeRef}
         {...shapeProps}
-        onDragEnd={(e) => {
-          onChange({
-            ...shapeProps,
-            x: e.target.x(),
-            y: e.target.y(),
-            isDragging: false,
-          });
-        }}
-        onTransformEnd={(e) => {
-          // transformer is changing scale of the node
-          // and NOT its width or height
-          // but in the store we have only width and height
-          // to match the data better we will reset scale on transform end
-          const node = shapeRef.current;
-          const scaleX = node.scaleX();
-          const scaleY = node.scaleY();
-
-          // we will reset it back
-          node.scaleX(1);
-          node.scaleY(1);
-          onChange({
-            ...shapeProps,
-            x: node.x(),
-            y: node.y(),
-            // set minimal value
-            width: Math.max(5, node.width() * scaleX),
-            height: Math.max(node.height() * scaleY),
-          });
-        }}
       />
-      {isSelected && (
-        <Transformer
-          ref={trRef}
-          boundBoxFunc={(oldBox, newBox) => {
-            // limit resize
-            if (newBox.width < 5 || newBox.height < 5) {
-              return oldBox;
-            }
-            return newBox;
-          }}
-        />
-      )}
     </React.Fragment>
   );
 };
@@ -130,6 +80,7 @@ const Thumbnail = ({ diaryId, paperId, width, height }) => {
   const [lines, setLines] = useState([]);
   const [stickers, setStickers] = useState([]);
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
+  const [isNewPage, setIsNewPage] = useState(false);
 
   const accessToken = localStorage.getItem("accessToken");
 
@@ -158,10 +109,17 @@ const Thumbnail = ({ diaryId, paperId, width, height }) => {
           setEditorState(
             EditorState.createWithContent(convertFromRaw(resJson.texts))
           );
+        } else {
+          setIsNewPage(true);
         }
       })
       .catch((err) => console.log(err));
   }, []);
+
+  // 건들지 않은 새로운 페이지일때
+  if (isNewPage) {
+    return <NewPageMsgArea>새로운 페이지입니다.</NewPageMsgArea>;
+  }
 
   // 도화지
   return (
@@ -199,3 +157,9 @@ const Thumbnail = ({ diaryId, paperId, width, height }) => {
 };
 
 export default Thumbnail;
+
+const NewPageMsgArea = styled.div`
+  display: flex;
+  justify-content: center;
+  margin: 200px 0;
+`;

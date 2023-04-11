@@ -3,7 +3,6 @@ import React from "react";
 import styled from "styled-components";
 import { Stage, Layer, Line, Transformer, Image } from "react-konva";
 import useImage from "use-image";
-import { useQuery } from "react-query";
 import axios from "axios";
 import {
   Editor,
@@ -56,16 +55,19 @@ const ImageSticker = ({
   // 스티커 사전
 
   const [imgUrl0] = useImage(
-    "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FQI9l1%2Fbtr4t7oeBhs%2FMYKvXRiLsy4mINf9Egxb30%2Fimg.png"
+    "https://mysosodiary.s3.ap-northeast-2.amazonaws.com/sticker/Group+1404.png"
   );
   const [imgUrl1] = useImage(
-    "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FdXWxWU%2Fbtr4tOJkV2M%2FdYfSWPVUkDz5i7K0lZnJ80%2Fimg.png"
+    "https://mysosodiary.s3.ap-northeast-2.amazonaws.com/sticker/Group+1405.png"
   );
   const [imgUrl2] = useImage(
-    "https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fcl8BFN%2Fbtr4voJMOf7%2FdmfbZkelRI171YwUDcRdj0%2Fimg.png"
+    "https://mysosodiary.s3.ap-northeast-2.amazonaws.com/sticker/Group+1406.png"
+  );
+  const [imgUrl3] = useImage(
+    "https://mysosodiary.s3.ap-northeast-2.amazonaws.com/sticker/Group+1407.png"
   );
 
-  const imgList = [imgUrl0, imgUrl1, imgUrl2];
+  const imgList = [imgUrl0, imgUrl1, imgUrl2, imgUrl3];
 
   return (
     <React.Fragment>
@@ -200,13 +202,33 @@ const Drawing = () => {
 
   // 스티커 추가 관련
   const addStickerButtonHandler = (num) => {
+    const generateRandomId = () => {
+      const S4 = () => {
+        return (((1 + Math.random()) * 0x10000) | 0).toString(16).substring(1);
+      };
+      return (
+        S4() +
+        S4() +
+        "-" +
+        S4() +
+        "-" +
+        S4() +
+        "-" +
+        S4() +
+        "-" +
+        S4() +
+        S4() +
+        S4()
+      );
+    };
+
     const newSticker = {
-      id: stickers.length,
+      id: generateRandomId(),
       x: Math.random() * window.innerWidth,
       y: Math.random() * window.innerHeight,
       width: 100,
       height: 100,
-      rotation: 45,
+      rotation: 0,
       isDragging: false,
       stickerUrlNum: num,
     };
@@ -338,11 +360,21 @@ const Drawing = () => {
     navigate(-1);
   };
 
+  const deleteStickerHandler = () => {
+    setStickers(stickers.filter((item) => item.id !== selectedId));
+  };
+
+  const stickerUrlList = [
+    "https://mysosodiary.s3.ap-northeast-2.amazonaws.com/sticker/Group+1404.png",
+    "https://mysosodiary.s3.ap-northeast-2.amazonaws.com/sticker/Group+1405.png",
+    "https://mysosodiary.s3.ap-northeast-2.amazonaws.com/sticker/Group+1406.png",
+    "https://mysosodiary.s3.ap-northeast-2.amazonaws.com/sticker/Group+1407.png",
+  ];
+
   // 도화지
   return (
     <div style={{ overflow: "hidden", width: "100vw" }}>
       <DiaryBack src={diaryBack} onClick={goBackDiaryHandler} />
-
       <Stage
         width={window.innerWidth}
         height={window.innerHeight}
@@ -392,6 +424,9 @@ const Drawing = () => {
           })}
         </Layer>
       </Stage>
+      <DeleteButtonArea mode={mode}>
+        <SubmitButton onClick={deleteStickerHandler}>스티커 삭제</SubmitButton>
+      </DeleteButtonArea>
       <TextAreaStyle mode={mode}>
         <Editor
           editorState={editorState}
@@ -450,7 +485,6 @@ const Drawing = () => {
           onMouseDown={() => handleTogggleClick("BOLD")}
         />
       </TextToolbarStyle>
-
       <DrawToolbarStyle isOpenDrawToolbar={isOpenDrawToolbar}>
         <div
           onClick={() => {
@@ -514,7 +548,6 @@ const Drawing = () => {
           ></ColorPea>
         ))}
       </DrawToolbarStyle>
-
       <StickerToolbarStyle
         isOpenStickerToolbar={isOpenStickerToolbar}
         onTouchStart={(e) => {
@@ -533,11 +566,12 @@ const Drawing = () => {
           spacing={{ xs: 2, md: 3 }}
           columns={{ xs: 6, sm: 8, md: 12 }}
         >
-          {[0, 1, 2, 0, 1, 2].map((item) => (
+          {stickerUrlList.map((item, i) => (
             <Grid item xs={2} sm={4} md={4}>
               <StickerPea
+                imgUrl={item}
                 onClick={() => {
-                  addStickerButtonHandler(item);
+                  addStickerButtonHandler(i);
                   setIsOpenStickerToolbar(false);
                   setIsOpenAllToolbar(true);
                 }}
@@ -559,10 +593,17 @@ const DiaryBack = styled.img`
 `;
 
 const TextAreaStyle = styled.div`
+  font-size: 20px;
   position: absolute;
-  width: 80vw;
+  width: auto;
+  min-width: 100px;
+  max-width: 80vw;
   margin: 40px 10vw;
   z-index: ${({ mode }) => (mode === "TEXT" ? 1 : -1)};
+  background-color: "red";
+  border-radius: 25px;
+  background-color: rgba(200, 200, 200, 0.1);
+  padding: 25px;
 `;
 
 const AllToolbarStyle = styled.div`
@@ -661,7 +702,8 @@ const EraserStyle = styled.img`
 `;
 
 const StickerPea = styled.div`
-  background-color: red;
+  background-image: url(${({ imgUrl }) => imgUrl});
+  background-size: cover;
   width: 75px;
   height: 75px;
   border-radius: 50%;
@@ -687,4 +729,26 @@ const WidthArea = styled.div`
 const WidthButton = styled.img`
   width: 30px;
   margin: -5px 1px;
+`;
+
+const DeleteButtonArea = styled.div`
+  transition: 0.2s;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: ${({ mode }) => (mode === "STICKER" ? "1" : "0")};
+`;
+
+const SubmitButton = styled.div`
+  cursor: pointer;
+  display: flex;
+  justify-content: space-around;
+  margin-top: 10px;
+  align-items: center;
+  border: 1px solid rgba(0, 0, 0, 0);
+  border-radius: 20px;
+  background-color: #e1e7ff;
+  width: 300px;
+  height: 50px;
+  opacity: 0.8;
 `;

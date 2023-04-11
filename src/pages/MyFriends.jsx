@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { useMutation, useQuery, useQueryClient } from "react-query";
 import { useNavigate } from "react-router-dom";
 import {
-  LeadingActions,
   SwipeableList,
   SwipeableListItem,
   SwipeAction,
@@ -48,11 +47,11 @@ const MyFriends = () => {
   const friends = myFriends?.data;
 
   // 이름순 정렬을 위한 compare 함수 정의
-const collator = new Intl.Collator("ko-KR");
-const compare = (a, b) => collator.compare(a.name, b.name);
+  const collator = new Intl.Collator("ko-KR");
+  const compare = (a, b) => collator.compare(a.name, b.name);
 
-// 정렬된 친구 목록
-const sortedFriends = friends?.sort(compare);
+  // 정렬된 친구 목록
+  const sortedFriends = friends?.sort(compare);
 
   useEffect(() => {
     setSearchFriends(friends);
@@ -67,18 +66,18 @@ const sortedFriends = friends?.sort(compare);
   };
 
   const handleDelete = () => {
-  console.log("delete");
-};
-
+    console.log("delete");
+  };
 
   const trailingActions = (item) => (
     <TrailingActions>
       <SwipeAction destructive={true} onClick={handleDelete}>
-        <DeleteButton onClick={() => onDeleteHandler(item.friendListId)}>삭제하기</DeleteButton>
+        <DeleteButton onClick={() => onDeleteHandler(item.friendListId)}>
+          삭제하기
+        </DeleteButton>
       </SwipeAction>
     </TrailingActions>
   );
-
 
   return (
     <>
@@ -86,14 +85,14 @@ const sortedFriends = friends?.sort(compare);
         <StArrow>
           <StyledGobackButton onClick={navToBack} />
         </StArrow>
-        <Title size='18'>친구</Title>
+        <Title size="18">친구</Title>
         {/* <Searchbox placeholder='친구 검색' /> */}
         <Filter
           setCards={setSearchFriends}
           existCards={friends}
-          placeholder='친구 검색'
+          placeholder="친구 검색"
         />
-        <Label alignSelf='flex-start'>
+        <Label alignSelf="flex-start">
           친구 {friendsCount?.data?.myFriendCount}
         </Label>
 
@@ -110,13 +109,13 @@ const sortedFriends = friends?.sort(compare);
                     onSwipeOpen={() => setSwipeOpen(true)}
                     onSwipeClose={() => setSwipeOpen(false)}
                   >
-                    {item.friendStatus === "ACCEPTED" &&(
+                    {item.friendStatus === "ACCEPTED" && (
                       <>
-                        <div className='slide'>
+                        <div className="slide">
                           <ListCards>
                             <ProfilePicSmall src={item.profileImageUrl} />
                             <ListContentBox>
-                              <StText fontWeight='bold'>{item.name}</StText>
+                              <StText fontWeight="bold">{item.name}</StText>
                               <StText>{item.statusMessage}</StText>
                             </ListContentBox>
                           </ListCards>
@@ -184,7 +183,7 @@ const ListContentBox = styled.div`
   justify-content: center;
   flex-direction: column;
   margin-left: 10px;
-  height:60px;
+  height: 60px;
 `;
 
 const StText = styled.div`
@@ -197,12 +196,11 @@ const StyledSwipeableListItem = styled(SwipeableListItem)`
   border-top: 1px solid #d9d9d9;
 
   width: 100%;
-    align-items: center;
-    box-sizing: border-box;
-    height: 100%;
-    display: flex;
-
-`
+  align-items: center;
+  box-sizing: border-box;
+  height: 100%;
+  display: flex;
+`;
 
 const DeleteButton = styled.button`
   display: flex;

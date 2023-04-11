@@ -11,7 +11,6 @@ import Detail from "./Detail";
 import MyFriends from "./MyFriends";
 import OnBoarding from "./authenticate/OnBoarding";
 import MainPage from "./main-layout/MainPage";
-import NewDiary from "./NewDiary";
 import NewFriend from "./main-layout/NewFriend";
 import Diary from "./main-layout/Diary";
 import MainLayout from "./main-layout/MainLayout";
@@ -40,7 +39,6 @@ const Router = () => {
         <Route path="drawing/:diaryid/:paperid" element={<Drawing />} />
         <Route path="/oauth" element={<Oauth />} />
         <Route path="/diaries/:diaryId/:detailId" element={<Detail />} />
-        <Route path="/new-diary" element={<NewDiary />} />
         <Route path="/myfriends" element={<MyFriends />} />
         <Route path="/diaries/:diaryId" element={<DiaryDetail />} />
         <Route path="/diary/:diaryId" element={<Page />} />

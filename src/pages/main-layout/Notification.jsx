@@ -15,6 +15,11 @@ const Notification = () => {
     (item) => item.alarm === false
   );
 
+  console.log(
+    dataListForFriendRequset,
+    dataListForInviteAlarm,
+    dataListForCommentAlarm
+  );
   return (
     <>
       <TitleBox />

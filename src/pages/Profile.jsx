@@ -123,7 +123,7 @@ function Profile() {
   function onSubmitHandler(e) {
     e.preventDefault();
 
-    console.log(file);
+    if(nickname.trim() === "" || nickname.trim().length > 7 ) return;
 
     formData.append("img", file);
     formData.append(
@@ -202,6 +202,7 @@ function Profile() {
                   <Label>소개</Label>
                   <StTextarea
                     name='statusMessage'
+                    maxLength="100"
                     onChange={(e) => setStatusMessage(e.target.value)}
                     placeholder={profile?.statusMessage}
                     value={statusMessage || ""}

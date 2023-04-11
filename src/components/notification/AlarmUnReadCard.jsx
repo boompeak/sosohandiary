@@ -38,7 +38,11 @@ const AlarmUnReadCard = ({ alarmType, item }) => {
         </AlarmHead>
         <AlarmUnreadBody>
           <ProfileAndComment>
-            <UserProfileImg src={item?.profileImageUrl || ""}></UserProfileImg>
+            {item.profileImageUrl ? (
+              <UserProfileImg src={item?.profileImageUrl}></UserProfileImg>
+            ) : (
+              ""
+            )}
             {getTitleAndDesc().desc}
           </ProfileAndComment>
         </AlarmUnreadBody>

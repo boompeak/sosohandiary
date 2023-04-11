@@ -102,7 +102,7 @@ const NewFriend = () => {
                 )}
                 <ListContentBox>
                   <StText fontWeight='bold'>{item.name}</StText>
-                  <StText>{item.statusMessage}</StText>
+                  <StText overflow='hidden' textOverflow='ellipsis' whiteSpace='nowrap'>{item.statusMessage}</StText>
                 </ListContentBox>
               </ListBox>
 
@@ -153,12 +153,25 @@ const ListContentBox = styled.div`
   flex-direction: column;
 
   margin-left: 10px;
+  @media screen and (max-width: 768px) {
+  width: 200px;
+}
+
+@media screen and (min-width: 769px) and (max-width: 1024px) {
+  width: 600px;
+}
+
 `;
 
 const StText = styled.div`
   font-size: ${({ size }) => `${size}px`};
   font-weight: ${(props) => props.fontWeight};
   color: ${(props) => props.color};
+
+  overflow: ${(props) => props.overflow};
+  text-overflow: ${(props) => props.textOverflow};
+  white-space: ${(props) => props.whiteSpace};
+
 `;
 
 const TextBox = styled.div`
@@ -167,7 +180,9 @@ const TextBox = styled.div`
   padding: 10px;
 `;
 
-const ButtonBox = styled.div``;
+const ButtonBox = styled.div`
+ flex: 0 0 auto;
+`;
 
 const AddButton = styled.button`
   height: 25px;
