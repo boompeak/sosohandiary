@@ -18,7 +18,7 @@ const Oauth = () => {
         window.localStorage.setItem("accessToken", "");
       })
       .catch((err) => {
-        console.log("err", err.response.headers.authorization);
+        console.log(err);
         window.localStorage.setItem(
           "accessToken",
           err.response.headers.authorization
