@@ -14,8 +14,9 @@ const Oauth = () => {
       .get(`${process.env.REACT_APP_BASEURL}/login/kakao?code=${code}`)
       .then((res) => {
         console.log(res);
+        alert("성공함", res);
 
-        window.localStorage.setItem("accessToken", "");
+        window.localStorage.setItem("accessToken", res);
       })
       .catch((err) => {
         console.log(err);
@@ -23,7 +24,6 @@ const Oauth = () => {
           "accessToken",
           err.response.headers.authorization
         );
-        navigate("/");
       });
   }, []);
 

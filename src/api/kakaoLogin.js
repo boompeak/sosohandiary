@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const kakaoLoginApi = () => {
-  const REDIRECT_URI = "http://localhost:3000/oauth"; //프론트 도메인
+  const REDIRECT_URI = "https://us-diary.vercel.app/"; //프론트 도메인
   // console.log("ddd");
 
   //   .get(
