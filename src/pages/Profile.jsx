@@ -30,7 +30,8 @@ function Profile() {
   const [previewImg, setPreviewImg] = useState(false);
   const [profileStatus, setProfileStatus] = useState(true);
 
-  const regNickname = /^[ㄱ-ㅎ|가-힣A-Za-z0-9]{1,7}$/;
+  const regNickname =
+    /^[ㄱ-ㅎㅏ-ㅣ|가-힣A-Za-z0-9!@#$%^&*()_+={}[\]\\|;:'",.<>/?]{1,7}$/;
 
   const { data: profileData } = useQuery(
     ["getProfile"],
@@ -99,15 +100,15 @@ function Profile() {
   const clearButtonHandler = (e) => {
     e.preventDefault();
     setNickname("");
-  }
-  
+  };
+
   const onNicknameHandler = (e) => {
     setNickname(e.target.value);
 
     !regNickname.test(e.target.value)
-    ? setNicknameInput("닉네임은 1-7자 이내입니다.")
-    : setNicknameInput("");
-  }
+      ? setNicknameInput("닉네임은 1-7자 이내입니다.")
+      : setNicknameInput("");
+  };
 
   const navToBack = () => {
     navigate("/mypage");
@@ -123,7 +124,7 @@ function Profile() {
   function onSubmitHandler(e) {
     e.preventDefault();
 
-    if(nickname.trim() === "" || nickname.trim().length > 7 ) return;
+    if (nickname.trim() === "" || nickname.trim().length > 7) return;
 
     formData.append("img", file);
     formData.append(
@@ -171,8 +172,8 @@ function Profile() {
                 </StButton>
 
                 <EditPencilArea>
-                <HiPencil />
-              </EditPencilArea>
+                  <HiPencil />
+                </EditPencilArea>
               </ProfileArea>
 
               <input
@@ -202,7 +203,7 @@ function Profile() {
                   <Label>소개</Label>
                   <StTextarea
                     name='statusMessage'
-                    maxLength="100"
+                    maxLength='100'
                     onChange={(e) => setStatusMessage(e.target.value)}
                     placeholder={profile?.statusMessage}
                     value={statusMessage || ""}
@@ -287,8 +288,8 @@ const Title = styled.div`
 const EditPencilArea = styled.div`
   background-color: gray;
   position: absolute;
-  top:70%;
-  left:55%;
+  top: 70%;
+  left: 55%;
   border-radius: 70%;
   overflow: hidden;
   width: 25px;
