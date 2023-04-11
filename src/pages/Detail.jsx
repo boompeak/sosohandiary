@@ -60,7 +60,7 @@ function Detail() {
     try {
       await deleteDiaryMutate(detailId);
       alert("삭제되었습니다");
-      navigate(`/diaries/${diaryId}`);
+      await navigate(`/diaries/${diaryId}`, { state: "needReload" });
     } catch (error) {
       console.log(error);
     }
@@ -92,7 +92,16 @@ function Detail() {
           <div>
             <StyledDetailCardWrapper>
               <StyledDetailCard>
-                <div style={{ position: "relative", top: "-10px", zIndex: 0 }}>
+                <div
+                  style={{
+                    position: "relative",
+                    top: "-10px",
+                    zIndex: 0,
+                    overflow: "hidden",
+                    width: "100%",
+                    height: "100%",
+                  }}
+                >
                   <Thumbnail
                     diaryId={diaryId}
                     paperId={detailId}

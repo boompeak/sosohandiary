@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
-import { useNavigate, useParams, useSearchParams } from "react-router-dom";
+import {
+  useLocation,
+  useNavigate,
+  useParams,
+  useSearchParams,
+} from "react-router-dom";
 import styled from "styled-components";
 import ReactPaginate from "react-paginate";
 import { getDate } from "../utils/getDate";
@@ -16,6 +21,12 @@ const DiaryDetail = () => {
   const { diaryId } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
   const curPage = searchParams.get("page");
+
+  const location = useLocation();
+  if (location.state === "needReload") {
+    window.location.reload();
+    window.history.replaceState({}, document.title);
+  }
 
   const accessToken = window.localStorage.getItem("accessToken");
 
@@ -82,12 +93,18 @@ const DiaryDetail = () => {
         <div>
           <HeaderStyle>
             <DiaryTitle>{data[0]?.diaryTitle}</DiaryTitle>
-            <DiaryCreatedAt>{getDate(data[0]?.createdAt)}</DiaryCreatedAt>
+            {getDate(data[0]?.createdAt) ? (
+              <DiaryCreatedAt>{getDate(data[0]?.createdAt)}</DiaryCreatedAt>
+            ) : (
+              ""
+            )}
           </HeaderStyle>
           <MorePageButton onClick={newInnerPaper}>한장 더 쓰기</MorePageButton>
         </div>
       </div>
-
+      <MorePagePlease>
+        {data.length === 0 ? "페이지를 추가해주세요" : ""}
+      </MorePagePlease>
       <FlipStyle>
         <FlipBook data={data} diaryId={diaryId} />
       </FlipStyle>
@@ -207,4 +224,11 @@ const FlipStyle = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+`;
+
+const MorePagePlease = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 30px;
 `;

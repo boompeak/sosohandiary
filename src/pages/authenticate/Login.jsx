@@ -191,11 +191,6 @@ const SubmitButtonStyle = styled.div`
   }
 `;
 
-const FindIDPWArea = styled.div`
-  color: gray;
-  font-size: 11px;
-`;
-
 const Underline = styled.div`
   border-bottom: 1px solid rgb(222, 222, 222);
 `;

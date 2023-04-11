@@ -28,6 +28,12 @@ import diaryBack from "../assets/decoration/diaryBack.png";
 import widthLarge from "../assets/decoration/toolbar/widthLarge.png";
 import widthMedium from "../assets/decoration/toolbar/widthMedium.png";
 import widthSmall from "../assets/decoration/toolbar/widthSmall.png";
+import backImg from "../assets/decoration/toolbar/backImg.png";
+import backImg2 from "../assets/decoration/toolbar/backImg2.png";
+import download from "../assets/decoration/toolbar/download.png";
+import widthSmallEraser from "../assets/decoration/toolbar/widthSmallEraser.png";
+import widthMediumEraser from "../assets/decoration/toolbar/widthMediumEraser.png";
+import widthLargeEraser from "../assets/decoration/toolbar/widthLargeEraser.png";
 import "react-tooltip/dist/react-tooltip.css";
 import { Tooltip } from "react-tooltip";
 
@@ -91,11 +97,13 @@ const ImageSticker = ({
         scaleX={sticker.isDragging ? 1.2 : 1}
         scaleY={sticker.isDragging ? 1.2 : 1}
         onDragStart={(e) => {
+          console.log(e.target);
           onChange({
             ...shapeProps,
             x: e.target.x(),
             y: e.target.y(),
             isDragging: true,
+            rotation: e.target.attrs.rotation,
           });
         }}
         // onDragEnd={handleDragEnd}
@@ -109,6 +117,7 @@ const ImageSticker = ({
             x: e.target.x(),
             y: e.target.y(),
             isDragging: false,
+            rotation: e.target.attrs.rotation,
           });
         }}
         onTransformEnd={(e) => {
@@ -375,7 +384,8 @@ const Drawing = () => {
   // 도화지
   return (
     <div style={{ overflow: "hidden", width: "100vw" }}>
-      <DiaryBack src={diaryBack} onClick={goBackDiaryHandler} />
+      <DiaryBack src={diaryBack} onClick={goBackDiaryHandler} />{" "}
+      <SaveButton src={saveImg} onClick={handleSave} />
       <Stage
         width={window.innerWidth}
         height={window.innerHeight}
@@ -448,13 +458,12 @@ const Drawing = () => {
           src={stickerImg}
           onClick={() => touchAllToolbarButtonHandler("STICKER")}
         />
-        <ToolButton src={saveImg} onClick={handleSave} />
       </AllToolbarStyle>
       <TextToolbarStyle isOpenTextToolbar={isOpenTextToolbar}>
         <ToolButton
-          src={uImg}
-          width="40px"
-          height="40px"
+          src={backImg}
+          width="25px"
+          height="35px"
           onMouseDown={() => {
             setIsOpenTextToolbar(false);
             setIsOpenAllToolbar(true);
@@ -487,15 +496,17 @@ const Drawing = () => {
         />
       </TextToolbarStyle>
       <DrawToolbarStyle isOpenDrawToolbar={isOpenDrawToolbar}>
-        <div
+        <ToolButton
+          src={backImg}
+          width="25px"
+          height="35px"
+          style={{ marginRight: "40px" }}
           onClick={() => {
             setIsOpenDrawToolbar(false);
             setIsOpenAllToolbar(true);
             setMode("TEXT");
           }}
-        >
-          BACK
-        </div>
+        />
         <a id={lineTool === "pen" ? "openerPenWidth" : ""}>
           <PenStyle
             src={pen}
@@ -517,30 +528,66 @@ const Drawing = () => {
               src={widthSmall}
               onMouseDown={() => {
                 setLineWidth(5);
+                setLineTool("pen");
               }}
             ></WidthButton>
             <WidthButton
               src={widthMedium}
               onMouseDown={() => {
                 setLineWidth(10);
+                setLineTool("pen");
               }}
             ></WidthButton>
             <WidthButton
               src={widthLarge}
               onMouseDown={() => {
                 setLineWidth(20);
+                setLineTool("pen");
               }}
             ></WidthButton>
           </WidthArea>
         </Tooltip>
 
-        <EraserStyle
-          src={eraser}
-          lineTool={lineTool}
-          onClick={() => {
-            setLineTool("eraser");
-          }}
-        />
+        <a id="openerEraserWidth">
+          <EraserStyle
+            src={eraser}
+            lineTool={lineTool}
+            onClick={() => {
+              setLineTool("eraser");
+            }}
+          />
+        </a>
+        <Tooltip
+          anchorSelect="#openerEraserWidth"
+          clickable
+          place="left"
+          noArrow={true}
+          style={{ backgroundColor: "rgba(150,150,150,0.5)" }}
+        >
+          <WidthArea>
+            <WidthButton
+              src={widthSmallEraser}
+              onMouseDown={() => {
+                setLineWidth(5);
+                setLineTool("eraser");
+              }}
+            ></WidthButton>
+            <WidthButton
+              src={widthMediumEraser}
+              onMouseDown={() => {
+                setLineWidth(10);
+                setLineTool("eraser");
+              }}
+            ></WidthButton>
+            <WidthButton
+              src={widthLargeEraser}
+              onMouseDown={() => {
+                setLineWidth(20);
+                setLineTool("eraser");
+              }}
+            ></WidthButton>
+          </WidthArea>
+        </Tooltip>
         {colorPallette.map((item, i) => (
           <ColorPea
             key={i}
@@ -603,6 +650,12 @@ const DiaryBack = styled.img`
   left: 10px;
   z-index: 1;
 `;
+const SaveButton = styled.img`
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  z-index: 1;
+`;
 
 const TextAreaStyle = styled.div`
   font-size: 20px;
@@ -630,7 +683,7 @@ const AllToolbarStyle = styled.div`
   height: 200px;
   border-radius: 25px 0 0 25px;
   display: flex;
-  justify-content: center;
+  justify-content: space-around;
   align-items: center;
   flex-direction: column;
   z-index: 10;
@@ -677,7 +730,7 @@ const StickerToolbarStyle = styled.div`
   transition-timing-function: cubic-bezier(0.17, 0.67, 0.83, 0.67);
   position: absolute;
   bottom: -100px;
-  background-color: #b9b9b9;
+  background-color: #efeeee;
   width: 100vw;
   height: ${({ isOpenStickerToolbar }) =>
     isOpenStickerToolbar === true ? "600px" : 0};
