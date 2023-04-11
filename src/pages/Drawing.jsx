@@ -158,6 +158,7 @@ const Drawing = () => {
   const [lines, setLines] = useState([]);
   const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [touchStartY, setTouchStartY] = useState(0);
+  const [movementY, setmovementY] = useState(0);
   const isDrawing = useRef(false);
   const { diaryid, paperid } = useParams();
 
@@ -540,8 +541,9 @@ const Drawing = () => {
             setLineTool("eraser");
           }}
         />
-        {colorPallette.map((item) => (
+        {colorPallette.map((item, i) => (
           <ColorPea
+            key={i}
             color={item}
             lineColor={lineColor}
             onClick={() => setLineColor(item)}
@@ -559,6 +561,15 @@ const Drawing = () => {
             setIsOpenAllToolbar(true);
           }
         }}
+        onMouseDown={(e) => {
+          setTouchStartY(e.clientY);
+        }}
+        onMouseUp={(e) => {
+          if (e.clientY - touchStartY > 10) {
+            setIsOpenStickerToolbar(false);
+            setIsOpenAllToolbar(true);
+          }
+        }}
       >
         <StickerTitle>스티커</StickerTitle>
         <Grid
@@ -567,7 +578,7 @@ const Drawing = () => {
           columns={{ xs: 6, sm: 8, md: 12 }}
         >
           {stickerUrlList.map((item, i) => (
-            <Grid item xs={2} sm={4} md={4}>
+            <Grid item xs={2} sm={4} md={4} key={i}>
               <StickerPea
                 imgUrl={item}
                 onClick={() => {
@@ -590,6 +601,7 @@ const DiaryBack = styled.img`
   position: absolute;
   top: 10px;
   left: 10px;
+  z-index: 1;
 `;
 
 const TextAreaStyle = styled.div`

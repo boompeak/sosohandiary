@@ -152,7 +152,6 @@ const AlarmList = ({ item, alarmType }) => {
           <AlarmUnReadCard item={item} alarmType={alarmType} />
         </SwipeableListItem>
       </SwipeableList>
-      ;
     </>
   );
 };

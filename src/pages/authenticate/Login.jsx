@@ -211,22 +211,21 @@ const Content = styled.div`
     width: 100%;
     outline: none;
     border-radius: 25px;
-    padding: 10px 10px 10px 25px;
+    padding: 10px 30px 10px 25px;
     font-size: 16px;
     border: 1px solid #eee;
     background: #f5f5f5;
-  }
-  button {
-    position: absolute;
-    font-size: 18px;
-    top: 21%;
-    right: 3%;
-    border: none;
-    background: none;
-    cursor: pointer;
+  } 
     .HiOutlineXCircle {
+      position: absolute;
+    font-size: 18px;
+    top: 13px;
+    right: 15px;
+    border: none;
+    background: none; 
       font-size: 150%;
       color: #d0d0d0;
+      cursor: pointer;
     }
   }
 `;

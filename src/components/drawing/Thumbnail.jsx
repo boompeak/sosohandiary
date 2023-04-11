@@ -124,34 +124,38 @@ const Thumbnail = ({ diaryId, paperId, width, height }) => {
   // 도화지
   return (
     <div>
-      <Editor editorState={editorState} onChange={setEditorState} />
-      <Stage
-        width={width}
-        height={height}
-        style={{ position: "absolute", top: "0px", zIndex: "1" }}
-      >
-        <Layer>
-          {lines.map((line, i) => (
-            <Line
-              key={i}
-              points={line.points}
-              stroke={line.lineColor}
-              strokeWidth={line.lineWidth}
-              tension={0.5}
-              lineCap="round"
-              lineJoin="round"
-              globalCompositeOperation={
-                line.lineTool === "eraser" ? "destination-out" : "source-over"
-              }
-            />
-          ))}
-          {stickers.map((sticker, i) => {
-            return (
-              <ImageSticker key={i} shapeProps={sticker} sticker={sticker} />
-            );
-          })}
-        </Layer>
-      </Stage>
+      <StageStyle>
+        <Stage
+          width={width + 88}
+          height={height + 90}
+          style={{ position: "absolute", top: "0px", zIndex: "1" }}
+        >
+          <Layer>
+            {lines.map((line, i) => (
+              <Line
+                key={i}
+                points={line.points}
+                stroke={line.lineColor}
+                strokeWidth={line.lineWidth}
+                tension={0.5}
+                lineCap="round"
+                lineJoin="round"
+                globalCompositeOperation={
+                  line.lineTool === "eraser" ? "destination-out" : "source-over"
+                }
+              />
+            ))}
+            {stickers.map((sticker, i) => {
+              return (
+                <ImageSticker key={i} shapeProps={sticker} sticker={sticker} />
+              );
+            })}
+          </Layer>
+        </Stage>
+      </StageStyle>
+      <EditorStyle>
+        <Editor editorState={editorState} onChange={setEditorState} />
+      </EditorStyle>
     </div>
   );
 };
@@ -162,4 +166,12 @@ const NewPageMsgArea = styled.div`
   display: flex;
   justify-content: center;
   margin: 200px 0;
+`;
+
+const EditorStyle = styled.div``;
+
+const StageStyle = styled.div`
+  position: relative;
+  top: -90px;
+  left: -88px;
 `;

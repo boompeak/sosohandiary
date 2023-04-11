@@ -19,12 +19,14 @@ const FlipBook = ({ data, diaryId }) => {
         </InnerThumb>
         {data?.map((item, i) => (
           <InnerThumb key={i} onClick={() => goToInnerPaperDetail(item?.id)}>
-            <Thumbnail
-              diaryId={diaryId}
-              paperId={item.id}
-              width={300}
-              height={500}
-            />
+            <div style={{ overflow: "hidden", paddingBottom: "300px" }}>
+              <Thumbnail
+                diaryId={diaryId}
+                paperId={item.id}
+                width={300}
+                height={500}
+              />
+            </div>
           </InnerThumb>
         ))}
       </HTMLFlipBook>

@@ -24,8 +24,22 @@ const Navigationbar = () => {
 
   const location = useLocation();
   useEffect(() => {
-    if (location.pathname === "/mypage") {
-      setNavMode("PERSON");
+    switch (location.pathname) {
+      case "/notification":
+        setNavMode("BELL");
+        return;
+      case "diary":
+        setNavMode("PLUS");
+        return;
+      case "/new-friend":
+        setNavMode("MAGNIFIER");
+        return;
+      case "/mypage":
+        setNavMode("PERSON");
+        return;
+      default:
+        setNavMode("HOME");
+        return;
     }
   }, []);
 
