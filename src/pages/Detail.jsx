@@ -19,11 +19,16 @@ import { useMutation } from "react-query";
 import { deleteDiary } from "../api/detail";
 import Thumbnail from "../components/drawing/Thumbnail";
 import axios from "axios";
+import AlertMessage from "../components/alert/AlertMessage";
 
 function Detail() {
   const navigate = useNavigate();
   const sheetRef = useRef();
   const [open, setOpen] = useState(false);
+  const [alertMsg, setAlertMsg] = useState("");
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertNavigateLink, setAlertNavigateLink] = useState("");
+
   const { diaryId, detailId } = useParams();
 
   const accessToken = localStorage.getItem("accessToken");
@@ -59,15 +64,25 @@ function Detail() {
   const onDeleteHandler = async (detailId) => {
     try {
       await deleteDiaryMutate(detailId);
-      alert("삭제되었습니다");
-      await navigate(`/diaries/${diaryId}`, { state: "needReload" });
-    } catch (error) {
-      console.log(error);
-    }
+      setAlertMsg("삭제되었습니다");
+      setAlertOpen(true);
+      setAlertNavigateLink(`/diaries/${diaryId}`, {
+        state: "needReload",
+      });
+    } catch (error) {}
   };
 
   return (
     <>
+      {alertOpen ? (
+        <AlertMessage
+          setAlertOpen={setAlertOpen}
+          message={alertMsg}
+          navigateLink={alertNavigateLink}
+        />
+      ) : (
+        ""
+      )}
       <StyledGobackButton onClick={() => navigate(-1)} />
       {myDiary && (
         <StyledDerailPage>

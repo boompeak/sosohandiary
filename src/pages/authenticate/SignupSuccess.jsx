@@ -3,6 +3,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import { MintButtonLarge } from "../../styles/Buttons";
 import { WholeAreaWithMargin } from "../../styles/WholeAreaStyle";
+import logoImg from "../../assets/logoImg.png";
 
 const SignupSuccess = () => {
   const navigate = useNavigate();
@@ -11,7 +12,7 @@ const SignupSuccess = () => {
     setCountdown(countdown - 1);
     if (countdown === 1) {
       window.localStorage.removeItem("accessToken");
-      navigate("/");
+      navigate("/login");
     }
   }, 1000);
 
@@ -25,7 +26,7 @@ const SignupSuccess = () => {
         <br />
         회원가입을 축하합니다!
       </CelebratingMsg>
-      <Circle></Circle>
+      <Circle imgUrl={logoImg}></Circle>
       <WelcomeMsg>{countdown}초 후 홈으로 이동합니다</WelcomeMsg>
       <WelcomeMsg>이제부터 소소한 일상을 담아보세요!</WelcomeMsg>
       <MintButtonLarge>홈으로 가기</MintButtonLarge>
@@ -41,7 +42,9 @@ const CelebratingMsg = styled.h2`
   right: 20px;
 `;
 const Circle = styled.div`
-  background-color: #d6d6d6;
+  background-image: url(${({ imgUrl }) => imgUrl});
+  background-size: cover;
+  background-position: center;
   height: 30vh;
   width: 30vh;
   border-radius: 50%;

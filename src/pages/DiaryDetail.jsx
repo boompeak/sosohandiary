@@ -12,11 +12,16 @@ import { getDate } from "../utils/getDate";
 import leftArrow from "../assets/leftArrow.png";
 import FlipBook from "../components/FlipBook";
 import { Pagination } from "@mui/material";
+import AlertMessage from "../components/alert/AlertMessage";
 
 const DiaryDetail = () => {
   const navigate = useNavigate();
   const [data, setData] = useState([]);
   const [pageCount, setPageCount] = useState(0);
+  const [alertMsg, setAlertMsg] = useState("");
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertNavigateLink, setAlertNavigateLink] = useState("");
+  const [alertReload, setAlertReload] = useState(false);
 
   const { diaryId } = useParams();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -64,12 +69,14 @@ const DiaryDetail = () => {
         }
       )
       .then((res) => {
-        alert("한 장 더 추가되었습니다");
-        window.location.reload();
+        setAlertMsg("한 장이 추가되었습니다");
+        setAlertOpen(true);
+        setAlertReload(true);
       })
       .catch((err) => {
         if (err.response.status === 403) {
-          alert("다이어리의 주인만 쓸 수  있습니다.");
+          setAlertMsg("다이어리 멤버만 작성할 수 있습니다");
+          setAlertOpen(true);
         }
       });
   };
@@ -86,6 +93,16 @@ const DiaryDetail = () => {
 
   return (
     <>
+      {alertOpen ? (
+        <AlertMessage
+          setAlertOpen={setAlertOpen}
+          message={alertMsg}
+          navigateLink={alertNavigateLink}
+          reload={alertReload}
+        />
+      ) : (
+        ""
+      )}
       <div>
         <Title>다이어리 상세보기</Title>
         <LeftArrow src={leftArrow} onMouseDown={goBackHandler}></LeftArrow>

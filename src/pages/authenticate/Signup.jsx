@@ -1,14 +1,20 @@
 import axios from "axios";
-import React from "react";
+import React, { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { TbAlertCircle } from "react-icons/tb";
 import { useNavigate } from "react-router";
 import styled from "styled-components";
 import { MintButtonLargeForSubmitInput } from "../../styles/Buttons";
 import { WholeAreaWithMargin } from "../../styles/WholeAreaStyle";
+import AlertMessage from "../../components/alert/AlertMessage";
 
 const Signup = () => {
   const navigate = useNavigate();
+  const [alertMsg, setAlertMsg] = useState("");
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [noChangeForDisableSubmit, setNoChangeForDisableSubmit] =
+    useState(false);
+
   // form 관련
   const {
     register,
@@ -24,7 +30,12 @@ const Signup = () => {
         navigate("/signup-success", { state: data.nickname });
         window.localStorage.setItem("already signed up", true);
       })
-      .catch((err) => console.log(err));
+      .catch((err) => {
+        console.log(err);
+        setAlertOpen(true);
+        setAlertMsg("이미 가입되어있는 이메일입니다");
+        setNoChangeForDisableSubmit(true);
+      });
   };
 
   const xButtonClickHandler = () => {
@@ -33,6 +44,11 @@ const Signup = () => {
 
   return (
     <WholeAreaWithMargin>
+      {alertOpen ? (
+        <AlertMessage setAlertOpen={setAlertOpen} message={alertMsg} />
+      ) : (
+        ""
+      )}
       <XandTitle>
         <Title>회원가입</Title>
       </XandTitle>
@@ -83,6 +99,7 @@ const Signup = () => {
         <br />
         <Content>
           <input
+            id="emailInput"
             type="text"
             {...register("email", {
               required: "이메일을 입력해주세요",
@@ -146,7 +163,11 @@ const Signup = () => {
         )}
         <br />
         <MintButtonLargeForSubmitInput>
-          <input type="submit" value="회원가입" disabled={isSubmitting} />
+          <input
+            type="submit"
+            value="회원가입"
+            disabled={isSubmitting || alertOpen}
+          />
         </MintButtonLargeForSubmitInput>
       </InputForm>
     </WholeAreaWithMargin>

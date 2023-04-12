@@ -4,6 +4,7 @@ import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import { VscBlank } from "react-icons/vsc";
 import { MdArrowBack } from "react-icons/md";
+import AlertMessage from "../components/alert/AlertMessage";
 
 function Page() {
   const accessToken = window.localStorage.getItem("accessToken");
@@ -12,6 +13,10 @@ function Page() {
   const navigate = useNavigate();
   console.log(mypage.data);
   const [previewImage, setPreviewImage] = useState(mypage?.data?.img);
+  const [alertMsg, setAlertMsg] = useState("");
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertNavigateLink, setAlertNavigateLink] = useState("");
+  const [alertReload, setAlertReload] = useState(false);
 
   // 수정
   const handleClick = () => {
@@ -37,8 +42,9 @@ function Page() {
         `${process.env.REACT_APP_BASEURL}/diary/${mypage.data.id}`,
         config
       );
-      navigate(`/mypage`);
-      alert("삭제가 완료되었습니다!");
+      setAlertMsg("삭제가 완료되었습니다!");
+      setAlertOpen(true);
+      setAlertNavigateLink(`/mypage`);
     } catch (error) {
       console.error("다이어리 삭제에 실패했습니다:", error);
     }
@@ -49,6 +55,16 @@ function Page() {
   };
   return (
     <Wholebox>
+      {alertOpen ? (
+        <AlertMessage
+          setAlertOpen={setAlertOpen}
+          message={alertMsg}
+          navigateLink={alertNavigateLink}
+          reload={alertReload}
+        />
+      ) : (
+        ""
+      )}
       <TopBox>
         <MdArrowBack className="MdArrowBack" onClick={goBackHandler} />
         <Textbox>다이어리 상세보기</Textbox>

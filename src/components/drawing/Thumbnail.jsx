@@ -44,8 +44,113 @@ const ImageSticker = ({
   const [imgUrl3] = useImage(
     "https://mysosodiary.s3.ap-northeast-2.amazonaws.com/sticker/Group+1407.png"
   );
+  const [imgUrl4] = useImage(
+    "https://mysosodiary.s3.ap-northeast-2.amazonaws.com/sticker/Group+1408.png"
+  );
+  const [imgUrl5] = useImage(
+    "https://mysosodiary.s3.ap-northeast-2.amazonaws.com/sticker/Group+1409.png"
+  );
+  const [imgUrl6] = useImage(
+    "https://mysosodiary.s3.ap-northeast-2.amazonaws.com/sticker/Group+1410.png"
+  );
+  const [imgUrl7] = useImage(
+    "https://mysosodiary.s3.ap-northeast-2.amazonaws.com/sticker/Group+1411.png"
+  );
+  const [imgUrl8] = useImage(
+    "https://mysosodiary.s3.ap-northeast-2.amazonaws.com/sticker/Group+1412.png"
+  );
+  const [imgUrl9] = useImage(
+    "https://mysosodiary.s3.ap-northeast-2.amazonaws.com/sticker/Group+1413.png"
+  );
+  const [imgUrl10] = useImage(
+    "https://mysosodiary.s3.ap-northeast-2.amazonaws.com/sticker/Group+1414.png"
+  );
+  const [imgUrl11] = useImage(
+    "https://mysosodiary.s3.ap-northeast-2.amazonaws.com/sticker/Group+1415.png"
+  );
+  const [imgUrl12] = useImage(
+    "https://mysosodiary.s3.ap-northeast-2.amazonaws.com/sticker/Group+1416.png"
+  );
+  const [imgUrl13] = useImage(
+    "https://mysosodiary.s3.ap-northeast-2.amazonaws.com/sticker/Group+1417.png"
+  );
+  const [imgUrl14] = useImage(
+    "https://mysosodiary.s3.ap-northeast-2.amazonaws.com/sticker/Group+1418.png"
+  );
+  const [imgUrl15] = useImage(
+    "https://mysosodiary.s3.ap-northeast-2.amazonaws.com/sticker/Group+1419.png"
+  );
+  const [imgUrl16] = useImage(
+    "https://mysosodiary.s3.ap-northeast-2.amazonaws.com/sticker/Group+1420.png"
+  );
+  const [imgUrl17] = useImage(
+    "https://mysosodiary.s3.ap-northeast-2.amazonaws.com/sticker/Group+1421.png"
+  );
+  const [imgUrl18] = useImage(
+    "https://mysosodiary.s3.ap-northeast-2.amazonaws.com/sticker/Group+1422.png"
+  );
+  const [imgUrl19] = useImage(
+    "https://mysosodiary.s3.ap-northeast-2.amazonaws.com/sticker/Group+1423.png"
+  );
+  const [imgUrl20] = useImage(
+    "https://mysosodiary.s3.ap-northeast-2.amazonaws.com/sticker/Union-1.png"
+  );
+  const [imgUrl21] = useImage(
+    "https://mysosodiary.s3.ap-northeast-2.amazonaws.com/sticker/Union.png"
+  );
+  const [imgUrl22] = useImage(
+    "https://mysosodiary.s3.ap-northeast-2.amazonaws.com/sticker/Group+1426.png"
+  );
+  const [imgUrl23] = useImage(
+    "https://mysosodiary.s3.ap-northeast-2.amazonaws.com/sticker/Group+1427.png"
+  );
+  const [imgUrl24] = useImage(
+    "https://mysosodiary.s3.ap-northeast-2.amazonaws.com/sticker/Group+1428.png"
+  );
+  const [imgUrl25] = useImage(
+    "https://mysosodiary.s3.ap-northeast-2.amazonaws.com/sticker/Group+1429.png"
+  );
+  const [imgUrl26] = useImage(
+    "https://mysosodiary.s3.ap-northeast-2.amazonaws.com/sticker/Group+1430.png"
+  );
+  const [imgUrl27] = useImage(
+    "https://mysosodiary.s3.ap-northeast-2.amazonaws.com/sticker/Union-1.png"
+  );
+  const [imgUrl28] = useImage(
+    "https://mysosodiary.s3.ap-northeast-2.amazonaws.com/sticker/Union.png"
+  );
 
-  const imgList = [imgUrl0, imgUrl1, imgUrl2, imgUrl3];
+  const imgList = [
+    imgUrl0,
+    imgUrl1,
+    imgUrl2,
+    imgUrl3,
+    imgUrl4,
+    imgUrl5,
+    imgUrl6,
+    imgUrl7,
+    imgUrl8,
+    imgUrl9,
+    imgUrl10,
+    imgUrl11,
+    imgUrl12,
+    imgUrl13,
+    imgUrl14,
+    imgUrl15,
+    imgUrl16,
+    imgUrl17,
+    imgUrl18,
+    imgUrl19,
+    imgUrl20,
+    imgUrl21,
+    imgUrl22,
+    imgUrl23,
+    imgUrl24,
+    imgUrl25,
+    imgUrl26,
+    imgUrl27,
+    imgUrl28,
+  ];
 
   return (
     <React.Fragment>
@@ -173,6 +278,6 @@ const EditorStyle = styled.div``;
 
 const StageStyle = styled.div`
   position: relative;
-  top: -90px;
-  left: -88px;
+  top: -113px;
+  left: -65px;
 `;

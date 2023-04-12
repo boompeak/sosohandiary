@@ -14,6 +14,7 @@ import { MdArrowBack } from "react-icons/md";
 import { MintButtonMedium } from "../styles/Buttons";
 import DeleteAccount from "../components/mypage/DeleteAccount";
 import { WholeViewWidth } from "../styles/WholeAreaStyle";
+import AlertMessage from "../components/alert/AlertMessage";
 
 function Profile() {
   const accessToken = localStorage.getItem("accessToken");
@@ -29,6 +30,10 @@ function Profile() {
   const [file, setFile] = useState("");
   const [previewImg, setPreviewImg] = useState(false);
   const [profileStatus, setProfileStatus] = useState(true);
+  const [alertMsg, setAlertMsg] = useState("");
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertNavigateLink, setAlertNavigateLink] = useState("");
+  const [alertReload, setAlertReload] = useState(false);
 
   const regNickname =
     /^[ㄱ-ㅎㅏ-ㅣ|가-힣A-Za-z0-9!@#$%^&*()_+={}[\]\\|;:'",.<>/?]{1,7}$/;
@@ -133,40 +138,51 @@ function Profile() {
     );
 
     mutation.mutate(formData);
-    alert("프로필 변경 성공");
+    setAlertMsg("프로필 변경 성공");
+    setAlertOpen(true);
   }
 
   return (
     <>
+      {alertOpen ? (
+        <AlertMessage
+          setAlertOpen={setAlertOpen}
+          message={alertMsg}
+          navigateLink={alertNavigateLink}
+          reload={alertReload}
+        />
+      ) : (
+        ""
+      )}
       <WholeViewWidth>
         <StLayout>
           <StArrow>
             <StyledGobackButton onClick={navToBack} />
           </StArrow>
 
-          <Title size='18'>프로필 편집</Title>
+          <Title size="18">프로필 편집</Title>
 
           <ProfileLayout>
-            <form encType='multipart/form-data' onSubmit={onSubmitHandler}>
+            <form encType="multipart/form-data" onSubmit={onSubmitHandler}>
               <ProfileArea>
                 <StButton onClick={onImgButton}>
                   {previewImg ? (
                     <img
                       style={ProfileImg}
                       src={newimage}
-                      alt='profile image'
+                      alt="profile image"
                     />
                   ) : profileStatus ? (
                     <img
                       style={ProfileImg}
                       src={profile?.profileImageUrl}
-                      alt='profile image'
+                      alt="profile image"
                     />
                   ) : (
                     <img
                       style={ProfileImg}
                       src={defaultProfileImg}
-                      alt='profile image'
+                      alt="profile image"
                     />
                   )}
                 </StButton>
@@ -177,8 +193,8 @@ function Profile() {
               </ProfileArea>
 
               <input
-                type='file'
-                accept='image/*'
+                type="file"
+                accept="image/*"
                 onChange={onImgPostHandler}
                 ref={fileInput}
                 style={{ display: "none" }}
@@ -188,22 +204,22 @@ function Profile() {
                   <Label>이름(별명)</Label>
                   <IconContainer>
                     <StInput
-                      type='text'
-                      name='nickname'
+                      type="text"
+                      name="nickname"
                       placeholder={profile?.nickname}
                       value={nickname || ""}
                       onChange={onNicknameHandler}
                     />
                     <ClearButton onClick={clearButtonHandler}>
-                      <HiOutlineXCircle color='#D0D0D0' />
+                      <HiOutlineXCircle color="#D0D0D0" />
                     </ClearButton>
                   </IconContainer>
                   <Label>{nicknameInput}</Label>
 
                   <Label>소개</Label>
                   <StTextarea
-                    name='statusMessage'
-                    maxLength='100'
+                    name="statusMessage"
+                    maxLength="100"
                     onChange={(e) => setStatusMessage(e.target.value)}
                     placeholder={profile?.statusMessage}
                     value={statusMessage || ""}
@@ -211,7 +227,7 @@ function Profile() {
                 </Content>
 
                 <StButtonContainer>
-                  <MintButtonMedium type='submit'>저장</MintButtonMedium>
+                  <MintButtonMedium type="submit">저장</MintButtonMedium>
                 </StButtonContainer>
                 <DeActivateBox>
                   <DeActivate onClick={handleOpenModal}>
@@ -220,7 +236,7 @@ function Profile() {
                   </DeActivate>
                 </DeActivateBox>
                 <DeleteAccount
-                  title='탈퇴하기'
+                  title="탈퇴하기"
                   isOpen={confirmDelete}
                   onClose={handleCloseModal}
                   handleDelete={handleDelete}

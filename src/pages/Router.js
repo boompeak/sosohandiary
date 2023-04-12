@@ -1,6 +1,5 @@
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import Login from "./authenticate/Login";
-import OtherLogin from "./authenticate/OtherLogin";
 import Profile from "./Profile";
 import Notification from "./main-layout/Notification";
 import MyPage from "./main-layout/MyPage";
@@ -18,6 +17,7 @@ import Drawing from "./Drawing";
 import Page from "./Page";
 import DiaryEdit from "./DiaryEdit";
 import DiaryDetail from "./DiaryDetail";
+import AlertMessage from "../components/alert/AlertMessage";
 
 const Router = () => {
   return (
@@ -34,7 +34,6 @@ const Router = () => {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Signup />} />
         <Route path="/signup-success" element={<SignupSuccess />} />
-        <Route path="/otherlogin" element={<OtherLogin />} />
         <Route path="/profile" element={<Profile />} />
         <Route path="drawing/:diaryid/:paperid" element={<Drawing />} />
         <Route path="/oauth" element={<Oauth />} />
@@ -43,6 +42,7 @@ const Router = () => {
         <Route path="/diaries/:diaryId" element={<DiaryDetail />} />
         <Route path="/diary/:diaryId" element={<Page />} />
         <Route path="/diaryedit/:diaryId" element={<DiaryEdit />} />
+        <Route path="/alertmessage" element={<AlertMessage />} />
       </Routes>
     </BrowserRouter>
   );

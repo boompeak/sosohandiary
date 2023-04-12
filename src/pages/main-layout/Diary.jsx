@@ -1,9 +1,10 @@
-import React, { useState, useCallback, useRef } from "react";
+import React, { useState, useCallback, useRef, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
 import { VscBlank } from "react-icons/vsc";
 import defaultProfileImg from "../../assets/defaultProfileImg.jpeg";
 import { useNavigate } from "react-router-dom";
+import AlertMessage from "../../components/alert/AlertMessage";
 
 const Diary = () => {
   const accessToken = window.localStorage.getItem("accessToken");
@@ -12,6 +13,9 @@ const Diary = () => {
   const [title, setTitle] = useState("");
   const [previewImage, setPreviewImage] = useState(defaultProfileImg);
   const [diaryCondition, setDiaryCondition] = useState("PUBLIC");
+  const [alertMsg, setAlertMsg] = useState("");
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertNavigateLink, setAlertNavigateLink] = useState("");
 
   const handleConditionChange = (event) => {
     setDiaryCondition(event.target.value);
@@ -50,31 +54,38 @@ const Diary = () => {
         },
       })
       .then((res) => {
-        console.log(res);
-        alert("작성이 완료되었습니다.");
-        navigate(`/`);
+        setAlertMsg("작성이 완료되었습니다");
+        setAlertOpen(true);
+        setAlertNavigateLink("/");
       })
       .catch((error) => {
-        console.error(error);
-        alert("다이어리 표지 사진을 첨부하세요!");
+        setAlertMsg("다이어리 표지 사진을 첨부하세요!");
+        setAlertOpen(true);
       });
   };
 
   //이미지 업로드 관련
   const selectFile = useRef();
   const imgClickHandler = () => {
-    console.log("dd");
     selectFile.current.click();
   };
 
   return (
     <Wholebox>
+      {alertOpen ? (
+        <AlertMessage
+          setAlertOpen={setAlertOpen}
+          message={alertMsg}
+          navigateLink={alertNavigateLink}
+        />
+      ) : (
+        ""
+      )}
       <TopBox>
         <VscBlank className="VscBlank" />
         <Textbox>다이어리 만들기</Textbox>
         <VscBlank className="VscBlank" />
       </TopBox>
-
       <Card>
         <SideLabel colorCode={"#E0C7FF"}></SideLabel>
         <InnerArea>
@@ -98,7 +109,6 @@ const Diary = () => {
           <CreatedAt></CreatedAt>
         </InnerArea>
       </Card>
-
       <InputBox>
         <VscBlank className="VscBlank" />
         <FileInput
@@ -109,7 +119,6 @@ const Diary = () => {
         />
         <VscBlank className="VscBlank" />
       </InputBox>
-
       <form>
         <TitleText>제목</TitleText>
         <TitleContent>
@@ -118,7 +127,8 @@ const Diary = () => {
             value={title}
             onChange={(e) => {
               if (e.target.value.length > 8) {
-                alert("제목이 너무 길어요");
+                setAlertMsg("7자 이하로 설정해주세요");
+                setAlertOpen(true);
                 return;
               }
               setTitle(e.target.value);
@@ -131,7 +141,8 @@ const Diary = () => {
             diaryCondition={diaryCondition}
             onClick={() => {
               setDiaryCondition("PUBLIC");
-            }}>
+            }}
+          >
             공개
           </SelectButtonLeft>
           <CenterColumn></CenterColumn>
@@ -139,7 +150,8 @@ const Diary = () => {
             diaryCondition={diaryCondition}
             onClick={() => {
               setDiaryCondition("PRIVATE");
-            }}>
+            }}
+          >
             비공개
           </SelectButtonRight>
         </PublicSelectBox>

@@ -9,6 +9,7 @@ import checkedImg from "../assets/diary-edit/checkedImg.png";
 import uncheckedImg from "../assets/diary-edit/uncheckedImg.png";
 import { Badge } from "@mui/material";
 import { data } from "jquery";
+import AlertMessage from "../components/alert/AlertMessage";
 
 function DiaryEdit() {
   const accessToken = window.localStorage.getItem("accessToken");
@@ -19,7 +20,13 @@ function DiaryEdit() {
   const [file, setFile] = useState();
   const [title, setTitle] = useState(mypage?.data?.title);
   const [previewImage, setPreviewImage] = useState(mypage?.data?.img);
-  const [diaryCondition, setDiaryCondition] = useState(mypage?.data?.diaryCondition);
+  const [diaryCondition, setDiaryCondition] = useState(
+    mypage?.data?.diaryCondition
+  );
+  const [alertMsg, setAlertMsg] = useState("");
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertNavigateLink, setAlertNavigateLink] = useState("");
+  const [alertReload, setAlertReload] = useState(false);
 
   // 공개 비공개 바꾸는거
   const handleConditionChange = (event) => {
@@ -69,12 +76,16 @@ function DiaryEdit() {
 
       try {
         const paramId = mypage.data.id;
-        const res = await axios.patch(`${process.env.REACT_APP_BASEURL}/diary/${paramId}`, formData, {
-          headers: {
-            "Content-Type": "multipart/form-data",
-            Authorization: accessToken,
-          },
-        });
+        const res = await axios.patch(
+          `${process.env.REACT_APP_BASEURL}/diary/${paramId}`,
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: accessToken,
+            },
+          }
+        );
         navigate(`/mypage`);
       } catch (error) {
         console.error("다이어리 수정에 실패했습니다.", error);
@@ -89,9 +100,12 @@ function DiaryEdit() {
 
   const getMyfriends = async () => {
     try {
-      const res = await axios.get(`${process.env.REACT_APP_BASEURL}/mypage/friend/myfriends`, {
-        headers: { Authorization: accessToken },
-      });
+      const res = await axios.get(
+        `${process.env.REACT_APP_BASEURL}/mypage/friend/myfriends`,
+        {
+          headers: { Authorization: accessToken },
+        }
+      );
       setFriends(res.data);
       setModalOpen(true);
     } catch (error) {
@@ -154,12 +168,12 @@ function DiaryEdit() {
           { headers: { Authorization: accessToken } }
         )
         .then((res) => {
-          console.log(res);
-          alert("멤버 추가 요청을 보냈습니다.");
+          setAlertMsg("멤버가 추가되었습니다");
+          setAlertOpen(true);
         })
         .catch((err) => {
-          console.log(err);
-          alert("이미 요청을 보냈습니다!");
+          setAlertMsg("멤버를 추가할 수 없습니다");
+          setAlertOpen(true);
         });
     });
   };
@@ -182,6 +196,16 @@ function DiaryEdit() {
 
   return (
     <Wholebox>
+      {alertOpen ? (
+        <AlertMessage
+          setAlertOpen={setAlertOpen}
+          message={alertMsg}
+          navigateLink={alertNavigateLink}
+          reload={alertReload}
+        />
+      ) : (
+        ""
+      )}
       <TopBox>
         <VscBlank className="VscBlank" />
         <Textbox>다이어리 만들기</Textbox>
@@ -190,7 +214,6 @@ function DiaryEdit() {
       <div>
         <img src={leftArrow} onClick={goBackHandler} />
       </div>
-
       <Card>
         <SideLabel colorCode={"#E0C7FF"}></SideLabel>
         <InnerArea>
@@ -214,13 +237,16 @@ function DiaryEdit() {
           <CreatedAt></CreatedAt>
         </InnerArea>
       </Card>
-
       <InputBox>
         <VscBlank className="VscBlank" />
-        <FileInput type="file" onChange={handleChange} className="StyledInput" ref={selectFile} />
+        <FileInput
+          type="file"
+          onChange={handleChange}
+          className="StyledInput"
+          ref={selectFile}
+        />
         <VscBlank className="VscBlank" />
       </InputBox>
-
       <form>
         <TitleText>제목</TitleText>
         <TitleContent>
@@ -261,8 +287,7 @@ function DiaryEdit() {
                       color="primary"
                       onClick={() => {
                         onRemove(item);
-                      }}
-                    >
+                      }}>
                       <img
                         src={item.profileImageUrl}
                         style={{
@@ -280,7 +305,11 @@ function DiaryEdit() {
             </CheckedListBox>
             <div>
               {friends
-                .filter((item) => item.name.includes(searchInput) || item.nickname.includes(searchInput))
+                .filter(
+                  (item) =>
+                    item.name.includes(searchInput) ||
+                    item.nickname.includes(searchInput)
+                )
                 .map((friend) => (
                   <ListStyle
                     key={friend.id}
@@ -291,8 +320,7 @@ function DiaryEdit() {
                       marginBottom: "8px",
                       marginLeft: "10px",
                       marginRight: "10px",
-                    }}
-                  >
+                    }}>
                     <label style={{ flex: 1 }}>
                       <ImgAndName>
                         <img
@@ -315,19 +343,22 @@ function DiaryEdit() {
                         onCheckedElement(friend);
                       }}
                       checkedList={checkedList}
-                      friend={friend}
-                    ></CheckBox>
-                    <AlreadyMember disabled={alreadyMembersId.includes(friend.memberId)}>이미 멤버입니다</AlreadyMember>
+                      friend={friend}></CheckBox>
+                    <AlreadyMember
+                      disabled={alreadyMembersId.includes(friend.memberId)}>
+                      이미 멤버입니다
+                    </AlreadyMember>
                   </ListStyle>
                 ))}
               <CompleteButtonArea>
-                <button onClick={addMemberCompleteHandler}>완료</button>
+                <Completebutton onClick={addMemberCompleteHandler}>
+                  완료
+                </Completebutton>
               </CompleteButtonArea>
             </div>
           </ModalContent>
         </ModalWrapper>
       )}
-
       <SubmitButton onClick={handleClick}>생성하기</SubmitButton>
     </Wholebox>
   );
@@ -481,6 +512,8 @@ const Card = styled.div`
   height: 180px;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   border-radius: 13px;
+  display: flex;
+  flex-direction: row;
 `;
 
 const SideLabel = styled.div`
@@ -488,7 +521,7 @@ const SideLabel = styled.div`
   width: 15px;
   height: 180px;
   border-radius: 13px 0 0 13px;
-  position: absolute;
+  position: relative;
 `;
 
 const InnerArea = styled.div`
@@ -496,6 +529,7 @@ const InnerArea = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
+  position: relative;
 `;
 
 const Title = styled.div`
@@ -539,7 +573,8 @@ const CheckBox = styled.div`
   display: ${({ disabled }) => (disabled ? "none" : "")};
   width: 20px;
   height: 20px;
-  background-image: url(${({ friend, checkedList }) => (checkedList.includes(friend) ? checkedImg : uncheckedImg)});
+  background-image: url(${({ friend, checkedList }) =>
+    checkedList.includes(friend) ? checkedImg : uncheckedImg});
   background-repeat: no-repeat;
   background-size: cover;
 `;
