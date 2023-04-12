@@ -48,7 +48,7 @@ const MyFriends = () => {
 
   // 이름순 정렬을 위한 compare 함수 정의
   const collator = new Intl.Collator("ko-KR");
-  const compare = (a, b) => collator.compare(a.name, b.name);
+  const compare = (a, b) => collator.compare(a.nickname, b.nickname);
 
   // 정렬된 친구 목록
   const sortedFriends = friends?.sort(compare);
@@ -90,7 +90,7 @@ const MyFriends = () => {
         <Filter
           setCards={setSearchFriends}
           existCards={friends}
-          placeholder="친구 검색"
+          placeholder="닉네임을 검색해 친구를 찾아보세요"
         />
         <Label alignSelf="flex-start">
           친구 {friendsCount?.data?.myFriendCount}
@@ -115,7 +115,7 @@ const MyFriends = () => {
                           <ListCards>
                             <ProfilePicSmall src={item.profileImageUrl} />
                             <ListContentBox>
-                              <StText fontWeight="bold">{item.name}</StText>
+                              <StText fontWeight="bold">{item.nickname}</StText>
                               <StText>{item.statusMessage}</StText>
                             </ListContentBox>
                           </ListCards>

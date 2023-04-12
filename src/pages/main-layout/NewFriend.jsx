@@ -40,7 +40,7 @@ const NewFriend = () => {
         return [];
       }
       const res = await axios.get(
-        `${process.env.REACT_APP_BASEURL}/search?name=${searchInput}`,
+        `${process.env.REACT_APP_BASEURL}/search?nickname=${searchInput}`,
         { headers: { Authorization: accessToken } }
       );
       return res.data;
@@ -82,7 +82,7 @@ const NewFriend = () => {
     <>
       <WholeViewWidth style={{height:"100vh"}}>
         <Searchbox
-          placeholder='친구이름을 검색해 친구를 추가해보세요'
+          placeholder='닉네임을 검색해 친구를 추가해보세요'
           onChangeInput={onChangeInput}
           onKeyPress={handleKeyDown}
           setSearchInput={setSearchInput}
@@ -101,7 +101,7 @@ const NewFriend = () => {
                   <ProfilePicSmall src={defaultProfileImg} />
                 )}
                 <ListContentBox>
-                  <StText fontWeight='bold'>{item.name}</StText>
+                  <StText fontWeight='bold'>{item.nickname}</StText>
                   <StText overflow='hidden' textOverflow='ellipsis' whiteSpace='nowrap'>{item.statusMessage}</StText>
                 </ListContentBox>
               </ListBox>
