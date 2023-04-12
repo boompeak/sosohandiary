@@ -41,7 +41,9 @@ const MainPage = () => {
       });
     }
   );
+
   if (isErrorOfUserInfo) {
+    console.log("dd");
     navigate("/login");
   }
 

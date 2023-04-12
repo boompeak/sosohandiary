@@ -13,10 +13,12 @@ const Oauth = () => {
       .get(`${process.env.REACT_APP_BASEURL}/login/kakao?code=${code}`)
       .then((res) => {})
       .catch((err) => {
+        console.log();
         window.localStorage.setItem(
           "accessToken",
           err.response.headers.authorization
         );
+        navigate("/");
       });
   }, []);
 
