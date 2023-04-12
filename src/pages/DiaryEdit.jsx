@@ -263,7 +263,9 @@ function DiaryEdit() {
           />
         </TitleContent>
       </form>
-      <Addbutton onClick={getMyfriends}>멤버 추가</Addbutton>
+      {diaryCondition !== "PUBLIC" && (
+        <Addbutton onClick={getMyfriends}>멤버 추가</Addbutton>
+      )}
       {modalOpen && (
         <ModalWrapper>
           <ModalContent>
