@@ -5,6 +5,7 @@ import { VscBlank } from "react-icons/vsc";
 import defaultProfileImg from "../../assets/defaultProfileImg.jpeg";
 import { useNavigate } from "react-router-dom";
 import AlertMessage from "../../components/alert/AlertMessage";
+import AlertMessageAndNavigate from "../../components/alert/AlertMessage";
 
 const Diary = () => {
   const accessToken = window.localStorage.getItem("accessToken");
@@ -96,7 +97,6 @@ const Diary = () => {
                 alt="preview"
                 src={previewImage}
                 style={{
-                  position: "absolute",
                   top: "145px",
                   width: "100px",
                   height: "100px",
@@ -141,8 +141,7 @@ const Diary = () => {
             diaryCondition={diaryCondition}
             onClick={() => {
               setDiaryCondition("PUBLIC");
-            }}
-          >
+            }}>
             공개
           </SelectButtonLeft>
           <CenterColumn></CenterColumn>
@@ -150,8 +149,7 @@ const Diary = () => {
             diaryCondition={diaryCondition}
             onClick={() => {
               setDiaryCondition("PRIVATE");
-            }}
-          >
+            }}>
             비공개
           </SelectButtonRight>
         </PublicSelectBox>
@@ -183,46 +181,6 @@ const FileInput = styled.input`
     font-size: 16px;
     font-weight: bolder;
   }
-`;
-
-const PrivateorPublicBox = styled.div`
-  display: flex;
-  flex-direction: row;
-  margin: 10px;
-  justify-content: space-between;
-`;
-
-const UpButtonBox = styled.div`
-  display: flex;
-  flex-direction: row;
-  margin: 10px;
-  justify-content: space-between;
-`;
-
-const RadioWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-  label {
-    display: flex;
-    align-items: center;
-  }
-
-  input[type="radio"] {
-    margin-right: 0.5rem;
-    cursor: pointer;
-  }
-`;
-
-const Upbutton = styled.button`
-  color: gray;
-  background-color: #e8fefb;
-  width: 100px;
-  height: 35px;
-  border: none;
-  border-radius: 5px;
-  font-weight: 700;
-  font-size: 100%;
-  cursor: pointer;
 `;
 
 const TitleContent = styled.div`

@@ -762,11 +762,11 @@ const Drawing = () => {
         <StickerTitle>스티커</StickerTitle>
         <Grid
           container
-          spacing={{ xs: 2, md: 3 }}
-          columns={{ xs: 8, sm: 8, md: 12 }}
+          spacing={{ xs: 2, md: 2, sm: 2 }}
+          columns={{ xs: 8, sm: 8, md: 8 }}
         >
           {stickerUrlList.map((item, i) => (
-            <Grid item xs={2} sm={4} md={4} key={i}>
+            <Grid item xs={2} sm={2} md={2} key={i}>
               <StickerPea
                 imgUrl={item}
                 onClick={() => {
