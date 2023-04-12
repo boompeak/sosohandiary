@@ -32,7 +32,7 @@ const Notification = () => {
         {dataListForCommentAlarm?.length === 0 &&
         dataListForFriendRequset?.length === 0 &&
         dataListForInviteAlarm?.length === 0 ? (
-          <NoAlarm>알람이 없습니다</NoAlarm>
+          <NoAlarm>알림이 없습니다</NoAlarm>
         ) : (
           ""
         )}
@@ -48,6 +48,7 @@ const AlarmBox = styled.div`
   margin-top: 10px;
   margin-bottom: 80px;
 `;
+
 const NoAlarm = styled.div`
   display: flex;
   justify-content: center;

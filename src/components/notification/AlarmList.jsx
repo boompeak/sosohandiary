@@ -79,11 +79,12 @@ const AlarmList = ({ item, alarmType }) => {
         return;
     }
   };
+  console.log("item : ", item);
 
   const handleDelete = () => {
     switch (alarmType) {
       case "friend":
-        axios
+        return axios
           .patch(
             `${process.env.REACT_APP_BASEURL}/friend/request/read/${item.friendListId}`,
             {},
@@ -96,7 +97,7 @@ const AlarmList = ({ item, alarmType }) => {
       case "invite":
         return axios
           .patch(
-            `${process.env.REACT_APP_BASEURL}/invite/alarm/read/${item.id}`,
+            `${process.env.REACT_APP_BASEURL}/invite/alarm/read/${item.inviteId}`,
             {},
             { headers: { Authorization: accessToken } }
           )
