@@ -133,7 +133,8 @@ const MainPage = () => {
           url={resOfCurrentUserInfo.data?.data.profileImageUrl}
           onClick={() => {
             navigate("/mypage");
-          }}></CurProfileImage>
+          }}
+        ></CurProfileImage>
       </WelcomeArea>
       <Label style={{ backgroundColor: "#e1e7fc" }}>내가 만든 다이어리</Label>
       <SelfmadeArea>
@@ -143,7 +144,8 @@ const MainPage = () => {
           slidesPerView={3}
           spaceBetween={0}
           onSlideChange={(e) => setActiveIdxForSelfmade(e.activeIndex)}
-          className="mySwiper">
+          className="mySwiper"
+        >
           {resForSelfmade.data?.data.length === 0 ? (
             <SwiperSlide>
               <DiaryCardTopBig
@@ -152,7 +154,8 @@ const MainPage = () => {
                 activeIdxForSelfmade={activeIdxForSelfmade}
                 item={{
                   title: "다이어리가 \n없습니다",
-                }}></DiaryCardTopBig>
+                }}
+              ></DiaryCardTopBig>
             </SwiperSlide>
           ) : (
             resForSelfmade.data?.data.map((item, i) => (
@@ -164,7 +167,8 @@ const MainPage = () => {
                   item={item}
                   onClick={() => {
                     navigate("/dd");
-                  }}>
+                  }}
+                >
                   Slide {item.id}
                 </DiaryCardTopBig>
               </SwiperSlide>
@@ -181,24 +185,22 @@ const MainPage = () => {
                 key={item.id}
                 onClick={() => {
                   goToDiaryDetail(item.id);
-                }}>
+                }}
+              >
                 <DiaryCard item={item} color="purple" />
               </SwiperSlide>
             ))}
-            {dataListForPrivate.length >= 1 ? (
+            {dataListForPrivate.length < 3 ? (
               <SwiperSlide
                 style={{
                   width: "100vw",
-                  backgroundColor: "transparent",
-                }}></SwiperSlide>
-            ) : (
-              <SwiperSlide
-                style={{
-                  width: "100vw",
-                  backgroundColor: "transparent",
-                }}>
+                  backgroundColor: "#e4e4e4",
+                }}
+              >
                 다이어리가 없습니다.
               </SwiperSlide>
+            ) : (
+              ""
             )}
             {IsLoadingForPrivate ? (
               <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
@@ -208,7 +210,8 @@ const MainPage = () => {
             <span
               slot="wrapper-end"
               ref={refForPrivate}
-              style={{ margin: "0px 10px 0px 0px" }}>
+              style={{ margin: "0px 10px 0px 0px" }}
+            >
               <Skeleton width={140} height={196} borderRadius={25} />
             </span>
             <span slot="wrapper-end" style={{ margin: "0px 10px" }}>
@@ -227,24 +230,22 @@ const MainPage = () => {
                 key={i}
                 onClick={() => {
                   goToDiaryDetail(item.id);
-                }}>
+                }}
+              >
                 <DiaryCard item={item} color="purple" />
               </SwiperSlide>
             ))}
-            {dataListForPublic.length >= 1 ? (
+            {dataListForPublic.length < 3 ? (
               <SwiperSlide
                 style={{
                   width: "100vw",
-                  backgroundColor: "transparent",
-                }}></SwiperSlide>
-            ) : (
-              <SwiperSlide
-                style={{
-                  width: "100vw",
-                  backgroundColor: "transparent",
-                }}>
+                  backgroundColor: "#e4e4e4",
+                }}
+              >
                 다이어리가 없습니다.
               </SwiperSlide>
+            ) : (
+              ""
             )}
             {IsLoadingForPublic ? (
               <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
@@ -254,7 +255,8 @@ const MainPage = () => {
             <span
               slot="wrapper-end"
               ref={refForPublic}
-              style={{ margin: "0px 10px" }}>
+              style={{ margin: "0px 10px" }}
+            >
               <Skeleton width={140} height={196} borderRadius={25} />
             </span>
             <span slot="wrapper-end" style={{ margin: "0px 10px" }}>

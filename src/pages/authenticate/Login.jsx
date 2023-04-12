@@ -14,6 +14,7 @@ import axios from "axios";
 import { useDispatch } from "react-redux";
 import AlertMessage from "../../components/alert/AlertMessage";
 import logoImg from "../../assets/logoImg.png";
+import { a } from "@react-spring/web";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -49,7 +50,7 @@ const Login = () => {
       .post(`${process.env.REACT_APP_BASEURL}/login`, data)
       .then((res) => {
         console.log(res);
-        localStorage.setItem("accessToken", res.headers.authorization);
+        window.localStorage.setItem("accessToken", res.headers.authorization);
         navigate("/");
       })
       .catch((err) => {

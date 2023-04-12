@@ -42,18 +42,25 @@ function Profile() {
 
   //프로필 get 해오기!!!
   const getProfile = async () => {
-    const res = await axios.get(
-      `${process.env.REACT_APP_BASEURL}/mypage/profile`,
-      {
-        headers: { Authorization: accessToken },
+    try {
+      const res = await axios.get(
+        `${process.env.REACT_APP_BASEURL}/mypage/profile`,
+        {
+          headers: { Authorization: accessToken },
+        }
+      );
+      setNickname(res.data.nickname);
+      setStatusMessage(res.data.statusMessage);
+      if (res.data.profileImageUrl === null) {
+        setProfileStatus(false);
       }
-    );
-    setNickname(res.data.nickname);
-    setStatusMessage(res.data.statusMessage);
-    if (res.data.profileImageUrl === null) {
-      setProfileStatus(false);
+      setSavedImg(res.data.profileImageUrl);
+
+      return res;
+    } catch (err) {
+      console.error(`Error : ${err} `);
+      return;
     }
-    setSavedImg(res.data.profileImageUrl);
   };
 
   useEffect(() => {
@@ -64,6 +71,10 @@ function Profile() {
     onSuccess: () => {
       queryClient.invalidateQueries("getProfile");
     },
+    onError: () => {
+      setAlertMsg("프로필 변경 실패! 사진 용량이 큽니다.");
+      setAlertOpen(true);
+    }
   });
 
   //image
