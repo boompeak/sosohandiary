@@ -52,7 +52,7 @@ const MainPage = () => {
     threshold: 0,
   });
   const { ref: refForPublic, inView: inViewForPublic } = useInView({
-    threshold: 0,
+    threshold: 1,
   });
 
   //데이터 겟
@@ -190,7 +190,7 @@ const MainPage = () => {
                 <DiaryCard item={item} color="purple" />
               </SwiperSlide>
             ))}
-            {dataListForPrivate.length < 3 ? (
+            {dataListForPrivate.length < 5 ? (
               <SwiperSlide
                 style={{
                   width: "100vw",
@@ -235,7 +235,7 @@ const MainPage = () => {
                 <DiaryCard item={item} color="purple" />
               </SwiperSlide>
             ))}
-            {dataListForPublic.length < 3 ? (
+            {dataListForPublic.length < 5 ? (
               <SwiperSlide
                 style={{
                   width: "100vw",

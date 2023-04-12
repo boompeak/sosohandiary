@@ -74,7 +74,7 @@ function Page() {
         <h2>{mypage?.data?.title}</h2>
         <HeaderRightArea>
           <HeaderIsPublic>
-            {mypage?.data?.diaryCondition === "public"
+            {mypage?.data?.diaryCondition === "PUBLIC"
               ? "공개 다이어리"
               : "비공개 다이어리"}
           </HeaderIsPublic>

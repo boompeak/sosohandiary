@@ -959,7 +959,7 @@ const StickerToolbarStyle = styled.div`
   background-color: #efeeee;
   width: 100vw;
   height: ${({ isOpenStickerToolbar }) =>
-    isOpenStickerToolbar === true ? "60vh" : 0};
+    isOpenStickerToolbar === true ? "110vh" : 0};
   border-radius: 25px 25px 0 0;
   padding-top: 20px;
   z-index: 10;

@@ -69,11 +69,13 @@ const DiaryDetail = () => {
         }
       )
       .then((res) => {
+        console.log(res);
         setAlertMsg("한 장이 추가되었습니다");
         setAlertOpen(true);
         setAlertReload(true);
       })
       .catch((err) => {
+        console.log(err);
         if (err.response.status === 403) {
           setAlertMsg("다이어리 멤버만 작성할 수 있습니다");
           setAlertOpen(true);

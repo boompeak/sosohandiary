@@ -50,7 +50,7 @@ const Login = () => {
       .post(`${process.env.REACT_APP_BASEURL}/login`, data)
       .then((res) => {
         console.log(res);
-        window.localStorage.setItem("accessToken", res.headers.authorization);
+        localStorage.setItem("accessToken", res.headers.authorization);
         navigate("/");
       })
       .catch((err) => {

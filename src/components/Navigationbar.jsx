@@ -83,15 +83,29 @@ const Navigationbar = () => {
     )
   );
 
-  const friendAlarmCnt = dataForFriendAlarm?.data.filter(
+  let friendAlarmCnt = dataForFriendAlarm?.data.filter(
     (item) => item.alarm === false
   ).length;
-  const commentAlarmCnt = dataForCommentAlarm?.data.filter(
+
+  if (isNaN(friendAlarmCnt)) {
+    friendAlarmCnt = 0;
+  }
+
+  let commentAlarmCnt = dataForCommentAlarm?.data.filter(
     (item) => item.alarm === false
   ).length;
-  const inviteAlarmCnt = dataForInviteAlarm?.data.filter(
+
+  if (isNaN(commentAlarmCnt)) {
+    commentAlarmCnt = 0;
+  }
+
+  let inviteAlarmCnt = dataForInviteAlarm?.data.filter(
     (item) => item.alarm === false
   ).length;
+
+  if (isNaN(inviteAlarmCnt)) {
+    inviteAlarmCnt = 0;
+  }
 
   const totalAlarmNumber = friendAlarmCnt + commentAlarmCnt + inviteAlarmCnt;
 
