@@ -42,11 +42,6 @@ const MainPage = () => {
     }
   );
 
-  if (isErrorOfUserInfo) {
-    console.log("dd");
-    navigate("/login");
-  }
-
   const resOfCurrentUserInfo = useQuery(["resOfCurrentUserInfo"], () => {
     return getProfile(accessToken);
   });
@@ -118,6 +113,7 @@ const MainPage = () => {
       .catch((err) => {
         setIsLoadingForPublic(false);
         console.log(err);
+        navigate("/login");
       });
   }, [inViewForPublic]);
 

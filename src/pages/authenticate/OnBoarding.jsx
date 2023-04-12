@@ -228,7 +228,14 @@ const BannerArea = styled.div`
 
 const BannerImg = styled.img`
   -webkit-user-drag: none;
-  width: 100%;
+  max-width: 100%;
+
+  /* 데스크톱 기기(992px 이상)에 대한 스타일 */
+  @media only screen and (min-width: 992px) {
+    width: 70vw;
+  height: 100vh;
+
+  }
 `;
 const PassageArea = styled.div``;
 
