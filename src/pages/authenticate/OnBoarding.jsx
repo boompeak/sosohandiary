@@ -94,6 +94,7 @@ const pages = [
 ];
 
 const Viewpager = () => {
+  const navigate = useNavigate();
   const index = useRef(0);
   const [ref, { width }] = useMeasure();
   const [props, api] = useSprings(
@@ -107,6 +108,10 @@ const Viewpager = () => {
   );
   const bind = useDrag(
     ({ active, movement: [mx], direction: [xDir], distance, cancel }) => {
+      console.log(index.current);
+      if (index.current === 5) {
+        navigate("/signup");
+      }
       if (active && distance > width / 2) {
         index.current = clamp(
           index.current + (xDir > 0 ? -1 : 1),
@@ -124,10 +129,10 @@ const Viewpager = () => {
       });
     }
   );
+
   return (
     <AllStyle ref={ref} className="wrapper">
       {props.map(({ x, display, scale }, i) => {
-        console.log(pages[i].h1);
         return (
           <animated.div
             className="page"
