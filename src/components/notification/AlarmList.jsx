@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   SwipeableList,
   SwipeableListItem,
@@ -12,10 +12,14 @@ import styled from "styled-components";
 import AlarmUnReadCard from "./AlarmUnReadCard";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import AlertMessage from "../../components/alert/AlertMessage";
 
 const AlarmList = ({ item, alarmType }) => {
   const navigate = useNavigate();
   const accessToken = window.localStorage.getItem("accessToken");
+  const [alertMsg, setAlertMsg] = useState("");
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertNavigateLink, setAlertNavigateLink] = useState("");
 
   const acceptFriend = (id) => {
     axios

@@ -82,7 +82,7 @@ const NewFriend = () => {
     <>
       <WholeViewWidth style={{height:"100vh"}}>
         <Searchbox
-          placeholder='아이디를 검색해 친구를 추가해보세요'
+          placeholder='친구이름을 검색해 친구를 추가해보세요'
           onChangeInput={onChangeInput}
           onKeyPress={handleKeyDown}
           setSearchInput={setSearchInput}

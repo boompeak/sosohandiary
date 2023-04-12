@@ -519,6 +519,75 @@ const Drawing = () => {
     "https://mysosodiary.s3.ap-northeast-2.amazonaws.com/sticker/Union.png",
   ];
 
+  const MAX_LENGTH = 1000;
+
+  const getLengthOfSelectedText = () => {
+    const currentSelection = editorState.getSelection();
+    const isCollapsed = currentSelection.isCollapsed();
+
+    let length = 0;
+
+    if (!isCollapsed) {
+      const currentContent = editorState.getCurrentContent();
+      const startKey = currentSelection.getStartKey();
+      const endKey = currentSelection.getEndKey();
+      const startBlock = currentContent.getBlockForKey(startKey);
+      const isStartAndEndBlockAreTheSame = startKey === endKey;
+      const startBlockTextLength = startBlock.getLength();
+      const startSelectedTextLength =
+        startBlockTextLength - currentSelection.getStartOffset();
+      const endSelectedTextLength = currentSelection.getEndOffset();
+      const keyAfterEnd = currentContent.getKeyAfter(endKey);
+      console.log(currentSelection);
+      if (isStartAndEndBlockAreTheSame) {
+        length +=
+          currentSelection.getEndOffset() - currentSelection.getStartOffset();
+      } else {
+        let currentKey = startKey;
+
+        while (currentKey && currentKey !== keyAfterEnd) {
+          if (currentKey === startKey) {
+            length += startSelectedTextLength + 1;
+          } else if (currentKey === endKey) {
+            length += endSelectedTextLength;
+          } else {
+            length += currentContent.getBlockForKey(currentKey).getLength() + 1;
+          }
+
+          currentKey = currentContent.getKeyAfter(currentKey);
+        }
+      }
+    }
+
+    return length;
+  };
+
+  const handleBeforeInput = () => {
+    const currentContent = editorState.getCurrentContent();
+    const currentContentLength = currentContent.getPlainText("").length;
+    const selectedTextLength = getLengthOfSelectedText();
+
+    if (currentContentLength - selectedTextLength > MAX_LENGTH - 1) {
+      alert("1000자 이하로 입력해주세요");
+
+      return "handled";
+    }
+  };
+
+  const handlePastedText = (pastedText) => {
+    const currentContent = editorState.getCurrentContent();
+    const currentContentLength = currentContent.getPlainText("").length;
+    const selectedTextLength = getLengthOfSelectedText();
+
+    if (
+      currentContentLength + pastedText.length - selectedTextLength >
+      MAX_LENGTH
+    ) {
+      alert("1000자 이하로 입력해주세요");
+
+      return "handled";
+    }
+  };
   // 도화지
   return (
     <div style={{ overflow: "hidden", width: "100vw" }}>
@@ -578,9 +647,12 @@ const Drawing = () => {
       </DeleteButtonArea>
       <TextAreaStyle mode={mode}>
         <Editor
+          editorStyle={{ height: "10px" }}
           editorState={editorState}
           onChange={setEditorState}
           onEditorStateChange={handleKeyCommand}
+          handleBeforeInput={handleBeforeInput}
+          handlePastedText={handlePastedText}
         />
       </TextAreaStyle>
       <AllToolbarStyle isOpenAllToolbar={isOpenAllToolbar}>
@@ -807,6 +879,11 @@ const SaveButton = styled.img`
 `;
 
 const TextAreaStyle = styled.div`
+  .DraftEditor-editorContainer {
+    background-color: #fff;
+    max-height: 70vh;
+    overflow: scroll;
+  }
   font-size: 20px;
   position: absolute;
   width: auto;

@@ -63,9 +63,6 @@ const OnBoardingInnerHTML = ({ idx }) => {
           <div></div>
           <BannerImg src={third} />
           <div></div>
-          <ButtonArea>
-            <MintButtonLarge onClick={goToSignup}>회원가입</MintButtonLarge>
-          </ButtonArea>
         </BannerArea>
       );
     case 5:
@@ -74,9 +71,6 @@ const OnBoardingInnerHTML = ({ idx }) => {
           <div></div>
           <BannerImg src={third} />
           <div></div>
-          <ButtonArea>
-            <MintButtonLarge onClick={goToSignup}>회원가입</MintButtonLarge>
-          </ButtonArea>
         </BannerArea>
       );
     default:

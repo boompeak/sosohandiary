@@ -110,7 +110,7 @@ const DiaryDetail = () => {
         <div>
           <HeaderStyle>
             <DiaryTitle>{data[0]?.diaryTitle}</DiaryTitle>
-            {getDate(data[0]?.createdAt) ? (
+            {data[0]?.createdAt && getDate(data[0]?.createdAt) ? (
               <DiaryCreatedAt>{getDate(data[0]?.createdAt)}</DiaryCreatedAt>
             ) : (
               ""
@@ -170,14 +170,12 @@ const StyledPagination = styled(ReactPaginate)`
   margin-top: 60px;
   display: flex;
   justify-content: center;
-
   & li {
     display: inline-block;
     margin-right: 10px;
     cursor: pointer;
     padding: 5px 10px;
     border: none;
-
     &.active {
       background-color: #007bff;
       color: #fff;
@@ -194,14 +192,12 @@ const StyledPagination = styled(ReactPaginate)`
     cursor: pointer;
     transition: all 0.3s ease;
     color: black;
-
     &:hover {
       background-color: #007bff;
       color: #fff;
       border-color: #007bff;
     }
   }
-
   & .disabled {
     color: #ccc;
     cursor: not-allowed;

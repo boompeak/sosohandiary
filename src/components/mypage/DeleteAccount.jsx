@@ -26,7 +26,7 @@ const DeleteAccount = ({
         <StText>
           <h2>{title}</h2>
           <p>
-            회원 탈퇴 시 계정 정보 및 보유중인 마일리지와 {nickname}님의 추억들이
+            회원 탈퇴 시 계정 정보 및 {nickname}님의 추억들이
             삭제되어 복구가 불가해요
           </p>
         </StText>

@@ -7,7 +7,7 @@ import "react-alice-carousel/lib/alice-carousel.css";
 function UserSearch() {
   return (
     <>
-      <Searchbox placeholder="아이디를 검색해 친구를 추가해보세요!" />
+      <Searchbox placeholder="친구이름을 검색해 친구를 추가해보세요!" />
       <Friendlist />
       <Navigationbar />
     </>

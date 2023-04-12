@@ -65,6 +65,7 @@ const InnerArea = styled.div`
 const Title = styled.div`
   font-weight: 700;
   margin: 20px 0 20px 15px;
+  font-size: 16px;
 `;
 
 const ImgArea = styled.div`
