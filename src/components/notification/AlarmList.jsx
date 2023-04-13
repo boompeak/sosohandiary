@@ -30,13 +30,9 @@ const AlarmList = ({ item, alarmType }) => {
           headers: { Authorization: accessToken },
         }
       )
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => console.log(err));
+      .then((res) => {});
   };
 
-  console.log(item);
   const handleAccept = () => {
     switch (alarmType) {
       case "friend":
@@ -48,9 +44,7 @@ const AlarmList = ({ item, alarmType }) => {
           )
           .then((res) => {
             acceptFriend(item?.friendListId);
-            console.log(res);
-          })
-          .catch((err) => console.log(err));
+          });
       case "invite":
         return axios
           .patch(
@@ -61,8 +55,7 @@ const AlarmList = ({ item, alarmType }) => {
           .then((res) => {
             navigate(`/diaries/${item.inviteId}`);
             handleDelete();
-          })
-          .catch((err) => console.log(err));
+          });
       case "comment":
         return axios
           .patch(
@@ -73,13 +66,11 @@ const AlarmList = ({ item, alarmType }) => {
           .then((res) => {
             navigate(`/diaries/${item.diaryId}/${item.diaryDetailId}`);
             handleDelete();
-          })
-          .catch((err) => console.log(err));
+          });
       default:
         return;
     }
   };
-  console.log("item : ", item);
 
   const handleDelete = () => {
     switch (alarmType) {
@@ -90,10 +81,7 @@ const AlarmList = ({ item, alarmType }) => {
             {},
             { headers: { Authorization: accessToken } }
           )
-          .then((res) => {
-            console.log(res);
-          })
-          .catch((err) => console.log(err));
+          .then((res) => {});
       case "invite":
         return axios
           .patch(
@@ -101,10 +89,7 @@ const AlarmList = ({ item, alarmType }) => {
             {},
             { headers: { Authorization: accessToken } }
           )
-          .then((res) => {
-            console.log(res);
-          })
-          .catch((err) => console.log(err));
+          .then((res) => {});
       case "comment":
         return axios
           .patch(
@@ -112,8 +97,7 @@ const AlarmList = ({ item, alarmType }) => {
             {},
             { headers: { Authorization: accessToken } }
           )
-          .then((res) => {})
-          .catch((err) => console.log(err));
+          .then((res) => {});
       default:
         return;
     }

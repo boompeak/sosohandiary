@@ -40,7 +40,6 @@ function Detail() {
   const myDiary = diaryData?.data;
 
   // 현재 로그인 유저 정보 확인 -> 모달창 권한 여부
-  console.log(myDiary?.toMemberId);
   const { data: curUserInfo } = useQuery(["getCurUser"], () => {
     return axios.get(`${process.env.REACT_APP_BASEURL}/mypage/profile`, {
       headers: { Authorization: accessToken },

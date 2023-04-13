@@ -102,7 +102,6 @@ const Viewpager = () => {
   );
   const bind = useDrag(
     ({ active, movement: [mx], direction: [xDir], distance, cancel }) => {
-      console.log(index.current);
       if (index.current === 5) {
         navigate("/signup");
       }

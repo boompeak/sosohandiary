@@ -209,7 +209,6 @@ const ImageSticker = ({
         scaleX={sticker.isDragging ? 1.2 : 1}
         scaleY={sticker.isDragging ? 1.2 : 1}
         onDragStart={(e) => {
-          console.log(e.target);
           onChange({
             ...shapeProps,
             x: e.target.x(),
@@ -312,8 +311,7 @@ const Drawing = () => {
             EditorState.createWithContent(convertFromRaw(resJson.texts))
           );
         }
-      })
-      .catch((err) => console.log(err));
+      });
   }, []);
 
   // <-------------- 스티커 관련 -------------->
@@ -538,7 +536,6 @@ const Drawing = () => {
         startBlockTextLength - currentSelection.getStartOffset();
       const endSelectedTextLength = currentSelection.getEndOffset();
       const keyAfterEnd = currentContent.getKeyAfter(endKey);
-      console.log(currentSelection);
       if (isStartAndEndBlockAreTheSame) {
         length +=
           currentSelection.getEndOffset() - currentSelection.getStartOffset();

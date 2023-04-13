@@ -34,13 +34,15 @@ function MyPage() {
     }
   );
 
-  const { data: profileData } = useQuery(["getProfile"], () =>
-    getProfile(accessToken),{
+  const { data: profileData } = useQuery(
+    ["getProfile"],
+    () => getProfile(accessToken),
+    {
       onSuccess: (data) => {
-        if(data.data.profileImageUrl === null){
+        if (data.data.profileImageUrl === null) {
           setProfileStatus(false);
         }
-      }
+      },
     }
   );
 
@@ -66,7 +68,6 @@ function MyPage() {
   };
 
   const navToModifyCover = (diaryId, index) => {
-    console.log("TARGET", mypage[index]);
     navigate(`/diary/${diaryId}`, {
       state: {
         data: mypage[index],
@@ -90,7 +91,11 @@ function MyPage() {
         </StArrow>
         <Title size="18">마이페이지</Title>
         <FlexContainer justifyContent="center">
-          {profileStatus ?      <ProfilePicLarge src={profile?.profileImageUrl} /> :     <ProfilePicLarge src={defaultProfileImg.toString()} /> }
+          {profileStatus ? (
+            <ProfilePicLarge src={profile?.profileImageUrl} />
+          ) : (
+            <ProfilePicLarge src={defaultProfileImg.toString()} />
+          )}
         </FlexContainer>
 
         <Title size="22">{profile?.nickname}</Title>

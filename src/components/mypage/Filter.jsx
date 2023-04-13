@@ -3,10 +3,8 @@ import styled from "styled-components";
 import { SlMagnifier } from "react-icons/sl";
 import { MdOutlineCancel } from "react-icons/md";
 
-
 //test filter입니다. searchBox에 합치기?
 const Filter = ({ setCards, existCards, placeholder }) => {
-  // console.log(existCards);
   const handleOnChangeFilterInput = (e) => {
     const searchText = e.target.value.toLowerCase();
     if (searchText === "") {
@@ -19,36 +17,35 @@ const Filter = ({ setCards, existCards, placeholder }) => {
       );
     }
   };
-  
 
   const inputRef = useRef();
 
   const clearButtonHandler = (e) => {
     inputRef.current.value = "";
     setCards(existCards);
-  }
+  };
 
   return (
     <>
       <SearchTotalBox>
         <SearchStyleBox>
-          <SlMagnifier className='SlMagnifier' />
+          <SlMagnifier className="SlMagnifier" />
           <SearchStyle>
             <Searchinput
-              type='text'
+              type="text"
               onChange={handleOnChangeFilterInput}
               placeholder={placeholder}
               ref={inputRef}
             />
           </SearchStyle>
-          <ClearButton onClick={clearButtonHandler}><MdOutlineCancel className='MdOutlineCancel' /></ClearButton>
+          <ClearButton onClick={clearButtonHandler}>
+            <MdOutlineCancel className="MdOutlineCancel" />
+          </ClearButton>
         </SearchStyleBox>
       </SearchTotalBox>
-
-
     </>
   );
-}
+};
 
 export default Filter;
 
@@ -56,7 +53,7 @@ const SearchTotalBox = styled.div`
   display: flex;
   justify-content: center;
   margin: 25px 15px 25px 15px;
-  overflow-x:hidden ;
+  overflow-x: hidden;
 `;
 
 const SearchStyleBox = styled.div`
@@ -64,7 +61,7 @@ const SearchStyleBox = styled.div`
   flex-direction: row;
   justify-content: space-between;
   width: 95%;
-  background-color: #E8E8E8;
+  background-color: #e8e8e8;
   border: none;
   border-radius: 20px;
   padding: 12px 15px 12px 15px;

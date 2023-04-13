@@ -32,8 +32,6 @@ const Diary = () => {
 
   const handleClick = (e) => {
     e.preventDefault();
-    console.log("dd");
-    console.log(accessToken);
 
     const formData = new FormData();
     formData.append("img", file);
@@ -141,7 +139,8 @@ const Diary = () => {
             diaryCondition={diaryCondition}
             onClick={() => {
               setDiaryCondition("PUBLIC");
-            }}>
+            }}
+          >
             공개
           </SelectButtonLeft>
           <CenterColumn></CenterColumn>
@@ -149,7 +148,8 @@ const Diary = () => {
             diaryCondition={diaryCondition}
             onClick={() => {
               setDiaryCondition("PRIVATE");
-            }}>
+            }}
+          >
             비공개
           </SelectButtonRight>
         </PublicSelectBox>

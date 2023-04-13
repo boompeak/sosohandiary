@@ -217,8 +217,7 @@ const Thumbnail = ({ diaryId, paperId, width, height }) => {
         } else {
           setIsNewPage(true);
         }
-      })
-      .catch((err) => console.log(err));
+      });
   }, []);
 
   // 건들지 않은 새로운 페이지일때
@@ -226,7 +225,6 @@ const Thumbnail = ({ diaryId, paperId, width, height }) => {
     return <NewPageMsgArea>새로운 페이지입니다.</NewPageMsgArea>;
   }
 
-  console.log(stickers);
   // 도화지
   return (
     <div>

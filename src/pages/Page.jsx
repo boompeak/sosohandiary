@@ -11,7 +11,6 @@ function Page() {
   const location = useLocation();
   const mypage = location.state;
   const navigate = useNavigate();
-  console.log(mypage.data);
   const [previewImage, setPreviewImage] = useState(mypage?.data?.img);
   const [alertMsg, setAlertMsg] = useState("");
   const [alertOpen, setAlertOpen] = useState(false);
@@ -27,7 +26,6 @@ function Page() {
     });
   };
 
-  console.log(mypage.data);
   // 삭제
   const handleDelete = async () => {
     const confirmed = window.confirm("삭제하시겠습니까?");

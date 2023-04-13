@@ -41,16 +41,13 @@ const Login = () => {
   } = useForm();
 
   const onSubmit = async (data) => {
-    console.log(data);
     axios
       .post(`${process.env.REACT_APP_BASEURL}/login`, data)
       .then((res) => {
-        console.log(res);
         localStorage.setItem("accessToken", res.headers.authorization);
         navigate("/");
       })
       .catch((err) => {
-        console.log(err);
         setAlertOpen(true);
         setAlertMsg("회원정보를 확인해주세요");
       });

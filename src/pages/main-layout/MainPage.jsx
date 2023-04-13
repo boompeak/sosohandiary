@@ -52,7 +52,7 @@ const MainPage = () => {
     threshold: 0,
   });
   const { ref: refForPublic, inView: inViewForPublic } = useInView({
-    threshold: 1,
+    threshold: 0,
   });
 
   //데이터 겟
@@ -93,6 +93,7 @@ const MainPage = () => {
       })
       .catch((err) => {
         setIsLoadingForPrivate(false);
+        navigate("/login");
       });
   }, [inViewForPrivate]);
 
@@ -106,14 +107,12 @@ const MainPage = () => {
         }
       )
       .then((res) => {
-        console.log(res);
         setIsLoadingForPublic(false);
         setDataListForPublic((prev) => [...prev, ...res.data.content]);
         setPublicPage((prev) => prev + 1);
       })
       .catch((err) => {
         setIsLoadingForPublic(false);
-        console.log(err);
         navigate("/login");
       });
   }, [inViewForPublic]);

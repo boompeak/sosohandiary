@@ -65,9 +65,7 @@ const MyFriends = () => {
     navigate("/mypage");
   };
 
-  const handleDelete = () => {
-    console.log("delete");
-  };
+  const handleDelete = () => {};
 
   const trailingActions = (item) => (
     <TrailingActions>
