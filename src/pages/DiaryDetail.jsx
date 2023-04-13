@@ -120,9 +120,7 @@ const DiaryDetail = () => {
           </LabelArea>
         </div>
       </div>
-      <MorePagePlease>
-        {data.length === 0 ? "페이지를 추가해주세요" : ""}
-      </MorePagePlease>
+
       <FlipStyle>
         <FlipBook data={data} diaryId={diaryId} />
       </FlipStyle>
@@ -246,6 +244,7 @@ const MorePagePlease = styled.div`
   align-items: center;
   margin: 30px;
   padding: 100px;
+  padding: ${({ isVisible }) => (isVisible ? 0 : "100px")};
 `;
 const LabelArea = styled.div`
   display: flex;
