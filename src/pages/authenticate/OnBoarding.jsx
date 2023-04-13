@@ -11,6 +11,7 @@ import second from "../../assets/onboarding/second.jpg";
 import third from "../../assets/onboarding/third.jpg";
 import { MintButtonLarge } from "../../styles/Buttons";
 import { useInView } from "react-intersection-observer";
+import { HiArrowCircleRight } from "react-icons/hi";
 
 const OnBoardingInnerHTML = ({ idx }) => {
   const navigate = useNavigate();
@@ -23,6 +24,10 @@ const OnBoardingInnerHTML = ({ idx }) => {
       return (
         <FlexCenter>
           <Logo logoUrl={logo}></Logo>
+          <RightArrowArea>
+            옆으로 드래그 하세요
+            <HiArrowCircleRight size={50} color="#E1E7FC" />
+          </RightArrowArea>
         </FlexCenter>
       );
     case 1:
@@ -37,7 +42,11 @@ const OnBoardingInnerHTML = ({ idx }) => {
               <br />
               US
             </h1>
-            <p>여러분의 소중한 일상을 담아보세요</p>
+            <p>여러분의 소중한 일상을 담아보세요</p>{" "}
+            <RightArrowArea>
+              옆으로 드래그 하세요
+              <HiArrowCircleRight size={50} color="#E1E7FC" />
+            </RightArrowArea>
           </WelcomePhraseArea>
         </Fragment>
       );
@@ -193,6 +202,7 @@ const FlexCenter = styled.div`
   justify-content: center;
   align-items: center;
   height: 100%;
+  flex-direction: column;
 `;
 
 const Logo = styled.div`
@@ -242,4 +252,10 @@ const ButtonArea = styled.div`
   justify-content: center;
   position: absolute;
   bottom: 15vh;
+`;
+
+const RightArrowArea = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
 `;
