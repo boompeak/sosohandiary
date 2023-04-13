@@ -38,7 +38,7 @@ const MainPage = () => {
         headers: { Authorization: accessToken },
       })
       .catch((err) => {
-        setIsNoLogin(true);
+        navigate("/login");
       });
   });
 
@@ -127,7 +127,8 @@ const MainPage = () => {
           url={resOfCurrentUserInfo.data?.data.profileImageUrl}
           onClick={() => {
             navigate("/mypage");
-          }}></CurProfileImage>
+          }}
+        ></CurProfileImage>
         <div>
           {isNoLogin ? (
             <LoginButton onClick={goToLogin}>LOGIN</LoginButton>
@@ -144,7 +145,8 @@ const MainPage = () => {
           slidesPerView={3}
           spaceBetween={0}
           onSlideChange={(e) => setActiveIdxForSelfmade(e.activeIndex)}
-          className="mySwiper">
+          className="mySwiper"
+        >
           {isNoLogin ? (
             <SwiperSlide onClick={goToLogin}>
               <DiaryCardTopBig
@@ -153,33 +155,38 @@ const MainPage = () => {
                 activeIdxForSelfmade={activeIdxForSelfmade}
                 item={{
                   title: "로그인하기",
-                }}></DiaryCardTopBig>
+                }}
+              ></DiaryCardTopBig>
             </SwiperSlide>
           ) : resForSelfmade.data?.data.length === 0 ? (
             <SwiperSlide
               onClick={() => {
                 navigate("/diary");
-              }}>
+              }}
+            >
               <DiaryCardTopBig
                 color="purple"
                 idx={0}
                 activeIdxForSelfmade={activeIdxForSelfmade}
                 item={{
                   title: "로그인하기",
-                }}></DiaryCardTopBig>
+                }}
+              ></DiaryCardTopBig>
             </SwiperSlide>
           ) : resForSelfmade.data?.data.length === 0 ? (
             <SwiperSlide
               onClick={() => {
                 navigate("/diary");
-              }}>
+              }}
+            >
               <DiaryCardTopBig
                 color="purple"
                 idx={0}
                 activeIdxForSelfmade={activeIdxForSelfmade}
                 item={{
                   title: "다이어리 만들기",
-                }}></DiaryCardTopBig>
+                }}
+              ></DiaryCardTopBig>
             </SwiperSlide>
           ) : (
             resForSelfmade.data?.data.map((item, i) => (
@@ -191,7 +198,8 @@ const MainPage = () => {
                   item={item}
                   onClick={() => {
                     navigate("/dd");
-                  }}>
+                  }}
+                >
                   Slide {item.id}
                 </DiaryCardTopBig>
               </SwiperSlide>
@@ -208,7 +216,8 @@ const MainPage = () => {
                 key={i}
                 onClick={() => {
                   goToDiaryDetail(item.id);
-                }}>
+                }}
+              >
                 <DiaryCard item={item} color="purple" />
               </SwiperSlide>
             ))}
@@ -217,7 +226,8 @@ const MainPage = () => {
                 style={{
                   width: "100vw",
                   backgroundColor: "#e4e4e4",
-                }}>
+                }}
+              >
                 다이어리가 없습니다.
               </SwiperSlide>
             ) : (
@@ -231,7 +241,8 @@ const MainPage = () => {
             <span
               slot="wrapper-end"
               ref={refForPublic}
-              style={{ margin: "0px 10px" }}>
+              style={{ margin: "0px 10px" }}
+            >
               <Skeleton width={140} height={196} borderRadius={25} />
             </span>
             <span slot="wrapper-end" style={{ margin: "0px 10px" }}>
@@ -250,7 +261,8 @@ const MainPage = () => {
                 key={item.id}
                 onClick={() => {
                   goToDiaryDetail(item.id);
-                }}>
+                }}
+              >
                 <DiaryCard item={item} color="purple" />
               </SwiperSlide>
             ))}
@@ -260,7 +272,8 @@ const MainPage = () => {
                   width: "100vw",
                   backgroundColor: "#e4e4e4",
                 }}
-                onClick={goToLogin}>
+                onClick={goToLogin}
+              >
                 로그인을 하고 공유 다이어리를 이용해보세요
               </SwiperSlide>
             ) : dataListForPrivate.length < 5 ? (
@@ -268,7 +281,8 @@ const MainPage = () => {
                 style={{
                   width: "100vw",
                   backgroundColor: "#e4e4e4",
-                }}>
+                }}
+              >
                 다이어리가 없습니다.
               </SwiperSlide>
             ) : (
@@ -282,7 +296,8 @@ const MainPage = () => {
             <span
               slot="wrapper-end"
               ref={refForPrivate}
-              style={{ margin: "0px 10px 0px 0px" }}>
+              style={{ margin: "0px 10px 0px 0px" }}
+            >
               <Skeleton width={140} height={196} borderRadius={25} />
             </span>
             <span slot="wrapper-end" style={{ margin: "0px 10px" }}>
