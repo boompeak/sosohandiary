@@ -119,7 +119,7 @@ function Detail() {
                   <Thumbnail
                     diaryId={diaryId}
                     paperId={detailId}
-                    width={380}
+                    width={700}
                     height={window.innerHeight}
                   />
                 </div>

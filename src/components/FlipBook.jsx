@@ -26,8 +26,8 @@ const FlipBook = ({ data, diaryId }) => {
               <Thumbnail
                 diaryId={diaryId}
                 paperId={item.id}
-                width={300}
-                height={500}
+                width={500}
+                height={700}
               />
             </div>
           </InnerThumb>
