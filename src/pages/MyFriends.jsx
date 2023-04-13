@@ -83,16 +83,19 @@ const MyFriends = () => {
         <StArrow>
           <StyledGobackButton onClick={navToBack} />
         </StArrow>
-        <Title size="18">친구</Title>
+        <Title size='18'>친구</Title>
         {/* <Searchbox placeholder='친구 검색' /> */}
         <Filter
           setCards={setSearchFriends}
           existCards={friends}
-          placeholder="닉네임을 검색해 친구를 찾아보세요"
+          placeholder='닉네임을 검색해 친구를 찾아보세요'
         />
-        <Label alignSelf="flex-start">
+        <Label alignSelf='flex-start'>
           친구 {friendsCount?.data?.myFriendCount}
         </Label>
+        <LabelArea>
+          <div>밀어서 삭제하세요</div>
+        </LabelArea>
 
         <SwipeableList threshold={0.5} type={ListType.IOS}>
           {sortedFriends &&
@@ -109,11 +112,11 @@ const MyFriends = () => {
                   >
                     {item.friendStatus === "ACCEPTED" && (
                       <>
-                        <div className="slide">
+                        <div className='slide'>
                           <ListCards>
                             <ProfilePicSmall src={item.profileImageUrl} />
                             <ListContentBox>
-                              <StText fontWeight="bold">{item.nickname}</StText>
+                              <StText fontWeight='bold'>{item.nickname}</StText>
                               <StText>{item.statusMessage}</StText>
                             </ListContentBox>
                           </ListCards>
@@ -210,4 +213,12 @@ const DeleteButton = styled.button`
   border: 1px solid #d9d9d9;
   width: 70px;
   height: 100%;
+`;
+
+const LabelArea = styled.div`
+display: flex;
+justify-content: center;
+align-items: center;
+margin: 10px;
+color: #c0c0c0;
 `;

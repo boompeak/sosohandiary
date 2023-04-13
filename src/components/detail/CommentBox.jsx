@@ -154,6 +154,9 @@ const CommentBox = () => {
     <div>
       <WholeAreaWithMargin>
         <h3>댓글</h3>
+        <LabelArea>
+          <div>밀어서 수정하세요</div>
+        </LabelArea>
         <CommentsContainer>
           <SwipeableList
             threshold={0.5}
@@ -343,4 +346,11 @@ const UserBox = styled.div`
       color: gray;
     }
   }
+`;
+const LabelArea = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+  color: #c0c0c0;
 `;

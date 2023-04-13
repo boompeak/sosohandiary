@@ -20,6 +20,9 @@ const Notification = () => {
       <TitleBox />
 
       <AlarmBox>
+        <LabelArea>
+          <div>밀어서 확인하세요</div>
+        </LabelArea>
         {dataListForFriendRequset?.map((item, i) => (
           <AlarmList key={i} alarmType="friend" item={item} />
         ))}
@@ -53,4 +56,12 @@ const NoAlarm = styled.div`
   display: flex;
   justify-content: center;
   margin: 10px;
+`;
+
+const LabelArea = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+  color: #c0c0c0;
 `;
