@@ -1,10 +1,13 @@
-import React from "react";
+import React,{useEffect} from "react";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import TitleBox from "../../components/TitleBox";
 import AlarmList from "../../components/notification/AlarmList";
 import { useSelector } from "react-redux";
 
 const Notification = () => {
+  const accessToken = localStorage.getItem("accessToken");
+
   const alarmStore = useSelector((state) => state.alarmSlice);
 
   const dataListForFriendRequset = alarmStore.friend;
@@ -14,6 +17,14 @@ const Notification = () => {
   const dataListForCommentAlarm = alarmStore.comment?.filter(
     (item) => item.alarm === false
   );
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (accessToken === null) {
+      navigate('/login', { replace: true });
+    }
+  },[accessToken])
 
   return (
     <>

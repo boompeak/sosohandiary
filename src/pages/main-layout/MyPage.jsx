@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useQuery } from "react-query";
 import styled from "styled-components";
@@ -67,6 +67,12 @@ function MyPage() {
     navigate("/myfriends");
   };
 
+  useEffect(() => {
+    if (accessToken === null) {
+      navigate('/login', { replace: true });
+    }
+  },[accessToken])
+  
   const navToModifyCover = (diaryId, index) => {
     navigate(`/diary/${diaryId}`, {
       state: {

@@ -18,6 +18,12 @@ const Diary = () => {
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertNavigateLink, setAlertNavigateLink] = useState("");
 
+  useEffect(() => {
+    if (accessToken === null) {
+      navigate('/login', { replace: true });
+    }
+  },[accessToken])
+
   const handleConditionChange = (event) => {
     setDiaryCondition(event.target.value);
   };

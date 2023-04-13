@@ -1,4 +1,5 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import styled from "styled-components";
 import debounce from "lodash.debounce";
@@ -15,6 +16,14 @@ const NewFriend = () => {
   const [userId, setUserId] = useState(null);
   const [searchInput, setSearchInput] = useState("");
   const [profileStatus, setProfileStatus] = useState(true);
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (accessToken === null) {
+      navigate('/login', { replace: true });
+    }
+  },[accessToken])
 
   const queryClient = useQueryClient();
 
