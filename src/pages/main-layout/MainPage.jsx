@@ -310,6 +310,7 @@ const WelcomeArea = styled.div`
 `;
 
 const CurProfileImage = styled.div`
+  cursor: pointer;
   height: 50px;
   width: 50px;
   border-radius: 50%;

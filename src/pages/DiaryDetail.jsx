@@ -74,10 +74,8 @@ const DiaryDetail = () => {
         setAlertReload(true);
       })
       .catch((err) => {
-        if (err.response.status === 403) {
-          setAlertMsg("다이어리 멤버만 작성할 수 있습니다");
-          setAlertOpen(true);
-        }
+        setAlertMsg("다이어리 멤버만 작성할 수 있습니다");
+        setAlertOpen(true);
       });
   };
 
