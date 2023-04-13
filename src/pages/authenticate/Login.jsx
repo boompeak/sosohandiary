@@ -29,11 +29,7 @@ const Login = () => {
   };
 
   const goToSignup = () => {
-    if (alreadySignedUp === true) {
-      navigate("/signup");
-    } else {
-      navigate("/onboarding");
-    }
+    navigate("/onboarding");
   };
 
   //form 처리 관련

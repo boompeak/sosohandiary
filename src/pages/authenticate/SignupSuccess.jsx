@@ -19,6 +19,10 @@ const SignupSuccess = () => {
   const { state } = useLocation();
   const userName = state;
 
+  const goToLogin = () => {
+    navigate("/login");
+  };
+
   return (
     <WholeAreaWithMargin>
       <CelebratingMsg>
@@ -29,7 +33,7 @@ const SignupSuccess = () => {
       <Circle imgUrl={logoImg}></Circle>
       <WelcomeMsg>{countdown}초 후 홈으로 이동합니다</WelcomeMsg>
       <WelcomeMsg>이제부터 소소한 일상을 담아보세요!</WelcomeMsg>
-      <MintButtonLarge>홈으로 가기</MintButtonLarge>
+      <MintButtonLarge onClick={goToLogin}>로그인하러 가기</MintButtonLarge>
     </WholeAreaWithMargin>
   );
 };

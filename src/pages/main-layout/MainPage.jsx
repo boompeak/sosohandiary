@@ -77,7 +77,7 @@ const MainPage = () => {
     setIsLoadingForPrivate(true);
     axios
       .get(
-        `${process.env.REACT_APP_BASEURL}/invite?page=${privatePage}&size=5`,
+        `${process.env.REACT_APP_BASEURL}/invite?page=${privatePage}&size=10`,
         {
           headers: { Authorization: accessToken },
         }
@@ -100,12 +100,13 @@ const MainPage = () => {
     setIsLoadingForPublic(true);
     axios
       .get(
-        `${process.env.REACT_APP_BASEURL}/public?page=${publicPage}&size=5`,
+        `${process.env.REACT_APP_BASEURL}/public?page=${publicPage}&size=10`,
         {
           headers: { Authorization: accessToken },
         }
       )
       .then((res) => {
+        console.log(res);
         setIsLoadingForPublic(false);
         setDataListForPublic((prev) => [...prev, ...res.data.content]);
         setPublicPage((prev) => prev + 1);

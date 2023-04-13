@@ -28,7 +28,6 @@ const Signup = () => {
       .post(`https://sosohandiary.shop/join`, data)
       .then(() => {
         navigate("/signup-success", { state: data.nickname });
-        window.localStorage.setItem("already signed up", true);
       })
       .catch((err) => {
         console.log(err);
