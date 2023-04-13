@@ -22,25 +22,25 @@ import openAlert from "../../components/alert/AlertMessage";
 
 const MainPage = () => {
   const navigate = useNavigate();
+  const [isNoLogin, setIsNoLogin] = useState(false);
 
   //비로그인 -> 로그인창으로
   const accessToken = window.localStorage.getItem("accessToken");
 
-  useEffect(() => {
-    if (accessToken === null) {
-      navigate("/login");
-    }
-  }, []);
-
   // 로그인 유저 정보
-  const { data: dataOfUserInfo, isError: isErrorOfUserInfo } = useQuery(
-    ["getUserInfo"],
-    () => {
-      return axios.get(`${process.env.REACT_APP_BASEURL}/mypage/profile`, {
+  const {
+    data: dataOfUserInfo,
+    isError: isErrorOfUserInfo,
+    error,
+  } = useQuery(["getUserInfo"], () => {
+    return axios
+      .get(`${process.env.REACT_APP_BASEURL}/mypage/profile`, {
         headers: { Authorization: accessToken },
+      })
+      .catch((err) => {
+        setIsNoLogin(true);
       });
-    }
-  );
+  });
 
   const resOfCurrentUserInfo = useQuery(["resOfCurrentUserInfo"], () => {
     return getProfile(accessToken);
@@ -58,7 +58,6 @@ const MainPage = () => {
   //데이터 겟
   const [privatePage, setPrivatePage] = useState(0);
   const [publicPage, setPublicPage] = useState(0);
-  useState(false);
   const [IsLoadingForPrivate, setIsLoadingForPrivate] = useState(false);
   const [IsLoadingForPublic, setIsLoadingForPublic] = useState(false);
 
@@ -93,32 +92,31 @@ const MainPage = () => {
       })
       .catch((err) => {
         setIsLoadingForPrivate(false);
-        navigate("/login");
       });
   }, [inViewForPrivate]);
 
   useEffect(() => {
     setIsLoadingForPublic(true);
     axios
-      .get(
-        `${process.env.REACT_APP_BASEURL}/public?page=${publicPage}&size=10`,
-        {
-          headers: { Authorization: accessToken },
-        }
-      )
+      .get(`${process.env.REACT_APP_BASEURL}/public?page=${publicPage}&size=10`)
       .then((res) => {
+        console.log("PUBLCI : ", res);
         setIsLoadingForPublic(false);
         setDataListForPublic((prev) => [...prev, ...res.data.content]);
         setPublicPage((prev) => prev + 1);
       })
       .catch((err) => {
+        console.log("PUBLCI :", err);
         setIsLoadingForPublic(false);
-        navigate("/login");
       });
   }, [inViewForPublic]);
 
   const goToDiaryDetail = (id) => {
     navigate(`/diaries/${id}`);
+  };
+
+  const goToLogin = () => {
+    navigate("/login");
   };
 
   return (
@@ -127,7 +125,11 @@ const MainPage = () => {
         <div>
           안녕하세요
           <br />
-          {resOfCurrentUserInfo.data?.data.nickname}님!
+          {isNoLogin ? (
+            <LoginButton onClick={goToLogin}>로그인 하러 가기</LoginButton>
+          ) : (
+            resOfCurrentUserInfo.data?.data.nickname + "님!"
+          )}
         </div>
         <CurProfileImage
           url={resOfCurrentUserInfo.data?.data.profileImageUrl}
@@ -177,51 +179,6 @@ const MainPage = () => {
         </Swiper>
       </SelfmadeArea>
       <div style={{ margin: "10px 10px 80px 10px" }}>
-        <Label>초대된 다이어리</Label>
-        <SwiperArea>
-          <Swiper slidesPerView={"auto"} spaceBetween={20} className="mySwiper">
-            {dataListForPrivate.map((item) => (
-              <SwiperSlide
-                key={item.id}
-                onClick={() => {
-                  goToDiaryDetail(item.id);
-                }}
-              >
-                <DiaryCard item={item} color="purple" />
-              </SwiperSlide>
-            ))}
-            {dataListForPrivate.length < 5 ? (
-              <SwiperSlide
-                style={{
-                  width: "100vw",
-                  backgroundColor: "#e4e4e4",
-                }}
-              >
-                다이어리가 없습니다.
-              </SwiperSlide>
-            ) : (
-              ""
-            )}
-            {IsLoadingForPrivate ? (
-              <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
-            ) : (
-              ""
-            )}
-            <span
-              slot="wrapper-end"
-              ref={refForPrivate}
-              style={{ margin: "0px 10px 0px 0px" }}
-            >
-              <Skeleton width={140} height={196} borderRadius={25} />
-            </span>
-            <span slot="wrapper-end" style={{ margin: "0px 10px" }}>
-              <Skeleton width={140} height={196} borderRadius={25} />
-            </span>
-            <span slot="wrapper-end" style={{ margin: "0px 10px" }}>
-              <Skeleton width={140} height={196} borderRadius={25} />
-            </span>
-          </Swiper>
-        </SwiperArea>
         <Label>공개 다이어리</Label>
         <SwiperArea>
           <Swiper slidesPerView={"auto"} spaceBetween={20} className="mySwiper">
@@ -256,6 +213,61 @@ const MainPage = () => {
               slot="wrapper-end"
               ref={refForPublic}
               style={{ margin: "0px 10px" }}
+            >
+              <Skeleton width={140} height={196} borderRadius={25} />
+            </span>
+            <span slot="wrapper-end" style={{ margin: "0px 10px" }}>
+              <Skeleton width={140} height={196} borderRadius={25} />
+            </span>
+            <span slot="wrapper-end" style={{ margin: "0px 10px" }}>
+              <Skeleton width={140} height={196} borderRadius={25} />
+            </span>
+          </Swiper>
+        </SwiperArea>{" "}
+        <Label>초대된 다이어리</Label>
+        <SwiperArea>
+          <Swiper slidesPerView={"auto"} spaceBetween={20} className="mySwiper">
+            {dataListForPrivate.map((item) => (
+              <SwiperSlide
+                key={item.id}
+                onClick={() => {
+                  goToDiaryDetail(item.id);
+                }}
+              >
+                <DiaryCard item={item} color="purple" />
+              </SwiperSlide>
+            ))}
+            {isNoLogin ? (
+              <SwiperSlide
+                style={{
+                  width: "100vw",
+                  backgroundColor: "#e4e4e4",
+                }}
+                onClick={goToLogin}
+              >
+                로그인을 하고 공유 다이어리를 이용해보세요
+              </SwiperSlide>
+            ) : dataListForPrivate.length < 5 ? (
+              <SwiperSlide
+                style={{
+                  width: "100vw",
+                  backgroundColor: "#e4e4e4",
+                }}
+              >
+                다이어리가 없습니다.
+              </SwiperSlide>
+            ) : (
+              ""
+            )}
+            {IsLoadingForPrivate ? (
+              <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+            ) : (
+              ""
+            )}
+            <span
+              slot="wrapper-end"
+              ref={refForPrivate}
+              style={{ margin: "0px 10px 0px 0px" }}
             >
               <Skeleton width={140} height={196} borderRadius={25} />
             </span>
@@ -366,4 +378,11 @@ const SelfmadeArea = styled.div`
     height: 100%;
     object-fit: cover;
   }
+`;
+
+const LoginButton = styled.div`
+  background-color: #e0edfb;
+  border-radius: 25px;
+  box-shadow: 30px;
+  padding: 5px;
 `;
