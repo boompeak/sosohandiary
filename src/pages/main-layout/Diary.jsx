@@ -20,9 +20,9 @@ const Diary = () => {
 
   useEffect(() => {
     if (accessToken === null) {
-      navigate('/login', { replace: true });
+      navigate("/login", { replace: true });
     }
-  },[accessToken])
+  }, [accessToken]);
 
   const handleConditionChange = (event) => {
     setDiaryCondition(event.target.value);
@@ -273,6 +273,7 @@ const Title = styled.div`
 `;
 
 const ImgArea = styled.div`
+  cursor: pointer;
   height: 100px;
   width: 100px;
   background-image: url(${({ imgSrc }) => imgSrc});
@@ -287,6 +288,7 @@ const CreatedAt = styled.div`
 `;
 
 const PublicSelectBox = styled.div`
+  cursor: pointer;
   display: flex;
   justify-content: space-around;
   align-items: center;

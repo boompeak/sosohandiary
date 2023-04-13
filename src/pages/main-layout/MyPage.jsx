@@ -69,10 +69,10 @@ function MyPage() {
 
   useEffect(() => {
     if (accessToken === null) {
-      navigate('/login', { replace: true });
+      navigate("/login", { replace: true });
     }
-  },[accessToken])
-  
+  }, [accessToken]);
+
   const navToModifyCover = (diaryId, index) => {
     navigate(`/diary/${diaryId}`, {
       state: {
@@ -168,8 +168,7 @@ function MyPage() {
                     </StTextBox>
 
                     <ConfirmButton
-                      onClick={() => navToModifyCover(item.id, index)}
-                    >
+                      onClick={() => navToModifyCover(item.id, index)}>
                       <IoIosArrowForward size={28} color="#A1B2FA" />
                     </ConfirmButton>
                   </DiaryCards>
@@ -391,6 +390,8 @@ const StEmptyBox = styled.div`
 `;
 
 const LougoutBtn = styled.button`
+  cursor: pointer;
+  color: #474747;
   border: none;
   background: none;
   margin-right: 24px;
