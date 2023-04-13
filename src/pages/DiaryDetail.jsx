@@ -247,6 +247,7 @@ const MorePagePlease = styled.div`
   justify-content: center;
   align-items: center;
   margin: 30px;
+  padding: 100px;
 `;
 const LabelArea = styled.div`
   display: flex;

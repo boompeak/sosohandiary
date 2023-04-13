@@ -120,7 +120,12 @@ const Navigationbar = () => {
           goToPage("/");
           setNavMode("HOME");
         }}>
-        <Button src={home} buttonType={"HOME"} navMode={navMode} />
+        <Button
+          src={home}
+          buttonType={"HOME"}
+          navMode={navMode}
+          style={{ cursor: "pointer" }}
+        />
       </div>
       <div
         onClick={() => {
@@ -131,7 +136,12 @@ const Navigationbar = () => {
         <Badge
           badgeContent={isNaN(totalAlarmNumber) ? "" : totalAlarmNumber}
           color="primary">
-          <Button src={bell} buttonType={"BELL"} navMode={navMode} />
+          <Button
+            src={bell}
+            buttonType={"BELL"}
+            navMode={navMode}
+            style={{ cursor: "pointer" }}
+          />
         </Badge>
       </div>
       <div
@@ -139,21 +149,36 @@ const Navigationbar = () => {
           goToPage("/diary");
           setNavMode("PLUS");
         }}>
-        <Button src={plus} buttonType={"PLUS"} navMode={navMode} />
+        <Button
+          src={plus}
+          buttonType={"PLUS"}
+          navMode={navMode}
+          style={{ cursor: "pointer" }}
+        />
       </div>
       <div
         onClick={() => {
           goToPage("/new-friend");
           setNavMode("MAGNIFIER");
         }}>
-        <Button src={magnifier} buttonType={"MAGNIFIER"} navMode={navMode} />
+        <Button
+          src={magnifier}
+          buttonType={"MAGNIFIER"}
+          navMode={navMode}
+          style={{ cursor: "pointer" }}
+        />
       </div>
       <div
         onClick={() => {
           goToPage("/mypage");
           setNavMode("PERSON");
         }}>
-        <Button src={person} buttonType={"PERSON"} navMode={navMode} />
+        <Button
+          src={person}
+          buttonType={"PERSON"}
+          navMode={navMode}
+          style={{ cursor: "pointer" }}
+        />
       </div>
     </NavbarArea>
   );

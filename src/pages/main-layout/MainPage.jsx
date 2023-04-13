@@ -144,9 +144,7 @@ const MainPage = () => {
           slidesPerView={3}
           spaceBetween={0}
           onSlideChange={(e) => setActiveIdxForSelfmade(e.activeIndex)}
-
-          className="mySwiper"
-        >
+          className="mySwiper">
           {isNoLogin ? (
             <SwiperSlide onClick={goToLogin}>
               <DiaryCardTopBig
@@ -155,15 +153,13 @@ const MainPage = () => {
                 activeIdxForSelfmade={activeIdxForSelfmade}
                 item={{
                   title: "로그인하기",
-                }}
-              ></DiaryCardTopBig>
+                }}></DiaryCardTopBig>
             </SwiperSlide>
           ) : resForSelfmade.data?.data.length === 0 ? (
             <SwiperSlide
               onClick={() => {
                 navigate("/diary");
-              }}
-            >
+              }}>
               <DiaryCardTopBig
                 color="purple"
                 idx={0}
@@ -404,4 +400,5 @@ const LoginButton = styled.div`
   padding: 5px;
   font-size: 17px;
   color: gray;
+  cursor: pointer;
 `;
