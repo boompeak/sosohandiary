@@ -38,6 +38,7 @@ const MainPage = () => {
         headers: { Authorization: accessToken },
       })
       .catch((err) => {
+        console.log("ISSISIS", err);
         setIsNoLogin(true);
       });
   });
@@ -148,14 +149,29 @@ const MainPage = () => {
           onSlideChange={(e) => setActiveIdxForSelfmade(e.activeIndex)}
           className="mySwiper"
         >
-          {resForSelfmade.data?.data.length === 0 ? (
-            <SwiperSlide>
+          {isNoLogin ? (
+            <SwiperSlide onClick={goToLogin}>
               <DiaryCardTopBig
                 color="purple"
                 idx={0}
                 activeIdxForSelfmade={activeIdxForSelfmade}
                 item={{
-                  title: "다이어리가 \n없습니다",
+                  title: "로그인하기",
+                }}
+              ></DiaryCardTopBig>
+            </SwiperSlide>
+          ) : resForSelfmade.data?.data.length === 0 ? (
+            <SwiperSlide
+              onClick={() => {
+                navigate("/diary");
+              }}
+            >
+              <DiaryCardTopBig
+                color="purple"
+                idx={0}
+                activeIdxForSelfmade={activeIdxForSelfmade}
+                item={{
+                  title: "다이어리 만들기",
                 }}
               ></DiaryCardTopBig>
             </SwiperSlide>
