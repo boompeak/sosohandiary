@@ -881,7 +881,6 @@ const SaveButton = styled.img`
 
 const TextAreaStyle = styled.div`
   .DraftEditor-editorContainer {
-    background-color: #fff;
     max-height: 70vh;
     overflow: scroll;
   }
