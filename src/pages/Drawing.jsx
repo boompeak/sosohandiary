@@ -427,13 +427,17 @@ const Drawing = () => {
 
     const sendData = { thumbnail: "dd", customJson: allJSON };
 
-    axios.patch(
-      `${process.env.REACT_APP_BASEURL}/diary/${diaryid}/detail/${paperid}`,
-      sendData,
-      {
-        headers: { Authorization: accessToken },
-      }
-    );
+    axios
+      .patch(
+        `${process.env.REACT_APP_BASEURL}/diary/${diaryid}/detail/${paperid}`,
+        sendData,
+        {
+          headers: { Authorization: accessToken },
+        }
+      )
+      .then((res) => {
+        window.location.reload();
+      });
   };
 
   //툴바 관련

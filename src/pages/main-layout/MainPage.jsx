@@ -38,7 +38,6 @@ const MainPage = () => {
         headers: { Authorization: accessToken },
       })
       .catch((err) => {
-        console.log("ISSISIS", err);
         setIsNoLogin(true);
       });
   });
