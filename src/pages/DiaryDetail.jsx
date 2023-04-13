@@ -56,6 +56,18 @@ const DiaryDetail = () => {
     fetchData();
   }, []);
 
+  const [isNoLogin, setIsNoLogin] = useState(false);
+
+  useEffect(() => {
+    axios
+      .get(`${process.env.REACT_APP_BASEURL}/mypage/profile`, {
+        headers: { Authorization: accessToken },
+      })
+      .catch((err) => {
+        setIsNoLogin(true);
+      });
+  }, []);
+
   const newInnerPaper = () => {
     axios
       .post(
@@ -74,7 +86,7 @@ const DiaryDetail = () => {
         setAlertReload(true);
       })
       .catch((err) => {
-        if (err.response.status === 403) {
+        if (err.response.status === 403 || err.response.status === 500) {
           setAlertMsg("다이어리 멤버만 작성할 수 있습니다");
           setAlertOpen(true);
         }
@@ -126,7 +138,7 @@ const DiaryDetail = () => {
         {data.length === 0 ? "페이지를 추가해주세요" : ""}
       </MorePagePlease>
       <FlipStyle>
-        <FlipBook data={data} diaryId={diaryId} />
+        <FlipBook data={data} diaryId={diaryId} isNoLogin={isNoLogin} />
       </FlipStyle>
       <PaginationStyle>
         <Pagination
