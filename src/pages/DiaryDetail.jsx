@@ -117,6 +117,9 @@ const DiaryDetail = () => {
             )}
           </HeaderStyle>
           <MorePageButton onClick={newInnerPaper}>한장 더 쓰기</MorePageButton>
+          <LabelArea>
+            <div>밀어서 확인하세요</div>
+          </LabelArea>
         </div>
       </div>
       <MorePagePlease>
@@ -244,4 +247,13 @@ const MorePagePlease = styled.div`
   justify-content: center;
   align-items: center;
   margin: 30px;
+`;
+const LabelArea = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #c0c0c0;
+  margin: -40px 0;
+  width: 100%;
+  height: 10px;
 `;
