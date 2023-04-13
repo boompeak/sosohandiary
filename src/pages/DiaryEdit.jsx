@@ -90,7 +90,6 @@ function DiaryEdit() {
       } catch (error) {
         setAlertMsg("제목과 사진을 전부 수정해주세요");
         setAlertOpen(true);
-
       }
     },
     [accessToken, diaryCondition, file, mypage.data.id, navigate, title]
