@@ -181,13 +181,10 @@ const ImageSticker = ({
 
 // <---------------------------------------->
 
-const Thumbnail = ({ customJson, width, height }) => {
-  console.log(JSON.parse(customJson).texts);
-  const [lines, setLines] = useState(JSON.parse(customJson).lines);
-  const [stickers, setStickers] = useState(JSON.parse(customJson).stickers);
-  const [editorState, setEditorState] = useState(
-    EditorState.createWithContent(convertFromRaw(JSON.parse(customJson).texts))
-  );
+const Thumbnail = ({ diaryId, paperId, width, height }) => {
+  const [lines, setLines] = useState([]);
+  const [stickers, setStickers] = useState([]);
+  const [editorState, setEditorState] = useState(EditorState.createEmpty());
   const [isNewPage, setIsNewPage] = useState(false);
 
   const accessToken = localStorage.getItem("accessToken");
@@ -198,6 +195,29 @@ const Thumbnail = ({ customJson, width, height }) => {
       e.preventDefault();
     }
     document.addEventListener("touchmove", preventBehavior, { passive: false });
+  }, []);
+
+  // <=== 데이터 겟===>
+  useEffect(() => {
+    axios
+      .get(
+        `${process.env.REACT_APP_BASEURL}/diary/${diaryId}/detail/${paperId}`,
+        {
+          headers: { Authorization: accessToken },
+        }
+      )
+      .then((res) => {
+        if (res.data.customJson.length > 10) {
+          const resJson = JSON.parse(res.data.customJson);
+          setStickers(resJson.stickers);
+          setLines(resJson.lines);
+          setEditorState(
+            EditorState.createWithContent(convertFromRaw(resJson.texts))
+          );
+        } else {
+          setIsNewPage(true);
+        }
+      });
   }, []);
 
   // 건들지 않은 새로운 페이지일때

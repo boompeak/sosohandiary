@@ -116,17 +116,12 @@ function Detail() {
                     height: "100%",
                   }}
                 >
-                  {myDiary?.customJson === "" ? (
-                    <EmptyPageArea>
-                      <div>빈 페이지입니다</div>
-                    </EmptyPageArea>
-                  ) : (
-                    <Thumbnail
-                      customJson={myDiary?.customJson}
-                      width={700}
-                      height={window.innerHeight}
-                    />
-                  )}
+                  <Thumbnail
+                    diaryId={diaryId}
+                    paperId={detailId}
+                    width={700}
+                    height={window.innerHeight}
+                  />
                 </div>
               </StyledDetailCard>
             </StyledDetailCardWrapper>
@@ -225,12 +220,4 @@ const DiaryModalWrapper = styled.div`
   top: 25px;
   right: 50%;
   transform: translateX(460%);
-`;
-
-const EmptyPageArea = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  color: gray;
 `;

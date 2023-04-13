@@ -4,55 +4,34 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import Thumbnail from "./drawing/Thumbnail";
 
-const FlipBook = ({ data, diaryId, isNoLogin }) => {
+const FlipBook = ({ data, diaryId }) => {
   const navigate = useNavigate();
 
   const goToInnerPaperDetail = (paperId) => {
-    if (isNoLogin === true) {
-      navigate("/login");
-    } else {
-      navigate(`/diaries/${diaryId}/${paperId}`);
-    }
+    navigate(`/diaries/${diaryId}/${paperId}`);
   };
 
   return (
     <FlipBookArea>
       <HTMLFlipBook width={300} height={500}>
-        {data?.map((item, i) => {
-          return item.customJson === "" ? (
-            <InnerThumb key={i} onClick={() => goToInnerPaperDetail(item?.id)}>
-              <div
-                style={{
-                  overflow: "hidden",
-                  paddingBottom: "300px",
-                  height: "180px",
-                }}
-              >
-                <EmptyPageArea>
-                  <div>빈 페이지입니다</div>
-                </EmptyPageArea>
-              </div>
-            </InnerThumb>
-          ) : (
-            <InnerThumb key={i} onClick={() => goToInnerPaperDetail(item?.id)}>
-              <div
-                style={{
-                  overflow: "hidden",
-                  paddingBottom: "300px",
-                  height: "180px",
-                }}
-              >
-                <Thumbnail
-                  customJson={item.customJson}
-                  diaryId={diaryId}
-                  paperId={item.id}
-                  width={500}
-                  height={700}
-                />
-              </div>
-            </InnerThumb>
-          );
-        })}
+        {data?.map((item, i) => (
+          <InnerThumb key={i} onClick={() => goToInnerPaperDetail(item?.id)}>
+            <div
+              style={{
+                overflow: "hidden",
+                paddingBottom: "300px",
+                height: "180px",
+              }}
+            >
+              <Thumbnail
+                diaryId={diaryId}
+                paperId={item.id}
+                width={500}
+                height={700}
+              />
+            </div>
+          </InnerThumb>
+        ))}
       </HTMLFlipBook>
     </FlipBookArea>
   );
@@ -74,11 +53,4 @@ const Cover = styled.div`
   display: flex;
   justify-content: center;
   margin: 25vh 0;
-`;
-const EmptyPageArea = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
-  color: gray;
 `;
