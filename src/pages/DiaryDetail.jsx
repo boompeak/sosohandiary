@@ -130,7 +130,7 @@ const DiaryDetail = () => {
           </HeaderStyle>
           <MorePageButton onClick={newInnerPaper}>한장 더 쓰기</MorePageButton>
           <LabelArea>
-            <div>밀어서 확인하세요</div>
+            <div>넘겨서 확인하세요</div>
           </LabelArea>
         </div>
       </div>
