@@ -13,20 +13,21 @@ const FlipBook = ({ data, diaryId }) => {
 
   return (
     <FlipBookArea>
-      <HTMLFlipBook width={300} height={500}>
+      <HTMLFlipBook width={370} height={500}>
         {data?.map((item, i) => (
           <InnerThumb key={i} onClick={() => goToInnerPaperDetail(item?.id)}>
             <div
               style={{
-                overflow: "hidden",
                 paddingBottom: "300px",
                 height: "180px",
+                width: "370px",
+                overflow: "hidden",
               }}
             >
               <Thumbnail
                 diaryId={diaryId}
                 paperId={item.id}
-                width={500}
+                width={370}
                 height={700}
               />
             </div>

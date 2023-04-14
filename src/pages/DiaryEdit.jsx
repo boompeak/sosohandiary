@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import styled from "styled-components";
 import axios from "axios";
+import { MdArrowBack } from "react-icons/md";
 import { VscBlank } from "react-icons/vsc";
 import { useLocation, useNavigate } from "react-router-dom";
 import leftArrow from "../assets/leftArrow.png";
@@ -65,7 +66,7 @@ function DiaryEdit() {
 
       formData.append("img", file);
 
-      const uploader = { title };
+      const uploader = { title: title.trim() };
 
       formData.append(
         "title",
@@ -125,6 +126,10 @@ function DiaryEdit() {
   };
 
   const goBackHandler = () => {
+    navigate(-1);
+  };
+
+  const navToBack = () => {
     navigate(-1);
   };
 
@@ -206,13 +211,14 @@ function DiaryEdit() {
         ""
       )}
       <TopBox>
-        <VscBlank className="VscBlank" />
+        <StArrow>
+          <StyledGobackButton onClick={navToBack} />
+        </StArrow>
         <Textbox>다이어리 만들기</Textbox>
-        <VscBlank className="VscBlank" />
       </TopBox>
-      <div>
+      {/* <div>
         <img src={leftArrow} onClick={goBackHandler} />
-      </div>
+      </div> */}
       <Card>
         <SideLabel colorCode={"#E0C7FF"}></SideLabel>
         <InnerArea>
@@ -371,6 +377,20 @@ function DiaryEdit() {
 
 export default DiaryEdit;
 
+const StArrow = styled.div`
+  position: relative;
+  left: 16px;
+  top: 30px;
+`;
+
+const StyledGobackButton = styled(MdArrowBack)`
+  position: absolute;
+  /* padding-top: 50px; */
+  font-size: 40px;
+  color: #adaaaa;
+  cursor: pointer;
+`;
+
 const FriendName = styled.div`
   margin-top: 17px;
   font-size: 16px;
@@ -391,18 +411,21 @@ const Addbutton = styled.button`
   border-radius: 50px;
   cursor: pointer;
   font-size: 16px;
-  margin-bottom: 20px;
-  margin-top: 10px;
+  margin: 5px 0 20px 10px;
+  /* margin-bottom: 20px;
+  margin-top: 10px; */
 `;
 
 const ModalWrapper = styled.div`
-  position: fixed;
-  bottom: 0%;
-  width: 100%;
-  left: 0%;
+  margin: 0 auto;
+  width: 400px;
+  position: absolute;
+  /* bottom: -2%; */
+  /* width: 100%; */
+  /* left: 0%;
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: center; */
   z-index: 1;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
@@ -414,7 +437,10 @@ const ModalContent = styled.div`
   background-color: #fff;
   border-radius: 25px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-  width: 100%;
+
+  height: 100vh;
+  overflow-y: scroll;
+  /* width: 100%; */
   padding: 15px;
   border-bottom-left-radius: 0px;
   border-bottom-right-radius: 0px;
@@ -474,18 +500,28 @@ const TitleContent = styled.div`
 `;
 
 const TitleText = styled.div`
-  font-size: 120%;
+  margin: 15px 0 0 15px;
+  font-size: 100%;
   color: gray;
 `;
 
 const Wholebox = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 5vw;
+  /* padding: 5vw; */
+
+  height: auto;
+  min-height: 100vh;
+
+  border-left: 0.0625rem solid rgb(225, 226, 228);
+  border-right: 0.0625rem solid rgb(225, 226, 228);
+
+  margin: 0 auto;
+  width: 400px;
 `;
 
 const TopBox = styled.div`
-  background-color: white;
+  /* background-color: white;
   position: sticky;
   top: 0%;
   width: 100%;
@@ -500,13 +536,18 @@ const TopBox = styled.div`
     font-size: 40px;
     color: #afafaf;
     padding: 10px;
-  }
+  } */
 `;
 
 const Textbox = styled.div`
-  font-size: 110%;
-  font-weight: bolder;
-  margin: 15px;
+  font-weight: bold;
+
+  display: flex;
+  padding-top: 30px;
+  margin-bottom: 27px;
+  display: flex;
+  justify-content: center;
+  font-size: 18px;
 `;
 
 const Card = styled.div`
@@ -591,7 +632,7 @@ const CheckedListBox = styled.div`
 const CompleteButtonArea = styled.div`
   display: flex;
   justify-content: center;
-  margin: 10px;
+  margin: 10px 10px 50px 10px;
 `;
 const Completebutton = styled.button`
   color: black;

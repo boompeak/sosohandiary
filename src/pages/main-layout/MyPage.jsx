@@ -91,16 +91,18 @@ function MyPage() {
   };
   return (
     <>
-      <WholeViewWidth style={{ overflow: "hidden" }}>
+      <WholeViewWidth style={{ overflow: "hidden", width: "400px" }}>
         <StArrow>
           <StyledGobackButton onClick={navToBack} />
         </StArrow>
         <Title size="18">마이페이지</Title>
         <FlexContainer justifyContent="center">
           {profileStatus ? (
-            <ProfilePicLarge src={profile?.profileImageUrl} />
+            // <ProfilePicLarge src={profile?.profileImageUrl} />
+            <ProfilePicture imgUrl={profile?.profileImageUrl} />
           ) : (
-            <ProfilePicLarge src={defaultProfileImg.toString()} />
+            // <ProfilePicLarge src={defaultProfileImg.toString()} />
+            <ProfilePicture imgUrl={defaultProfileImg.toString()} />
           )}
         </FlexContainer>
 
@@ -156,19 +158,20 @@ function MyPage() {
                         </StText>
                       )}
                       {item.diaryCondition === "PUBLIC" ? (
-                        <Public size="16">공유 다이어리</Public>
+                        <Public size="16">공개 다이어리</Public>
                       ) : (
-                        <Public size="16">다이어리</Public>
+                        <Public size="16">공유 다이어리</Public>
                       )}
                     </StTextBox>
                     <StTextBox>
                       <Label size="16" color="#B0B0B0">
-                        개설일: {getDate(item.createdAt)}{" "}
+                        {getDate(item.createdAt)}
                       </Label>
                     </StTextBox>
 
                     <ConfirmButton
-                      onClick={() => navToModifyCover(item.id, index)}>
+                      onClick={() => navToModifyCover(item.id, index)}
+                    >
                       <IoIosArrowForward size={28} color="#A1B2FA" />
                     </ConfirmButton>
                   </DiaryCards>
@@ -314,6 +317,7 @@ const ThumbnailImg = styled.img`
   height: 80px;
   background: content-box;
   border-radius: 18px;
+  object-fit: cover;
 `;
 
 const LabelSpan = styled.span`
@@ -398,6 +402,15 @@ const LougoutBtn = styled.button`
 `;
 
 const Container = styled.div`
-  max-width: 720px;
+  max-width: 470px;
   margin: 0 auto;
+`;
+
+const ProfilePicture = styled.div`
+  background-color: red;
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background-image: url(${({ imgUrl }) => imgUrl});
+  background-size: cover;
 `;

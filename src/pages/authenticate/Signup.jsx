@@ -39,14 +39,8 @@ const Signup = () => {
   const xButtonClickHandler = () => {
     navigate("/login");
   };
-
   return (
     <WholeAreaWithMargin>
-      {alertOpen ? (
-        <AlertMessage setAlertOpen={setAlertOpen} message={alertMsg} />
-      ) : (
-        ""
-      )}
       <XandTitle>
         <Title>회원가입</Title>
       </XandTitle>
@@ -64,6 +58,10 @@ const Signup = () => {
             type="text"
             {...register("name", {
               required: "이름을 입력해주세요",
+              pattern: {
+                value: /^[A-za-z가-힣]{1,7}$/,
+                message: "1-7자의 영문, 한글만 포함해주세요",
+              },
             })}
           />
           <div>
@@ -71,7 +69,9 @@ const Signup = () => {
           </div>
         </Content>
         {errors.name && (
-          <ValidationAlert role="alert">{errors.name.message}</ValidationAlert>
+          <ValidationAlert role="alert">
+            {errors?.name?.message}
+          </ValidationAlert>
         )}
         <br />
         <label>닉네임</label>
@@ -81,6 +81,10 @@ const Signup = () => {
             type="text"
             {...register("nickname", {
               required: "닉네임을 입력해주세요",
+              pattern: {
+                value: /^([a-zA-Z0-9ㄱ-ㅎ|ㅏ-ㅣ|가-힣]).{1,9}$/,
+                message: "2-10자의 글자만 입력해주세요",
+              },
             })}
           />
           <div>
@@ -89,7 +93,7 @@ const Signup = () => {
         </Content>
         {errors.nickname && (
           <ValidationAlert role="alert">
-            {errors.nickname.message}
+            {errors.nickname?.message}
           </ValidationAlert>
         )}
         <br />
@@ -112,7 +116,9 @@ const Signup = () => {
           </div>
         </Content>
         {errors.email && (
-          <ValidationAlert role="alert">{errors.email.message}</ValidationAlert>
+          <ValidationAlert role="alert">
+            {errors?.email?.message}
+          </ValidationAlert>
         )}
         <br />
         <label>비밀번호</label>
@@ -122,13 +128,18 @@ const Signup = () => {
             type="password"
             {...register("password", {
               required: "비밀번호를 입력해주세요",
+              pattern: {
+                value:
+                  /^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{4,15}$/,
+                message: "4~15 자, 문자,숫자,특수 문자를 포함해주세요",
+              },
             })}
           />
           <div>
             {errors.password && <TbAlertCircle className="TbAlertCircle" />}
           </div>
         </Content>
-        {errors.email && (
+        {errors.password && (
           <ValidationAlert role="alert">
             {errors.password.message}
           </ValidationAlert>
@@ -156,7 +167,7 @@ const Signup = () => {
         </Content>
         {errors.passwordConfirm && (
           <ValidationAlert role="alert">
-            {errors.passwordConfirm.message}
+            {errors?.passwordConfirm?.message}
           </ValidationAlert>
         )}
         <br />

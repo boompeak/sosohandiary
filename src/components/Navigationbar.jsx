@@ -114,73 +114,81 @@ const Navigationbar = () => {
   };
 
   return (
-    <NavbarArea>
-      <div
-        onClick={() => {
-          goToPage("/");
-          setNavMode("HOME");
-        }}>
-        <Button
-          src={home}
-          buttonType={"HOME"}
-          navMode={navMode}
-          style={{ cursor: "pointer" }}
-        />
-      </div>
-      <div
-        onClick={() => {
-          goToPage("/notification");
-          setNavMode("BELL");
-          // checkAllAlarm();
-        }}>
-        <Badge
-          badgeContent={isNaN(totalAlarmNumber) ? "" : totalAlarmNumber}
-          color="primary">
+    <div style={{ display: "flex", justifyContent: "center" }}>
+      <NavbarArea style={{ width: "400px" }}>
+        <div
+          onClick={() => {
+            goToPage("/");
+            setNavMode("HOME");
+          }}
+        >
           <Button
-            src={bell}
-            buttonType={"BELL"}
+            src={home}
+            buttonType={"HOME"}
             navMode={navMode}
             style={{ cursor: "pointer" }}
           />
-        </Badge>
-      </div>
-      <div
-        onClick={() => {
-          goToPage("/diary");
-          setNavMode("PLUS");
-        }}>
-        <Button
-          src={plus}
-          buttonType={"PLUS"}
-          navMode={navMode}
-          style={{ cursor: "pointer" }}
-        />
-      </div>
-      <div
-        onClick={() => {
-          goToPage("/new-friend");
-          setNavMode("MAGNIFIER");
-        }}>
-        <Button
-          src={magnifier}
-          buttonType={"MAGNIFIER"}
-          navMode={navMode}
-          style={{ cursor: "pointer" }}
-        />
-      </div>
-      <div
-        onClick={() => {
-          goToPage("/mypage");
-          setNavMode("PERSON");
-        }}>
-        <Button
-          src={person}
-          buttonType={"PERSON"}
-          navMode={navMode}
-          style={{ cursor: "pointer" }}
-        />
-      </div>
-    </NavbarArea>
+        </div>
+        <div
+          onClick={() => {
+            goToPage("/notification");
+            setNavMode("BELL");
+            // checkAllAlarm();
+          }}
+        >
+          <Badge
+            badgeContent={isNaN(totalAlarmNumber) ? "" : totalAlarmNumber}
+            color="primary"
+          >
+            <Button
+              src={bell}
+              buttonType={"BELL"}
+              navMode={navMode}
+              style={{ cursor: "pointer" }}
+            />
+          </Badge>
+        </div>
+        <div
+          onClick={() => {
+            goToPage("/diary");
+            setNavMode("PLUS");
+          }}
+        >
+          <Button
+            src={plus}
+            buttonType={"PLUS"}
+            navMode={navMode}
+            style={{ cursor: "pointer" }}
+          />
+        </div>
+        <div
+          onClick={() => {
+            goToPage("/new-friend");
+            setNavMode("MAGNIFIER");
+          }}
+        >
+          <Button
+            src={magnifier}
+            buttonType={"MAGNIFIER"}
+            navMode={navMode}
+            style={{ cursor: "pointer" }}
+          />
+        </div>
+        <div
+          onClick={() => {
+            goToPage("/mypage");
+            setNavMode("PERSON");
+          }}
+        >
+          <Button
+            src={person}
+            buttonType={"PERSON"}
+            navMode={navMode}
+            style={{ cursor: "pointer" }}
+          />
+        </div>
+      </NavbarArea>
+    </div>
   );
 };
 

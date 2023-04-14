@@ -21,7 +21,7 @@ const Oauth = () => {
       });
   }, []);
 
-  return <div>Oauth</div>;
+  return <div></div>;
 };
 
 export default Oauth;

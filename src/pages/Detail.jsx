@@ -2,7 +2,6 @@ import React, { useState, useRef, useEffect } from "react";
 import { BottomSheet } from "react-spring-bottom-sheet";
 import "react-spring-bottom-sheet/dist/style.css";
 import CommentBox from "../components/detail/CommentBox";
-import "react-spring-bottom-sheet/dist/style.css";
 import Like from "../components/detail/Like";
 import { WholeViewWidth } from "../styles/WholeAreaStyle";
 import GetUser from "../components/detail/GetUser";
@@ -38,6 +37,8 @@ function Detail() {
   );
 
   const myDiary = diaryData?.data;
+
+  console.log(myDiary);
 
   // 현재 로그인 유저 정보 확인 -> 모달창 권한 여부
   const { data: curUserInfo } = useQuery(["getCurUser"], () => {
@@ -90,8 +91,7 @@ function Detail() {
             createdAt={myDiary.createdAt}
             nickname={myDiary.nickname}
           />
-
-          {myDiary?.toMemberId.includes(curUserInfo?.data.memberId) ? (
+          {curUserInfo.data.memberId === diaryData?.data.authorId ? (
             <DiaryModalWrapper>
               <DiaryModal
                 navToModify={navToModify}
@@ -102,7 +102,6 @@ function Detail() {
           ) : (
             ""
           )}
-
           <div>
             <StyledDetailCardWrapper>
               <StyledDetailCard>
@@ -111,9 +110,10 @@ function Detail() {
                     position: "relative",
                     top: "-10px",
                     zIndex: 0,
-                    overflow: "hidden",
                     width: "100%",
                     height: "100%",
+                    margin: "10px",
+                    overflow: "hidden",
                   }}
                 >
                   <Thumbnail
@@ -134,7 +134,7 @@ function Detail() {
         onClick={() => setOpen(true)}
       ></button>
       {myDiary ? (
-        <BottomSheet
+        <StBottomSheet
           open={open}
           header={
             <DetailElement>
@@ -155,10 +155,9 @@ function Detail() {
           defaultSnap={({ snapPoints }) => snapPoints}
           snapPoints={({ minHeight, maxHeight }) => [60, maxHeight]}
           blocking={false}
-          style={{ height: "80px" }}
         >
           <CommentBox />
-        </BottomSheet>
+        </StBottomSheet>
       ) : (
         <div
           style={{
@@ -176,13 +175,13 @@ function Detail() {
 export default Detail;
 
 const StyledDerailPage = styled.div`
-  margin-top: 40px;
+  margin-top: 70px;
   position: relative;
 `;
 
 const StyledGobackButton = styled(MdArrowBack)`
   position: absolute;
-  top: 10px;
+  top: 30px;
   left: 50%;
   transform: translateX(-500%);
   font-size: 38px;
@@ -197,16 +196,19 @@ const StyledDetailCardWrapper = styled(WholeViewWidth)`
   align-items: center;
   margin-top: 30px;
   overflow: hidden;
+  border: none;
 `;
 
 const StyledDetailCard = styled.div`
   display: flex;
+  justify-content: center;
   width: 375px;
   height: 80vh;
   border: none;
   background-color: #f1f1f1;
   border-radius: 30px 30px 0px 0px;
   padding: 10px;
+  overflow: scroll;
 `;
 
 const DetailElement = styled.div`
@@ -220,4 +222,10 @@ const DiaryModalWrapper = styled.div`
   top: 25px;
   right: 50%;
   transform: translateX(460%);
+`;
+
+const StBottomSheet = styled(BottomSheet)`
+  --rsbs-max-w: 400px;
+  --rsbs-ml: auto;
+  --rsbs-mr: auto;
 `;

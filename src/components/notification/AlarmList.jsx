@@ -108,9 +108,9 @@ const AlarmList = ({ item, alarmType }) => {
       case "friend":
         return { acceptMsg: "수락", rejectMsg: "삭제" };
       case "invite":
-        return { acceptMsg: "다이어리로 가기", rejectMsg: "삭제" };
+        return { acceptMsg: "다이어리로", rejectMsg: "삭제" };
       case "comment":
-        return { acceptMsg: "다이어리로 가기", rejectMsg: "삭제" };
+        return { acceptMsg: "다이어리로", rejectMsg: "삭제" };
       default:
         return;
     }
@@ -120,13 +120,13 @@ const AlarmList = ({ item, alarmType }) => {
     return (
       <TrailingActions>
         <SwipeAction destructive={true} onClick={handleAccept}>
-          <ActionContent color="blue">
+          <ActionContent background="#A1B2FA">
             <InnerButton>{getButtonMsg().acceptMsg}</InnerButton>
           </ActionContent>
         </SwipeAction>
 
         <SwipeAction destructive={true} onClick={handleDelete}>
-          <ActionContent color="red">
+          <ActionContent background="#FC9F9F">
             <InnerButton>{getButtonMsg().rejectMsg}</InnerButton>
           </ActionContent>
         </SwipeAction>
@@ -136,7 +136,7 @@ const AlarmList = ({ item, alarmType }) => {
 
   return (
     <>
-      <SwipeableList threshold={0.5} type={ListType.IOS} fullSwipe={true}>
+      <SwipeableList threshold={0.75} type={ListType.IOS} fullSwipe={true}>
         <SwipeableListItem trailingActions={trailingActions()}>
           <AlarmUnReadCard item={item} alarmType={alarmType} />
         </SwipeableListItem>
@@ -158,7 +158,7 @@ const ActionContent = styled.div`
   box-sizing: border-box;
   color: #eee;
   user-select: none;
-  background-color: ${({ color }) => color};
+  background: ${({ background }) => background};
 `;
 const Button = styled.div`
   display: flex;
@@ -174,5 +174,6 @@ const InnerButton = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 50px;
+  width: 70px;
+  position: relative;
 `;

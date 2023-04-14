@@ -11,6 +11,7 @@ import {
 } from "react-swipeable-list";
 import "react-swipeable-list/dist/styles.css";
 
+import defaultProfileImg from "../assets/defaultProfileImg.jpeg";
 import { getMyfriends, getFriendsCount, deleteFriend } from "../api/mypage";
 import { ProfilePicSmall } from "../components/ProfilePics";
 import { MdArrowBack } from "react-icons/md";
@@ -20,16 +21,38 @@ import Filter from "../components/mypage/Filter";
 const MyFriends = () => {
   const [searchFriends, setSearchFriends] = useState(null);
   const [swipeOpen, setSwipeOpen] = useState(false);
+  const [profileStatus, setProfileStatus] = useState(true);
+  const [notes, setNotes] = useState(true);
 
   const accessToken = localStorage.getItem("accessToken");
   const navigate = useNavigate();
 
-  const { data: myFriends } = useQuery(["getMyFriends"], () =>
-    getMyfriends(accessToken)
+  const { data: myFriends } = useQuery(
+    ["getMyFriends"],
+    () => getMyfriends(accessToken),
+
+    {
+      onSuccess: (data) => {
+        if (Array.isArray(data)) {
+          const hasNullProfileImageUrl = data.some(
+            (friend) => friend.profileImageUrl === null
+          );
+          setProfileStatus(!hasNullProfileImageUrl);
+        }
+      },
+    }
   );
 
-  const { data: friendsCount } = useQuery(["getFriendsCount"], () =>
-    getFriendsCount(accessToken)
+  const { data: friendsCount } = useQuery(
+    ["getFriendsCount"],
+    () => getFriendsCount(accessToken),
+    {
+      onSuccess: (data) => {
+        if (data.data.myFriendCount === 0) {
+          setNotes(false);
+        }
+      },
+    }
   );
 
   const queryClient = useQueryClient();
@@ -79,60 +102,82 @@ const MyFriends = () => {
 
   return (
     <>
-      <WholeViewWidth style={{ overflow: "hidden" }}>
+      <WholeView style={{ overflow: "hidden" }}>
         <StArrow>
           <StyledGobackButton onClick={navToBack} />
         </StArrow>
-        <Title size='18'>친구</Title>
+        <Title size="18">친구</Title>
         {/* <Searchbox placeholder='친구 검색' /> */}
         <Filter
           setCards={setSearchFriends}
           existCards={friends}
-          placeholder='닉네임을 검색해 친구를 찾아보세요'
+          placeholder="닉네임을 검색해 친구를 찾아보세요"
         />
-        <Label alignSelf='flex-start'>
+        <Label alignSelf="flex-start">
           친구 {friendsCount?.data?.myFriendCount}
         </Label>
-        <LabelArea>
-          <div>밀어서 삭제하세요</div>
-        </LabelArea>
+        {notes && (
+          <LabelArea>
+            <div>밀어서 삭제하세요</div>
+          </LabelArea>
+        )}
+        <div>
+          <SwipeableList threshold={0.5} type={ListType.IOS}>
+            {sortedFriends &&
+              searchFriends
+                ?.filter((item) => item.friendStatus === "ACCEPTED")
+                .sort(compare)
+                .map((item) => {
+                  return (
+                    <StyledSwipeableListItem
+                      key={item.memberId}
+                      trailingActions={trailingActions(item)}
+                      onSwipeOpen={() => setSwipeOpen(true)}
+                      onSwipeClose={() => setSwipeOpen(false)}
+                    >
+                      {item.friendStatus === "ACCEPTED" && (
+                        <>
+                          <div className="slide">
+                            <ListCards>
+                              {item.profileImageUrl ? (
+                                <ProfilePicSmall src={item.profileImageUrl} />
+                              ) : (
+                                <ProfilePicSmall src={defaultProfileImg} />
+                              )}
 
-        <SwipeableList threshold={0.5} type={ListType.IOS}>
-          {sortedFriends &&
-            searchFriends
-              ?.filter((item) => item.friendStatus === "ACCEPTED")
-              .sort(compare)
-              .map((item) => {
-                return (
-                  <StyledSwipeableListItem
-                    key={item.memberId}
-                    trailingActions={trailingActions(item)}
-                    onSwipeOpen={() => setSwipeOpen(true)}
-                    onSwipeClose={() => setSwipeOpen(false)}
-                  >
-                    {item.friendStatus === "ACCEPTED" && (
-                      <>
-                        <div className='slide'>
-                          <ListCards>
-                            <ProfilePicSmall src={item.profileImageUrl} />
-                            <ListContentBox>
-                              <StText fontWeight='bold'>{item.nickname}</StText>
-                              <StText>{item.statusMessage}</StText>
-                            </ListContentBox>
-                          </ListCards>
-                        </div>
-                      </>
-                    )}
-                  </StyledSwipeableListItem>
-                );
-              })}
-        </SwipeableList>
-      </WholeViewWidth>
+                              <ListContentBox>
+                                <StText fontWeight="bold">
+                                  {item.nickname}
+                                </StText>
+                                <StText>{item.statusMessage}</StText>
+                              </ListContentBox>
+                            </ListCards>
+                          </div>
+                        </>
+                      )}
+                    </StyledSwipeableListItem>
+                  );
+                })}
+          </SwipeableList>
+        </div>
+        <InvisibleDiv></InvisibleDiv>
+      </WholeView>
     </>
   );
 };
 
 export default MyFriends;
+
+const WholeView = styled.div`
+  width: 400px;
+  margin: 0 auto;
+  height: auto;
+  min-height: 100vh;
+  overflow: scroll;
+
+  border-left: 0.0625rem solid rgb(225, 226, 228);
+  border-right: 0.0625rem solid rgb(225, 226, 228);
+`;
 
 const StArrow = styled.div`
   margin: 0 auto;
@@ -216,9 +261,13 @@ const DeleteButton = styled.button`
 `;
 
 const LabelArea = styled.div`
-display: flex;
-justify-content: center;
-align-items: center;
-margin: 10px;
-color: #c0c0c0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+  color: #c0c0c0;
+`;
+
+const InvisibleDiv = styled.div`
+  height: 0.01px;
 `;

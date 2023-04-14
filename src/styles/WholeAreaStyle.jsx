@@ -17,5 +17,11 @@ export const WholeArea = styled.div`
 `;
 
 export const WholeViewWidth = styled.div`
-  width: 100vw;
+  width: 400px;
+  margin: 0 auto;
+  height: auto;
+  min-height: 100vh;
+
+  border-left: 0.0625rem solid rgb(225, 226, 228);
+  border-right: 0.0625rem solid rgb(225, 226, 228);
 `;

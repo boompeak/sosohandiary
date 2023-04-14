@@ -26,13 +26,8 @@ const AlertMessage = ({ setAlertOpen, message, navigateLink, reload }) => {
     }
   };
 
-  const closeByKeyboard = (e) => {
-    if (e.keyCode !== 13) {
-      handleClose();
-    }
-  };
   return (
-    <Invisible onKeyDown={closeByKeyboard}>
+    <Invisible>
       <Dialog
         open={open}
         TransitionComponent={Transition}

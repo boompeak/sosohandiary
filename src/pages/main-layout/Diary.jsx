@@ -6,17 +6,19 @@ import defaultProfileImg from "../../assets/defaultProfileImg.jpeg";
 import { useNavigate } from "react-router-dom";
 import AlertMessage from "../../components/alert/AlertMessage";
 import AlertMessageAndNavigate from "../../components/alert/AlertMessage";
+import logoGray from "../../assets/logoGray.png";
 
 const Diary = () => {
   const accessToken = window.localStorage.getItem("accessToken");
   const navigate = useNavigate();
   const [file, setFile] = useState();
   const [title, setTitle] = useState("");
-  const [previewImage, setPreviewImage] = useState(defaultProfileImg);
+  const [previewImage, setPreviewImage] = useState(logoGray);
   const [diaryCondition, setDiaryCondition] = useState("PUBLIC");
   const [alertMsg, setAlertMsg] = useState("");
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertNavigateLink, setAlertNavigateLink] = useState("");
+  const regNickname = /\s/g;
 
   useEffect(() => {
     if (accessToken === null) {
@@ -43,9 +45,10 @@ const Diary = () => {
     formData.append("img", file);
 
     const data = {
-      title: title,
+      title: title.trim(),
       diaryCondition: diaryCondition,
     };
+
     formData.append(
       "data",
       new Blob([JSON.stringify(data)], { type: "application/json" })
@@ -101,10 +104,10 @@ const Diary = () => {
                 alt="preview"
                 src={previewImage}
                 style={{
-                  top: "145px",
                   width: "100px",
                   height: "100px",
                   borderRadius: "25px",
+                  objectFit: "cover",
                 }}
                 onClick={imgClickHandler}
               />
@@ -145,7 +148,8 @@ const Diary = () => {
             diaryCondition={diaryCondition}
             onClick={() => {
               setDiaryCondition("PUBLIC");
-            }}>
+            }}
+          >
             공개
           </SelectButtonLeft>
           <CenterColumn></CenterColumn>
@@ -153,13 +157,15 @@ const Diary = () => {
             diaryCondition={diaryCondition}
             onClick={() => {
               setDiaryCondition("PRIVATE");
-            }}>
+            }}
+          >
             비공개
           </SelectButtonRight>
         </PublicSelectBox>
 
         <SubmitButton onClick={handleClick}>생성하기</SubmitButton>
       </form>
+      <InvisibleDiv></InvisibleDiv>
     </Wholebox>
   );
 };
@@ -204,14 +210,22 @@ const TitleContent = styled.div`
 `;
 
 const TitleText = styled.div`
-  font-size: 120%;
+  margin-left: 10px;
+  font-size: 100%;
   color: gray;
 `;
 
 const Wholebox = styled.div`
   display: flex;
   flex-direction: column;
-  padding: 5vw;
+  /* padding: 5vw; */
+
+  border-left: 0.0625rem solid rgb(225, 226, 228);
+  border-right: 0.0625rem solid rgb(225, 226, 228);
+
+  margin: 0 auto;
+  width: 400px;
+  height: auto;
 `;
 
 const TopBox = styled.div`
@@ -268,16 +282,18 @@ const InnerArea = styled.div`
 `;
 
 const Title = styled.div`
-  font-weight: 700;
+  font-size: 13px;
+  font-weight: bold;
   margin: 20px 0 20px 15px;
+  position: absolute;
+  top: 0%;
 `;
 
 const ImgArea = styled.div`
   cursor: pointer;
-  height: 100px;
-  width: 100px;
   background-image: url(${({ imgSrc }) => imgSrc});
-  margin: 0 0 0 15px;
+  margin-left: 10px;
+  margin-top: 40px;
 `;
 
 const CreatedAt = styled.div`
@@ -335,11 +351,15 @@ const SubmitButton = styled.div`
   display: flex;
   justify-content: space-around;
   align-items: center;
-  margin: 100px auto 80px auto;
+  margin: 100px auto 100px auto;
   border: 1px solid rgba(0, 0, 0, 0);
   border-radius: 20px;
   background-color: #e1e7ff;
   width: 300px;
   height: 50px;
   cursor: pointer;
+`;
+
+const InvisibleDiv = styled.div`
+  height: 0.01px;
 `;

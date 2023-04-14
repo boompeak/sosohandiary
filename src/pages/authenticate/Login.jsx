@@ -99,7 +99,8 @@ const Login = () => {
               placeholder="비밀번호를 입력해주세요"
               {...register("password", {
                 required: "비밀번호를 입력해주세요",
-                minLength: { value: 2, message: "2자리 이상 입력하세요" },
+                minLength: { value: 4, message: "4자리 이상으로 입력하세요" },
+                maxLength: { value: 15, message: "15자리 이하로 입력하세요" },
               })}
             />
             <div>

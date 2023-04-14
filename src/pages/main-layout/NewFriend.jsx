@@ -5,7 +5,7 @@ import styled from "styled-components";
 import debounce from "lodash.debounce";
 
 import Searchbox from "../../components/Searchbox";
-import { WholeViewWidth } from "../../styles/WholeAreaStyle";
+import { MarginAuto, WholeViewWidth } from "../../styles/WholeAreaStyle";
 import { ProfilePicSmall } from "../../components/ProfilePics";
 import defaultProfileImg from "../../assets/defaultProfileImg.jpeg";
 import addFriendButton from "../../assets/addFriendButton.png";
@@ -21,9 +21,9 @@ const NewFriend = () => {
 
   useEffect(() => {
     if (accessToken === null) {
-      navigate('/login', { replace: true });
+      navigate("/login", { replace: true });
     }
-  },[accessToken])
+  }, [accessToken]);
 
   const queryClient = useQueryClient();
 
@@ -88,10 +88,12 @@ const NewFriend = () => {
   };
 
   return (
-    <>
-      <WholeViewWidth style={{height:"100vh"}}>
+    <OuterBorderArea>
+      <WholeViewWidth
+        style={{ marginTop: "-20px", paddingTop: "20px", height: "auto" }}
+      >
         <Searchbox
-          placeholder='닉네임을 검색해 친구를 추가해보세요'
+          placeholder="닉네임을 검색해 친구를 추가해보세요"
           onChangeInput={onChangeInput}
           onKeyPress={handleKeyDown}
           setSearchInput={setSearchInput}
@@ -110,8 +112,14 @@ const NewFriend = () => {
                   <ProfilePicSmall src={defaultProfileImg} />
                 )}
                 <ListContentBox>
-                  <StText fontWeight='bold'>{item.nickname}</StText>
-                  <StText overflow='hidden' textOverflow='ellipsis' whiteSpace='nowrap'>{item.statusMessage}</StText>
+                  <StText fontWeight="bold">{item.nickname}</StText>
+                  <StText
+                    overflow="hidden"
+                    textOverflow="ellipsis"
+                    whiteSpace="nowrap"
+                  >
+                    {item.statusMessage}
+                  </StText>
                 </ListContentBox>
               </ListBox>
 
@@ -122,7 +130,7 @@ const NewFriend = () => {
                     <AddButton
                       onClick={() => addFriendMutation.mutate(item.memberId)}
                     >
-                      <StText color='#9A9A9A' fontWeight='700'>
+                      <StText color="#9A9A9A" fontWeight="700">
                         추가하기
                       </StText>
                       <img src={addFriendButton} />
@@ -134,8 +142,9 @@ const NewFriend = () => {
         ) : (
           <TextBox>검색 결과가 없습니다.</TextBox>
         )}
+        <InvisibleDiv></InvisibleDiv>
       </WholeViewWidth>
-    </>
+    </OuterBorderArea>
   );
 };
 
@@ -162,14 +171,13 @@ const ListContentBox = styled.div`
   flex-direction: column;
 
   margin-left: 10px;
-  @media screen and (max-width: 768px) {
-  width: 200px;
-}
+  /* @media screen and (max-width: 768px) {
+    width: 200px;
+  } */
 
-@media screen and (min-width: 769px) and (max-width: 1024px) {
-  width: 600px;
-}
-
+  /* @media screen and (min-width: 769px) and (max-width: 1024px) {
+    width: 600px;
+  } */
 `;
 
 const StText = styled.div`
@@ -177,10 +185,9 @@ const StText = styled.div`
   font-weight: ${(props) => props.fontWeight};
   color: ${(props) => props.color};
 
-  overflow: ${(props) => props.overflow};
+  /* overflow: ${(props) => props.overflow};
   text-overflow: ${(props) => props.textOverflow};
-  white-space: ${(props) => props.whiteSpace};
-
+  white-space: ${(props) => props.whiteSpace}; */
 `;
 
 const TextBox = styled.div`
@@ -190,7 +197,7 @@ const TextBox = styled.div`
 `;
 
 const ButtonBox = styled.div`
- flex: 0 0 auto;
+  flex: 0 0 auto;
 `;
 
 const AddButton = styled.button`
@@ -207,4 +214,18 @@ const AddButton = styled.button`
   align-items: center;
 
   gap: 5px;
+`;
+
+const InvisibleArea = styled.div`
+  height: 85px;
+`;
+
+const OuterBorderArea = styled.div`
+  border-left: 0.0625rem solid rgb(225, 226, 228);
+  border-right: 0.0625rem solid rgb(225, 226, 228);
+  height: auto;
+`;
+
+const InvisibleDiv = styled.div`
+  height: 85px;
 `;

@@ -5,7 +5,6 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { useInView } from "react-intersection-observer";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { Pagination } from "swiper";
 import { useNavigate } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
@@ -14,11 +13,8 @@ import DiaryCard from "../../components/mainpage/DiaryCard";
 import DiaryCardTopBig from "../../components/mainpage/DiaryCardTopBig";
 import { useQuery } from "react-query";
 import { getDiariesOfSelfmade } from "../../api/mainpage";
-import { getMypage, getProfile } from "../../api/mypage";
-import Spinner from "../../assets/Spinner.gif";
-import { Alert } from "antd";
-import AlertMessage from "../../components/alert/AlertMessage";
-import openAlert from "../../components/alert/AlertMessage";
+import { getProfile } from "../../api/mypage";
+import { VscBlank } from "react-icons/vsc";
 
 const MainPage = () => {
   const navigate = useNavigate();
@@ -64,10 +60,6 @@ const MainPage = () => {
   const [dataListForPrivate, setDataListForPrivate] = useState([]);
   const [dataListForPublic, setDataListForPublic] = useState([]);
   const [activeIdxForSelfmade, setActiveIdxForSelfmade] = useState(0);
-  const [alertMsg, setAlertMsg] = useState("");
-  const [alertOpen, setAlertOpen] = useState(false);
-  const [alertNavigateLink, setAlertNavigateLink] = useState("");
-
   const resForSelfmade = useQuery(["getDiariesOfSelfmade"], () => {
     return getDiariesOfSelfmade(accessToken);
   });
@@ -120,200 +112,232 @@ const MainPage = () => {
   };
 
   return (
-    <div style={{ marginBottom: "100px" }}>
-      <WelcomeArea>
-        <div>안녕하세요</div>
-        <CurProfileImage
-          url={resOfCurrentUserInfo.data?.data.profileImageUrl}
-          onClick={() => {
-            navigate("/mypage");
+    <MainContainer>
+      <div style={{ marginBottom: "100px" }}>
+        <WelcomeArea>
+          <div>안녕하세요</div>
+
+          <div>
+            {isNoLogin ? (
+              <LoginButton onClick={goToLogin}>LOGIN</LoginButton>
+            ) : (
+              resOfCurrentUserInfo.data?.data.nickname + "님!"
+            )}
+          </div>
+        </WelcomeArea>
+        <Label
+          style={{
+            backgroundColor: "#e1e7fc",
+            display: "flex",
+            justifyContent: "space-between",
           }}
-        ></CurProfileImage>
-        <div>
-          {isNoLogin ? (
-            <LoginButton onClick={goToLogin}>LOGIN</LoginButton>
-          ) : (
-            resOfCurrentUserInfo.data?.data.nickname + "님!"
-          )}
-        </div>
-      </WelcomeArea>
-      <Label style={{ backgroundColor: "#e1e7fc" }}>내가 만든 다이어리</Label>
-      <SelfmadeArea>
-        <Swiper
-          watchSlidesProgress
-          centeredSlides={true}
-          slidesPerView={3}
-          spaceBetween={0}
-          onSlideChange={(e) => setActiveIdxForSelfmade(e.activeIndex)}
-          className="mySwiper"
         >
-          {isNoLogin ? (
-            <SwiperSlide onClick={goToLogin}>
-              <DiaryCardTopBig
-                color="purple"
-                idx={0}
-                activeIdxForSelfmade={activeIdxForSelfmade}
-                item={{
-                  title: "로그인하기",
-                }}
-              ></DiaryCardTopBig>
-            </SwiperSlide>
-          ) : resForSelfmade.data?.data.length === 0 ? (
-            <SwiperSlide
-              onClick={() => {
-                navigate("/diary");
-              }}
-            >
-              <DiaryCardTopBig
-                color="purple"
-                idx={0}
-                activeIdxForSelfmade={activeIdxForSelfmade}
-                item={{
-                  title: "로그인하기",
-                }}
-              ></DiaryCardTopBig>
-            </SwiperSlide>
-          ) : resForSelfmade.data?.data.length === 0 ? (
-            <SwiperSlide
-              onClick={() => {
-                navigate("/diary");
-              }}
-            >
-              <DiaryCardTopBig
-                color="purple"
-                idx={0}
-                activeIdxForSelfmade={activeIdxForSelfmade}
-                item={{
-                  title: "다이어리 만들기",
-                }}
-              ></DiaryCardTopBig>
-            </SwiperSlide>
-          ) : (
-            resForSelfmade.data?.data.map((item, i) => (
-              <SwiperSlide key={i} onClick={() => goToDiaryDetail(item.id)}>
+          <div>내가 만든 다이어리</div>
+          <CurProfileImage
+            style={{ marginRight: "15px" }}
+            url={resOfCurrentUserInfo.data?.data.profileImageUrl}
+            onClick={() => {
+              navigate("/mypage");
+            }}
+          ></CurProfileImage>
+        </Label>
+        <SelfmadeArea>
+          <Swiper
+            watchSlidesProgress
+            centeredSlides={true}
+            slidesPerView={3}
+            spaceBetween={0}
+            onSlideChange={(e) => setActiveIdxForSelfmade(e.activeIndex)}
+            className="mySwiper"
+          >
+            {isNoLogin ? (
+              <SwiperSlide onClick={goToLogin}>
                 <DiaryCardTopBig
                   color="purple"
-                  idx={i}
+                  idx={0}
                   activeIdxForSelfmade={activeIdxForSelfmade}
-                  item={item}
+                  item={{
+                    title: "로그인하기",
+                  }}
+                ></DiaryCardTopBig>
+              </SwiperSlide>
+            ) : resForSelfmade.data?.data.length === 0 ? (
+              <SwiperSlide
+                onClick={() => {
+                  navigate("/diary");
+                }}
+              >
+                <DiaryCardTopBig
+                  color="purple"
+                  idx={0}
+                  activeIdxForSelfmade={activeIdxForSelfmade}
+                  item={{
+                    title: "로그인하기",
+                  }}
+                ></DiaryCardTopBig>
+              </SwiperSlide>
+            ) : resForSelfmade.data?.data.length === 0 ? (
+              <SwiperSlide
+                onClick={() => {
+                  navigate("/diary");
+                }}
+              >
+                <DiaryCardTopBig
+                  color="purple"
+                  idx={0}
+                  activeIdxForSelfmade={activeIdxForSelfmade}
+                  item={{
+                    title: "다이어리 만들기",
+                  }}
+                ></DiaryCardTopBig>
+              </SwiperSlide>
+            ) : (
+              resForSelfmade.data?.data.map((item, i) => (
+                <SwiperSlide key={i} onClick={() => goToDiaryDetail(item.id)}>
+                  <DiaryCardTopBig
+                    color="purple"
+                    idx={i}
+                    activeIdxForSelfmade={activeIdxForSelfmade}
+                    item={item}
+                    onClick={() => {
+                      navigate("/dd");
+                    }}
+                  >
+                    Slide {item.id}
+                  </DiaryCardTopBig>
+                </SwiperSlide>
+              ))
+            )}
+          </Swiper>
+        </SelfmadeArea>
+        <div style={{ margin: "10px 10px 80px 10px" }}>
+          <Label>공개 다이어리</Label>
+          <SwiperArea>
+            <Swiper
+              slidesPerView={"auto"}
+              spaceBetween={20}
+              className="mySwiper"
+            >
+              {dataListForPublic.map((item, i) => (
+                <SwiperSlide
+                  key={i}
                   onClick={() => {
-                    navigate("/dd");
+                    goToDiaryDetail(item.id);
                   }}
                 >
-                  Slide {item.id}
-                </DiaryCardTopBig>
-              </SwiperSlide>
-            ))
-          )}
-        </Swiper>
-      </SelfmadeArea>
-      <div style={{ margin: "10px 10px 80px 10px" }}>
-        <Label>공개 다이어리</Label>
-        <SwiperArea>
-          <Swiper slidesPerView={"auto"} spaceBetween={20} className="mySwiper">
-            {dataListForPublic.map((item, i) => (
-              <SwiperSlide
-                key={i}
-                onClick={() => {
-                  goToDiaryDetail(item.id);
-                }}
+                  <DiaryCard item={item} color="purple" />
+                </SwiperSlide>
+              ))}
+              {dataListForPublic.length < 3 ? (
+                <SwiperSlide
+                  style={{
+                    width: "375px",
+                    backgroundColor: "#e4e4e4",
+                    borderRadius: "25px",
+                  }}
+                >
+                  다이어리가 없습니다.
+                </SwiperSlide>
+              ) : (
+                ""
+              )}
+              {IsLoadingForPublic ? (
+                <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+              ) : (
+                ""
+              )}
+              <span
+                slot="wrapper-end"
+                ref={refForPublic}
+                style={{ margin: "0px 10px" }}
               >
-                <DiaryCard item={item} color="purple" />
-              </SwiperSlide>
-            ))}
-            {dataListForPublic.length < 5 ? (
-              <SwiperSlide
-                style={{
-                  width: "100vw",
-                  backgroundColor: "#e4e4e4",
-                }}
-              >
-                다이어리가 없습니다.
-              </SwiperSlide>
-            ) : (
-              ""
-            )}
-            {IsLoadingForPublic ? (
-              <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
-            ) : (
-              ""
-            )}
-            <span
-              slot="wrapper-end"
-              ref={refForPublic}
-              style={{ margin: "0px 10px" }}
+                <Skeleton width={140} height={196} borderRadius={25} />
+              </span>
+              <span slot="wrapper-end" style={{ margin: "0px 10px" }}>
+                <Skeleton width={140} height={196} borderRadius={25} />
+              </span>
+              <span slot="wrapper-end" style={{ margin: "0px 10px" }}>
+                <Skeleton width={140} height={196} borderRadius={25} />
+              </span>
+            </Swiper>
+          </SwiperArea>
+          <Label>초대된 다이어리</Label>
+          <SwiperArea>
+            <Swiper
+              slidesPerView={"auto"}
+              spaceBetween={20}
+              className="mySwiper"
             >
-              <Skeleton width={140} height={196} borderRadius={25} />
-            </span>
-            <span slot="wrapper-end" style={{ margin: "0px 10px" }}>
-              <Skeleton width={140} height={196} borderRadius={25} />
-            </span>
-            <span slot="wrapper-end" style={{ margin: "0px 10px" }}>
-              <Skeleton width={140} height={196} borderRadius={25} />
-            </span>
-          </Swiper>
-        </SwiperArea>{" "}
-        <Label>초대된 다이어리</Label>
-        <SwiperArea>
-          <Swiper slidesPerView={"auto"} spaceBetween={20} className="mySwiper">
-            {dataListForPrivate.map((item) => (
-              <SwiperSlide
-                key={item.id}
-                onClick={() => {
-                  goToDiaryDetail(item.id);
-                }}
+              {dataListForPrivate.map((item) => (
+                <SwiperSlide
+                  key={item.id}
+                  onClick={() => {
+                    goToDiaryDetail(item.id);
+                  }}
+                >
+                  <DiaryCard item={item} color="purple" />
+                </SwiperSlide>
+              ))}
+              {isNoLogin ? (
+                <SwiperSlide
+                  style={{
+                    width: "100vw",
+                    backgroundColor: "#e4e4e4",
+                  }}
+                  onClick={goToLogin}
+                >
+                  로그인을 하고 공유 다이어리를 이용해보세요
+                </SwiperSlide>
+              ) : dataListForPrivate.length < 3 ? (
+                <SwiperSlide
+                  style={{
+                    width: "375px",
+                    backgroundColor: "#e4e4e4",
+                    borderRadius: "25px",
+                  }}
+                >
+                  다이어리가 없습니다.
+                </SwiperSlide>
+              ) : (
+                ""
+              )}
+              {IsLoadingForPrivate ? (
+                <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+              ) : (
+                ""
+              )}
+              <span
+                slot="wrapper-end"
+                ref={refForPrivate}
+                style={{ margin: "0px 10px 0px 0px" }}
               >
-                <DiaryCard item={item} color="purple" />
-              </SwiperSlide>
-            ))}
-            {isNoLogin ? (
-              <SwiperSlide
-                style={{
-                  width: "100vw",
-                  backgroundColor: "#e4e4e4",
-                }}
-                onClick={goToLogin}
-              >
-                로그인을 하고 공유 다이어리를 이용해보세요
-              </SwiperSlide>
-            ) : dataListForPrivate.length < 5 ? (
-              <SwiperSlide
-                style={{
-                  width: "100vw",
-                  backgroundColor: "#e4e4e4",
-                }}
-              >
-                다이어리가 없습니다.
-              </SwiperSlide>
-            ) : (
-              ""
-            )}
-            {IsLoadingForPrivate ? (
-              <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
-            ) : (
-              ""
-            )}
-            <span
-              slot="wrapper-end"
-              ref={refForPrivate}
-              style={{ margin: "0px 10px 0px 0px" }}
-            >
-              <Skeleton width={140} height={196} borderRadius={25} />
-            </span>
-            <span slot="wrapper-end" style={{ margin: "0px 10px" }}>
-              <Skeleton width={140} height={196} borderRadius={25} />
-            </span>
-            <span slot="wrapper-end" style={{ margin: "0px 10px" }}>
-              <Skeleton width={140} height={196} borderRadius={25} />
-            </span>
-          </Swiper>
-        </SwiperArea>
+                <Skeleton width={140} height={196} borderRadius={25} />
+              </span>
+              <span slot="wrapper-end" style={{ margin: "0px 10px" }}>
+                <Skeleton width={140} height={196} borderRadius={25} />
+              </span>
+              <span slot="wrapper-end" style={{ margin: "0px 10px" }}>
+                <Skeleton width={140} height={196} borderRadius={25} />
+              </span>
+            </Swiper>
+          </SwiperArea>
+        </div>
       </div>
-    </div>
+      <InvisibleDiv></InvisibleDiv>
+    </MainContainer>
   );
 };
 
 export default MainPage;
+
+const MainContainer = styled.div`
+  margin: 0 auto;
+  width: 400px;
+  height: auto;
+
+  border-left: 0.0625rem solid rgb(225, 226, 228);
+  border-right: 0.0625rem solid rgb(225, 226, 228);
+`;
 
 const WelcomeArea = styled.div`
   font-size: 32px;
@@ -325,6 +349,11 @@ const WelcomeArea = styled.div`
 `;
 
 const CurProfileImage = styled.div`
+  z-index: 10;
+
+  /* position: absolute; */
+  /* top: 70px;
+  right: 23px; */
   cursor: pointer;
   height: 50px;
   width: 50px;
@@ -387,7 +416,7 @@ const SelfmadeArea = styled.div`
     width: 100%;
     height: 100%;
     background-image: url(${ellipse});
-    background-size: 100vw 100%;
+    background-size: 100% 100%;
     background-position: 0 -120px;
     background-repeat: no-repeat;
     margin-top: -10px;
@@ -417,4 +446,8 @@ const LoginButton = styled.div`
   font-size: 17px;
   color: gray;
   cursor: pointer;
+`;
+
+const InvisibleDiv = styled.div`
+  height: 0.01px;
 `;
