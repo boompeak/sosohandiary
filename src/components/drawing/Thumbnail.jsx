@@ -207,8 +207,8 @@ const Thumbnail = ({ diaryId, paperId, width, height }) => {
         }
       )
       .then((res) => {
-        if (res.data.customJson.length > 10) {
-          const resJson = JSON.parse(res.data.customJson);
+        if (res.data?.customJson.length > 10) {
+          const resJson = JSON.parse(res.data?.customJson);
           setStickers(resJson.stickers);
           setLines(resJson.lines);
           setEditorState(
@@ -231,7 +231,7 @@ const Thumbnail = ({ diaryId, paperId, width, height }) => {
       <StageStyle>
         <Stage
           width={375}
-          height={550}
+          height={600}
           style={{ position: "absolute", top: "0px", zIndex: "1" }}
         >
           <Layer>
@@ -274,7 +274,7 @@ const NewPageMsgArea = styled.div`
 
 const EditorStyle = styled.div`
   .DraftEditor-editorContainer {
-    max-height: 70vh;
+    max-height: 600px;
     overflow-y: scroll;
     ::-webkit-scrollbar {
       background-color: transparent;

@@ -10,7 +10,6 @@ export const getMypage = async (accessToken) => {
     );
     return res;
   } catch (err) {
-    console.error(`Error : ${err} `);
     return;
   }
 };
@@ -26,7 +25,6 @@ export const getProfile = async (accessToken) => {
 
     return res;
   } catch (err) {
-    console.error(`Error : ${err} `);
     return;
   }
 };
@@ -43,7 +41,6 @@ export const editProfile = async (formData, accessToken) => {
     );
     return respense.data;
   } catch (error) {
-    console.error(`Error : ${error} `);
     throw error;
   }
 };
@@ -58,7 +55,6 @@ export const getFriendsCount = async (accessToken) => {
     );
     return res;
   } catch (err) {
-    console.error(`Error : ${err} `);
     return;
   }
 };
@@ -74,7 +70,6 @@ export const getDiaryCount = async (accessToken) => {
 
     return res;
   } catch (err) {
-    console.error(`Error : ${err} `);
     return;
   }
 };
@@ -89,14 +84,13 @@ export const deleteAccount = async (accessToken) => {
     );
     return res;
   } catch (err) {
-    console.error(`Error : ${err} `);
     return;
   }
 };
 
 //친구목록 조회
 export const getMyfriends = async (accessToken) => {
-  try{
+  try {
     const res = await axios.get(
       `${process.env.REACT_APP_BASEURL}/mypage/friend/myfriends`,
       {
@@ -104,15 +98,14 @@ export const getMyfriends = async (accessToken) => {
       }
     );
     return res;
-  }catch(err){
-    console.error(`Error : ${err} `);
+  } catch (err) {
     return;
   }
 };
 
 //친구 삭제
 export const deleteFriend = async (friendId, accessToken) => {
-  try{
+  try {
     const res = await axios.delete(
       `${process.env.REACT_APP_BASEURL}/friend/list/${friendId}`,
       {
@@ -120,8 +113,7 @@ export const deleteFriend = async (friendId, accessToken) => {
       }
     );
     return res;
-  }catch(err){
-    console.error(`Error : ${err} `);
+  } catch (err) {
     return;
   }
 };

@@ -566,10 +566,6 @@ const Drawing = () => {
 
   const handleBeforeInput = () => {
     const currentContent = editorState.getCurrentContent();
-    console.log(
-      currentContent.getPlainText().split("\n").length +
-        currentContent.getPlainText().length * 0.03
-    );
     const currentContentLength = currentContent.getPlainText("").length;
     const selectedTextLength = getLengthOfSelectedText();
 
@@ -621,7 +617,7 @@ const Drawing = () => {
       <PaperArea>
         <Stage
           width={375}
-          height={550}
+          height={600}
           onMouseDown={handleMouseDown}
           onMousemove={handleMouseMove}
           onMouseup={handleMouseUp}

@@ -23,7 +23,7 @@ const FlipBook = ({ data, diaryId }) => {
       <HTMLFlipBook
         usePortrait={true}
         width={370}
-        height={500}
+        height={560}
         onFlip={onFlipHandler}
         ref={pageRef}
       >
@@ -32,7 +32,7 @@ const FlipBook = ({ data, diaryId }) => {
             <div
               style={{
                 paddingBottom: "300px",
-                height: "180px",
+                height: "260px",
                 width: "370px",
                 overflow: "hidden",
               }}
@@ -47,12 +47,14 @@ const FlipBook = ({ data, diaryId }) => {
           </InnerThumb>
         ))}
       </HTMLFlipBook>
-      {
+      {totalPage <= 0 ? (
+        ""
+      ) : (
         <ButtonArea>
           [<span>{page + 1}</span> of
           <span> {totalPage}</span>]
         </ButtonArea>
-      }
+      )}
     </FlipBookArea>
   );
 };

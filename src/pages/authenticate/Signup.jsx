@@ -30,7 +30,6 @@ const Signup = () => {
         navigate("/signup-success", { state: data.nickname });
       })
       .catch((err) => {
-        console.log(err);
         setAlertOpen(true);
         setAlertMsg("이미 가입되어있는 이메일입니다");
         setNoChangeForDisableSubmit(true);

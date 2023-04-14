@@ -92,13 +92,11 @@ const MainPage = () => {
     axios
       .get(`${process.env.REACT_APP_BASEURL}/public?page=${publicPage}&size=10`)
       .then((res) => {
-        console.log("PUBLCI : ", res);
         setIsLoadingForPublic(false);
         setDataListForPublic((prev) => [...prev, ...res.data.content]);
         setPublicPage((prev) => prev + 1);
       })
       .catch((err) => {
-        console.log("PUBLCI :", err);
         setIsLoadingForPublic(false);
       });
   }, [inViewForPublic]);

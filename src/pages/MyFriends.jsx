@@ -7,7 +7,7 @@ import {
   SwipeableListItem,
   SwipeAction,
   TrailingActions,
-  Type as ListType,
+  Type as listtype,
 } from "react-swipeable-list";
 import "react-swipeable-list/dist/styles.css";
 
@@ -122,7 +122,7 @@ const MyFriends = () => {
           </LabelArea>
         )}
         <div>
-          <SwipeableList threshold={0.5} type={ListType.IOS}>
+          <SwipeableList threshold={0.5} type={listtype.IOS}>
             {sortedFriends &&
               searchFriends
                 ?.filter((item) => item.friendStatus === "ACCEPTED")
