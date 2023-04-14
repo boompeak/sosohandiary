@@ -153,18 +153,16 @@ const Diary = () => {
             diaryCondition={diaryCondition}
             onClick={() => {
               setDiaryCondition("PUBLIC");
-            }}
-          >
-            공개
+            }}>
+            전체 공개
           </SelectButtonLeft>
           <CenterColumn></CenterColumn>
           <SelectButtonRight
             diaryCondition={diaryCondition}
             onClick={() => {
               setDiaryCondition("PRIVATE");
-            }}
-          >
-            비공개
+            }}>
+            친구 공개
           </SelectButtonRight>
         </PublicSelectBox>
 

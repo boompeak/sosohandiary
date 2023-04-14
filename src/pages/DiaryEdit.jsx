@@ -281,11 +281,11 @@ function DiaryEdit() {
       {modalOpen && (
         <ModalWrapper>
           <ModalContent>
-            <TopBox>
+            <TopTopBox>
               <VscBlank className="VscBlank" />
-              <Textbox>멤버 추가</Textbox>
+              <MemberTextbox>멤버 추가</MemberTextbox>
               <VscBlank className="VscBlank" />
-            </TopBox>
+            </TopTopBox>
             <Searchbox
               placeholder="친구를 검색하세요"
               onChangeInput={handleInputChange}
@@ -295,26 +295,25 @@ function DiaryEdit() {
             <CheckedListBox>
               {checkedList.map((item, i) => {
                 return (
-                  <div key={i}>
+                  <MemberBox key={i}>
                     <Badge
                       badgeContent="-"
                       color="primary"
                       onClick={() => {
                         onRemove(item);
-                      }}
-                    >
+                      }}>
                       <img
                         src={item.profileImageUrl}
                         style={{
-                          width: "50px",
-                          height: "50px",
+                          width: "40px",
+                          height: "40px",
                           borderRadius: "50%",
                           marginRight: "7px",
                         }}
                       />
                     </Badge>
                     <div>{item.name}</div>
-                  </div>
+                  </MemberBox>
                 );
               })}
             </CheckedListBox>
@@ -335,8 +334,7 @@ function DiaryEdit() {
                       marginBottom: "8px",
                       marginLeft: "10px",
                       marginRight: "10px",
-                    }}
-                  >
+                    }}>
                     <label style={{ flex: 1 }}>
                       <ImgAndName>
                         <img
@@ -359,11 +357,9 @@ function DiaryEdit() {
                         onCheckedElement(friend);
                       }}
                       checkedList={checkedList}
-                      friend={friend}
-                    ></CheckBox>
+                      friend={friend}></CheckBox>
                     <AlreadyMember
-                      disabled={alreadyMembersId.includes(friend.memberId)}
-                    >
+                      disabled={alreadyMembersId.includes(friend.memberId)}>
                       이미 멤버입니다
                     </AlreadyMember>
                   </ListStyle>
@@ -373,6 +369,11 @@ function DiaryEdit() {
                   완료
                 </Completebutton>
               </CompleteButtonArea>
+              <div>-</div>
+              <div>-</div>
+              <div>-</div>
+              <div>-</div>
+              <div>-</div>
             </div>
           </ModalContent>
         </ModalWrapper>
@@ -384,6 +385,43 @@ function DiaryEdit() {
 
 export default DiaryEdit;
 
+const TopTopBox = styled.div`
+  background-color: white;
+  top: 0%;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 10px;
+  .VscBlank {
+    font-size: 35px;
+  }
+`;
+
+const TopBox = styled.div``;
+
+const MemberTextbox = styled.div`
+  font-size: 110%;
+  font-weight: bolder;
+  margin: 10px;
+  border-top: 3px solid gray;
+  padding-top: 18px;
+`;
+
+const CheckedListBox = styled.div`
+  display: flex;
+  flex-wrap: wrap;
+  padding-left: 32px;
+  padding-right: 10px;
+  border-bottom: 1px solid #dcdcdc;
+`;
+
+const MemberBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 60px;
+  margin: 7px;
+`;
 const StArrow = styled.div`
   position: relative;
   left: 16px;
@@ -427,44 +465,26 @@ const ModalWrapper = styled.div`
   margin: 0 auto;
   width: 400px;
   position: absolute;
-  /* bottom: -2%; */
-  /* width: 100%; */
-  /* left: 0%;
-  display: flex;
-  justify-content: center;
-  align-items: center; */
   z-index: 1;
   border-top-left-radius: 5px;
   border-top-right-radius: 5px;
   border-bottom-left-radius: 0px;
   border-bottom-right-radius: 0px;
+  margin-top: 100px;
 `;
 
 const ModalContent = styled.div`
   background-color: #fff;
   border-radius: 25px;
   box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
-
   height: 100vh;
   overflow-y: scroll;
-  /* width: 100%; */
   padding: 15px;
   border-bottom-left-radius: 0px;
   border-bottom-right-radius: 0px;
   padding-bottom: 100px;
 `;
 
-const ModalCloseButton = styled.button`
-  position: absolute;
-  right: 3%;
-  top: 3%;
-  z-index: 2;
-  border-radius: 7px;
-  border: none;
-  font-size: 24px;
-  cursor: pointer;
-  background-color: gray;
-`;
 const InputBox = styled.div`
   display: none;
   flex-direction: row;
@@ -527,28 +547,8 @@ const Wholebox = styled.div`
   width: 400px;
 `;
 
-const TopBox = styled.div`
-  /* background-color: white;
-  position: sticky;
-  top: 0%;
-  width: 100%;
-  z-index: 1;
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px;
-  .VscBlank {
-    font-size: 35px;
-  }
-  .MdArrowBack {
-    font-size: 40px;
-    color: #afafaf;
-    padding: 10px;
-  } */
-`;
-
 const Textbox = styled.div`
   font-weight: bold;
-
   display: flex;
   padding-top: 30px;
   margin-bottom: 27px;
@@ -586,17 +586,19 @@ const InnerArea = styled.div`
 `;
 
 const Title = styled.div`
-  font-weight: 700;
+  font-size: 13px;
+  font-weight: bold;
   margin: 20px 0 20px 15px;
+  position: absolute;
+  top: 0%;
 `;
 
 const ImgArea = styled.div`
-  height: 100px;
-  width: 100px;
+  cursor: pointer;
   background-image: url(${({ imgSrc }) => imgSrc});
-  margin: 0 0 0 15px;
+  margin-left: 10px;
+  margin-top: 40px;
 `;
-
 const CreatedAt = styled.div`
   font-size: 10px;
   position: absolute;
@@ -630,10 +632,6 @@ const CheckBox = styled.div`
     checkedList.includes(friend) ? checkedImg : uncheckedImg});
   background-repeat: no-repeat;
   background-size: cover;
-`;
-
-const CheckedListBox = styled.div`
-  display: flex;
 `;
 
 const CompleteButtonArea = styled.div`
