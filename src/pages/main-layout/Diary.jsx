@@ -220,6 +220,9 @@ const Wholebox = styled.div`
   flex-direction: column;
   /* padding: 5vw; */
 
+  height: auto;
+  min-height: 100vh;
+
   border-left: 0.0625rem solid rgb(225, 226, 228);
   border-right: 0.0625rem solid rgb(225, 226, 228);
 
