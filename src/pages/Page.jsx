@@ -103,6 +103,7 @@ function Page() {
             width: "300px",
             height: "300px",
             borderRadius: "7px",
+            objectFit: "cover",
           }}
         />
       )}
