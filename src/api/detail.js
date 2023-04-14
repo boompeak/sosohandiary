@@ -60,12 +60,14 @@ export const likePost = async (id, accessToken) => {
 
 //다이어리속지 내용 상세 조회
 export const getDiary = async (diaryId, detailId, accessToken) => {
-  return await axios.get(
-    `${process.env.REACT_APP_BASEURL}/diary/${diaryId}/detail/${detailId}`,
-    {
-      headers: { Authorization: accessToken },
-    }
-  );
+  return await axios
+    .get(
+      `${process.env.REACT_APP_BASEURL}/diary/${diaryId}/detail/${detailId}`,
+      {
+        headers: { Authorization: accessToken },
+      }
+    )
+    .catch((err) => alert(err.response.data.msg));
 };
 
 //다이어리속지 삭제

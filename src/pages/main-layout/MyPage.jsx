@@ -16,11 +16,19 @@ import { ProfilePicLarge } from "../../components/ProfilePics";
 import { IoIosArrowForward } from "react-icons/io";
 import { MdArrowBack } from "react-icons/md";
 import Navigationbar from "../../components/Navigationbar";
+import { useDispatch } from "react-redux";
+import { changeCurNavbarMode } from "../../contexts/curNavbarModeSlice";
 
-function MyPage() {
+const MyPage = () => {
   const accessToken = localStorage.getItem("accessToken");
+  const dispatch = useDispatch();
   const [dataStatus, setDataStatus] = useState(true);
   const [profileStatus, setProfileStatus] = useState(true);
+
+  // navbar 모드 변경
+  useEffect(() => {
+    dispatch(changeCurNavbarMode("PERSON"));
+  }, []);
 
   const { data: myPageData } = useQuery(
     ["getMypage"],
@@ -82,7 +90,7 @@ function MyPage() {
   };
 
   const navToBack = () => {
-    navigate(-1);
+    navigate("/");
   };
 
   const LogoutHandler = () => {
@@ -191,7 +199,7 @@ function MyPage() {
       </WholeViewWidth>
     </>
   );
-}
+};
 
 export default MyPage;
 
@@ -407,7 +415,6 @@ const Container = styled.div`
 `;
 
 const ProfilePicture = styled.div`
-  background-color: red;
   width: 120px;
   height: 120px;
   border-radius: 50%;

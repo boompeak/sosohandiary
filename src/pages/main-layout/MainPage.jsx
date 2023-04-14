@@ -15,10 +15,19 @@ import { useQuery } from "react-query";
 import { getDiariesOfSelfmade } from "../../api/mainpage";
 import { getProfile } from "../../api/mypage";
 import { VscBlank } from "react-icons/vsc";
+import { useDispatch } from "react-redux";
+import { changeCurNavbarMode } from "../../contexts/curNavbarModeSlice";
+import defaultProfileImg from "../../assets/defaultProfileImg.jpeg";
 
 const MainPage = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [isNoLogin, setIsNoLogin] = useState(false);
+
+  //navMode 설정
+  useEffect(() => {
+    dispatch(changeCurNavbarMode("HOME"));
+  }, []);
 
   //비로그인 -> 로그인창으로
   const accessToken = window.localStorage.getItem("accessToken");
@@ -133,7 +142,11 @@ const MainPage = () => {
           <div>내가 만든 다이어리</div>
           <CurProfileImage
             style={{ marginRight: "15px" }}
-            url={resOfCurrentUserInfo.data?.data.profileImageUrl}
+            url={
+              resOfCurrentUserInfo.data?.data.profileImageUrl
+                ? resOfCurrentUserInfo.data?.data.profileImageUrl
+                : defaultProfileImg
+            }
             onClick={() => {
               navigate("/mypage");
             }}

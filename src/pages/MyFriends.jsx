@@ -149,7 +149,11 @@ const MyFriends = () => {
                                 <StText fontWeight="bold">
                                   {item.nickname}
                                 </StText>
-                                <StText>{item.statusMessage}</StText>
+                                <StText>
+                                  {item?.statusMessage?.length > 20
+                                    ? item?.statusMessage?.substr(0, 20) + "..."
+                                    : item?.statusMessage}
+                                </StText>
                               </ListContentBox>
                             </ListCards>
                           </div>
@@ -248,7 +252,7 @@ const StyledSwipeableListItem = styled(SwipeableListItem)`
   display: flex;
 `;
 
-const DeleteButton = styled.button`
+const DeleteButton = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -257,7 +261,11 @@ const DeleteButton = styled.button`
   text-align: center;
   border: 1px solid #d9d9d9;
   width: 70px;
+  min-width: 60px;
   height: 100%;
+  cursor: pointer;
+
+  position: relative;
 `;
 
 const LabelArea = styled.div`

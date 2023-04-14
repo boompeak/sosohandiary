@@ -77,7 +77,7 @@ const DiaryDetail = () => {
   };
 
   const goBackHandler = () => {
-    navigate(-1);
+    navigate("/");
   };
 
   const handlePagenationChange = (e, page) => {
@@ -112,9 +112,19 @@ const DiaryDetail = () => {
               ""
             )}
           </HeaderStyle>
-          <MorePageButton onClick={newInnerPaper}>한장 더 쓰기</MorePageButton>
+
+          {data.length === 0 ? (
+            <MorePageButton onClick={newInnerPaper}>
+              작성 시작하기
+            </MorePageButton>
+          ) : (
+            <MorePageButton onClick={newInnerPaper}>
+              페이지 추가하기
+            </MorePageButton>
+          )}
+
           <LabelArea>
-            <div>속지를 추가해주세요</div>
+            <div>작성을 시작해보세요!</div>
           </LabelArea>
         </div>
         <FlipStyle>

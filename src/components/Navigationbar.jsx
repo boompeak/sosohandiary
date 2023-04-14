@@ -9,7 +9,7 @@ import plus from "../assets/navbar/plus.png";
 import { Badge } from "@mui/material";
 import { useQuery } from "react-query";
 import axios from "axios";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import {
   getCommentAlarm,
   getFriendAlarm,
@@ -22,26 +22,32 @@ const Navigationbar = () => {
   const accessToken = window.localStorage.getItem("accessToken");
   const [navMode, setNavMode] = useState("HOME");
 
-  const location = useLocation();
+  // const location = useLocation();
+
+  const { curMode } = useSelector((state) => state.curNavbarModeSlice);
   useEffect(() => {
-    switch (location.pathname) {
-      case "/notification":
-        setNavMode("BELL");
-        return;
-      case "diary":
-        setNavMode("PLUS");
-        return;
-      case "/new-friend":
-        setNavMode("MAGNIFIER");
-        return;
-      case "/mypage":
-        setNavMode("PERSON");
-        return;
-      default:
-        setNavMode("HOME");
-        return;
-    }
-  }, []);
+    setNavMode(curMode);
+  }, [curMode]);
+
+  // useEffect(() => {
+  //   switch (location.pathname) {
+  //     case "/notification":
+  //       setNavMode("BELL");
+  //       return;
+  //     case "diary":
+  //       setNavMode("PLUS");
+  //       return;
+  //     case "/new-friend":
+  //       setNavMode("MAGNIFIER");
+  //       return;
+  //     case "/mypage":
+  //       setNavMode("PERSON");
+  //       return;
+  //     default:
+  //       setNavMode("HOME");
+  //       return;
+  //   }
+  // }, []);
 
   const { data: dataForInviteAlarm } = useQuery(["getInviteAlarmAtNav"], () => {
     return axios.get(`${process.env.REACT_APP_BASEURL}/invite/alarm`, {
@@ -119,7 +125,6 @@ const Navigationbar = () => {
         <div
           onClick={() => {
             goToPage("/");
-            setNavMode("HOME");
           }}
         >
           <Button
@@ -132,7 +137,6 @@ const Navigationbar = () => {
         <div
           onClick={() => {
             goToPage("/notification");
-            setNavMode("BELL");
             // checkAllAlarm();
           }}
         >
@@ -151,7 +155,6 @@ const Navigationbar = () => {
         <div
           onClick={() => {
             goToPage("/diary");
-            setNavMode("PLUS");
           }}
         >
           <Button
@@ -164,7 +167,6 @@ const Navigationbar = () => {
         <div
           onClick={() => {
             goToPage("/new-friend");
-            setNavMode("MAGNIFIER");
           }}
         >
           <Button
@@ -177,7 +179,6 @@ const Navigationbar = () => {
         <div
           onClick={() => {
             goToPage("/mypage");
-            setNavMode("PERSON");
           }}
         >
           <Button

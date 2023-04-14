@@ -3,8 +3,9 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 import TitleBox from "../../components/TitleBox";
 import AlarmList from "../../components/notification/AlarmList";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { WholeViewWidth } from "../../styles/WholeAreaStyle";
+import { changeCurNavbarMode } from "../../contexts/curNavbarModeSlice";
 
 const Notification = () => {
   const accessToken = localStorage.getItem("accessToken");
@@ -20,12 +21,18 @@ const Notification = () => {
   );
 
   const navigate = useNavigate();
+  const dispatch = useDispatch();
 
   useEffect(() => {
     if (accessToken === null) {
       navigate("/login", { replace: true });
     }
   }, [accessToken]);
+
+  // navbar 모드 변경
+  useEffect(() => {
+    dispatch(changeCurNavbarMode("BELL"));
+  }, []);
 
   return (
     <>

@@ -4,10 +4,10 @@ import { MdArrowBack } from "react-icons/md";
 import { VscBlank } from "react-icons/vsc";
 import { useNavigate } from "react-router-dom";
 
-function TitleBox() {
+const TitleBox = () => {
   const navigate = useNavigate();
   const goBack = () => {
-    navigate(-1);
+    navigate("/");
   };
   return (
     <>
@@ -22,7 +22,7 @@ function TitleBox() {
       </ArrowBox>
     </>
   );
-}
+};
 
 export default TitleBox;
 

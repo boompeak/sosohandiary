@@ -244,6 +244,7 @@ const ImageSticker = ({
           // we will reset it back
           node.scaleX(1);
           node.scaleY(1);
+
           onChange({
             ...shapeProps,
             x: node.x(),
@@ -251,6 +252,7 @@ const ImageSticker = ({
             // set minimal value
             width: Math.max(5, node.width() * scaleX),
             height: Math.max(node.height() * scaleY),
+            rotation: node.rotation(),
           });
         }}
       />
@@ -661,6 +663,7 @@ const Drawing = () => {
                     const sticks = stickers.slice();
                     sticks[i] = newAttrs;
                     setStickers(sticks);
+                    console.log(sticks);
                   }}
                 />
               );

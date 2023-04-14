@@ -8,10 +8,13 @@ import AlertMessage from "../../components/alert/AlertMessage";
 import AlertMessageAndNavigate from "../../components/alert/AlertMessage";
 import logoGray from "../../assets/logoGray.png";
 import AlertMessageConfirm from "../../components/alert/AlertMessageForDeleteDiary";
+import { useDispatch } from "react-redux";
+import { changeCurNavbarMode } from "../../contexts/curNavbarModeSlice";
 
 const Diary = () => {
   const accessToken = window.localStorage.getItem("accessToken");
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const [file, setFile] = useState();
   const [title, setTitle] = useState("");
   const [previewImage, setPreviewImage] = useState(logoGray);
@@ -25,6 +28,11 @@ const Diary = () => {
       navigate("/login", { replace: true });
     }
   }, [accessToken]);
+
+  // navbar 모드 변경
+  useEffect(() => {
+    dispatch(changeCurNavbarMode("PLUS"));
+  }, []);
 
   const handleConditionChange = (event) => {
     setDiaryCondition(event.target.value);
@@ -153,7 +161,8 @@ const Diary = () => {
             diaryCondition={diaryCondition}
             onClick={() => {
               setDiaryCondition("PUBLIC");
-            }}>
+            }}
+          >
             전체 공개
           </SelectButtonLeft>
           <CenterColumn></CenterColumn>
@@ -161,7 +170,8 @@ const Diary = () => {
             diaryCondition={diaryCondition}
             onClick={() => {
               setDiaryCondition("PRIVATE");
-            }}>
+            }}
+          >
             친구 공개
           </SelectButtonRight>
         </PublicSelectBox>

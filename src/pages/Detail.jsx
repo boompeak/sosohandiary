@@ -40,9 +40,13 @@ function Detail() {
 
   // 현재 로그인 유저 정보 확인 -> 모달창 권한 여부
   const { data: curUserInfo } = useQuery(["getCurUser"], () => {
-    return axios.get(`${process.env.REACT_APP_BASEURL}/mypage/profile`, {
-      headers: { Authorization: accessToken },
-    });
+    return axios
+      .get(`${process.env.REACT_APP_BASEURL}/mypage/profile`, {
+        headers: { Authorization: accessToken },
+      })
+      .catch((err) => {
+        navigate("/login");
+      });
   });
 
   useEffect(() => {
@@ -81,7 +85,7 @@ function Detail() {
       ) : (
         ""
       )}
-      <StyledGobackButton onClick={() => navigate(-1)} />
+      <StyledGobackButton onClick={() => navigate(`/diaries/${diaryId}`)} />
       {myDiary && (
         <StyledDerailPage>
           <GetUser
