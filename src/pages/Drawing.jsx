@@ -682,7 +682,9 @@ const Drawing = () => {
         </TextAreaStyle>
       </PaperArea>
       <DeleteButtonArea mode={mode}>
-        <SubmitButton onClick={deleteStickerHandler}>스티커 삭제</SubmitButton>
+        <SubmitButton onClick={deleteStickerHandler}>
+          선택한 스티커 삭제
+        </SubmitButton>
       </DeleteButtonArea>
       <AllToolbarStyle isOpenAllToolbar={isOpenAllToolbar}>
         <ToolButton
