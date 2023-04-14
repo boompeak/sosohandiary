@@ -30,6 +30,7 @@ const Signup = () => {
         navigate("/signup-success", { state: data.nickname });
       })
       .catch((err) => {
+        console.log(err);
         setAlertOpen(true);
         setAlertMsg("이미 가입되어있는 이메일입니다");
         setNoChangeForDisableSubmit(true);
@@ -41,6 +42,11 @@ const Signup = () => {
   };
   return (
     <WholeAreaWithMargin>
+      {alertOpen ? (
+        <AlertMessage setAlertOpen={setAlertOpen} message={alertMsg} />
+      ) : (
+        ""
+      )}
       <XandTitle>
         <Title>회원가입</Title>
       </XandTitle>
