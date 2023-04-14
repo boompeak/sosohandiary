@@ -1072,7 +1072,7 @@ const SaveButtonArea = styled.div`
   position: absolute;
   top: 10px;
   right: 10px;
-  z-index: 20;
+  z-index: 10;
   width: 100px;
   font-size: 80px;
   @media (min-width: 700px) {
