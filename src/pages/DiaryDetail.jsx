@@ -39,15 +39,12 @@ const DiaryDetail = () => {
   //속지 조회
   const fetchData = async (page) => {
     const response = await axios
-      .get(
-        `${process.env.REACT_APP_BASEURL}/diary/${diaryId}/detail?page=${curPage}&size=5`,
-        {
-          headers: { Authorization: accessToken },
-        }
-      )
+      .get(`${process.env.REACT_APP_BASEURL}/diary/${diaryId}/detail`, {
+        headers: { Authorization: accessToken },
+      })
       .then((res) => {
-        setData([...res.data.content]); // 객체로 반환되길래 배열로 만듬
-        setPageCount(res.data.pageableCustom.totalPages);
+        console.log(res);
+        setData([...res.data]); // 객체로 반환되길래 배열로 만듬
       });
 
     return response;
@@ -118,20 +115,12 @@ const DiaryDetail = () => {
           </HeaderStyle>
           <MorePageButton onClick={newInnerPaper}>한장 더 쓰기</MorePageButton>
           <LabelArea>
-            <div>밀어서 확인하세요</div>
+            <div>다이어리를 넘겨보세요</div>
           </LabelArea>
         </div>
         <FlipStyle>
           <FlipBook data={data} diaryId={diaryId} />
         </FlipStyle>
-        <PaginationStyle>
-          <Pagination
-            count={pageCount}
-            color="primary"
-            onChange={handlePagenationChange}
-            page={Number(curPage) + 1}
-          />
-        </PaginationStyle>
         <InvisibleDiv></InvisibleDiv>
       </Container>
     </>
@@ -283,6 +272,4 @@ const LabelArea = styled.div`
   height: 10px;
 `;
 
-const InvisibleDiv = styled.div`
-  height: 15px;
-`;
+const InvisibleDiv = styled.div``;

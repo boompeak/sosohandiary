@@ -7,6 +7,7 @@ import { useNavigate } from "react-router-dom";
 import AlertMessage from "../../components/alert/AlertMessage";
 import AlertMessageAndNavigate from "../../components/alert/AlertMessage";
 import logoGray from "../../assets/logoGray.png";
+import AlertMessageConfirm from "../../components/alert/AlertMessageForDeleteDiary";
 
 const Diary = () => {
   const accessToken = window.localStorage.getItem("accessToken");
@@ -18,7 +19,6 @@ const Diary = () => {
   const [alertMsg, setAlertMsg] = useState("");
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertNavigateLink, setAlertNavigateLink] = useState("");
-  const regNickname = /\s/g;
 
   useEffect(() => {
     if (accessToken === null) {

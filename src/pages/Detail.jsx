@@ -49,6 +49,7 @@ function Detail() {
 
   useEffect(() => {
     sheetRef.current.click();
+    window.scrollTo({ left: 0, top: 0, behavior: "smooth" });
   }, []);
 
   //delete
@@ -113,7 +114,6 @@ function Detail() {
                     width: "100%",
                     height: "100%",
                     margin: "10px",
-                    overflow: "hidden",
                   }}
                 >
                   <Thumbnail
@@ -193,7 +193,6 @@ const StyledGobackButton = styled(MdArrowBack)`
 const StyledDetailCardWrapper = styled(WholeViewWidth)`
   display: flex;
   justify-content: center;
-  align-items: center;
   margin-top: 30px;
   overflow: hidden;
   border: none;
@@ -203,12 +202,11 @@ const StyledDetailCard = styled.div`
   display: flex;
   justify-content: center;
   width: 375px;
-  height: 80vh;
+  height: 550px;
   border: none;
   background-color: #f1f1f1;
   border-radius: 30px 30px 0px 0px;
   padding: 10px;
-  overflow: scroll;
 `;
 
 const DetailElement = styled.div`

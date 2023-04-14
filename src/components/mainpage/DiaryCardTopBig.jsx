@@ -91,7 +91,7 @@ const SideLabel = styled.div`
 const Title = styled.div`
   transition: 0.2s;
   font-size: ${({ idx, activeIdxForSelfmade }) =>
-    idx === activeIdxForSelfmade ? "18px" : "13px"};
+    idx === activeIdxForSelfmade ? "16px" : "13px"};
   font-weight: 700;
   margin: 20px 0 20px 15px;
 `;

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import HTMLFlipBook from "react-pageflip";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -11,9 +11,22 @@ const FlipBook = ({ data, diaryId }) => {
     navigate(`/diaries/${diaryId}/${paperId}`);
   };
 
+  const [page, setPage] = useState(0);
+  const totalPage = data.length;
+  const pageRef = useRef();
+
+  const onFlipHandler = (e) => {
+    setPage(e.data);
+  };
   return (
     <FlipBookArea>
-      <HTMLFlipBook width={370} height={500}>
+      <HTMLFlipBook
+        usePortrait={true}
+        width={370}
+        height={500}
+        onFlip={onFlipHandler}
+        ref={pageRef}
+      >
         {data?.map((item, i) => (
           <InnerThumb key={i} onClick={() => goToInnerPaperDetail(item?.id)}>
             <div
@@ -34,6 +47,12 @@ const FlipBook = ({ data, diaryId }) => {
           </InnerThumb>
         ))}
       </HTMLFlipBook>
+      {
+        <ButtonArea>
+          [<span>{page + 1}</span> of
+          <span> {totalPage}</span>]
+        </ButtonArea>
+      }
     </FlipBookArea>
   );
 };
@@ -48,10 +67,19 @@ const FlipBookArea = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  flex-direction: column;
 `;
 
 const Cover = styled.div`
   display: flex;
   justify-content: center;
   margin: 25vh 0;
+`;
+
+const BookMode = styled.div`
+  z-index: -10;
+`;
+
+const ButtonArea = styled.div`
+  margin: 10px;
 `;

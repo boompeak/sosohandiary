@@ -6,6 +6,8 @@ import { VscBlank } from "react-icons/vsc";
 import { MdArrowBack } from "react-icons/md";
 import AlertMessage from "../components/alert/AlertMessage";
 import { getDate } from "../utils/getDate";
+import AlertMessageConfirm from "../components/alert/AlertMessageForDeleteDiary";
+import AlertMessageForDeleteDiary from "../components/alert/AlertMessageForDeleteDiary";
 
 function Page() {
   const accessToken = window.localStorage.getItem("accessToken");
@@ -14,7 +16,9 @@ function Page() {
   const navigate = useNavigate();
   const [previewImage, setPreviewImage] = useState(mypage?.data?.img);
   const [alertMsg, setAlertMsg] = useState("");
+  const [alertMsgOfDelete, setAlertMsgOfDelete] = useState("");
   const [alertOpen, setAlertOpen] = useState(false);
+  const [alertOpenDeleteAlert, setAlertOpenDeleteAlert] = useState(false);
   const [alertNavigateLink, setAlertNavigateLink] = useState("");
   const [alertReload, setAlertReload] = useState(false);
 
@@ -29,8 +33,6 @@ function Page() {
 
   // 삭제
   const handleDelete = async () => {
-    const confirmed = window.confirm("삭제하시겠습니까?");
-    if (!confirmed) return;
     try {
       const config = {
         headers: {
@@ -43,9 +45,12 @@ function Page() {
       );
       setAlertMsg("삭제가 완료되었습니다!");
       setAlertOpen(true);
-      setAlertNavigateLink(`/mypage`);
+      navigate("/mypage");
+      setAlertOpenDeleteAlert(false);
+      setAlertOpen(false);
     } catch (error) {
-      console.error("다이어리 삭제에 실패했습니다:", error);
+      setAlertMsg("다이어리 삭제에 실패했습니다");
+      setAlertOpen(true);
     }
   };
 
@@ -60,6 +65,16 @@ function Page() {
           message={alertMsg}
           navigateLink={alertNavigateLink}
           reload={alertReload}
+        />
+      ) : (
+        ""
+      )}
+
+      {alertOpenDeleteAlert ? (
+        <AlertMessageForDeleteDiary
+          setAlertOpenDeleteAlert={setAlertOpenDeleteAlert}
+          message={alertMsgOfDelete}
+          diaryId={mypage.data.id}
         />
       ) : (
         ""
@@ -89,7 +104,10 @@ function Page() {
         <Upbutton
           backgroundColor="#FC9F9F"
           color="white"
-          onClick={handleDelete}
+          onClick={() => {
+            setAlertOpenDeleteAlert(true);
+            setAlertMsgOfDelete("다이어리를 삭제하시겠습니까?");
+          }}
         >
           삭제하기
         </Upbutton>

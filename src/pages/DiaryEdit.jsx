@@ -20,6 +20,7 @@ function DiaryEdit() {
 
   const [file, setFile] = useState();
   const [title, setTitle] = useState(mypage?.data?.title);
+  const titleBeforeChange = mypage?.data?.title;
   const [previewImage, setPreviewImage] = useState(mypage?.data?.img);
   const [diaryCondition, setDiaryCondition] = useState(
     mypage?.data?.diaryCondition
@@ -62,6 +63,10 @@ function DiaryEdit() {
   const handleClick = useCallback(
     async (e) => {
       e.preventDefault();
+      if (title === titleBeforeChange) {
+        setAlertMsg("제목과 사진을 전부 수정해주세요");
+        setAlertOpen(true);
+      }
       const formData = new FormData();
 
       formData.append("img", file);
@@ -87,7 +92,9 @@ function DiaryEdit() {
             },
           }
         );
-        navigate(`/mypage`);
+        setAlertMsg("수정이 완료되었습니다");
+        setAlertOpen(true);
+        setAlertNavigateLink("/mypage");
       } catch (error) {
         setAlertMsg("제목과 사진을 전부 수정해주세요");
         setAlertOpen(true);
@@ -205,7 +212,6 @@ function DiaryEdit() {
           setAlertOpen={setAlertOpen}
           message={alertMsg}
           navigateLink={alertNavigateLink}
-          reload={alertReload}
         />
       ) : (
         ""
@@ -222,7 +228,7 @@ function DiaryEdit() {
       <Card>
         <SideLabel colorCode={"#E0C7FF"}></SideLabel>
         <InnerArea>
-          <Title>{title}</Title>
+          {title ? <Title>{title}</Title> : <Title>&nbsp;</Title>}
           <ImgArea>
             {previewImage && ( // 업로드하려는 이미지를 미리 보여줌
               <img
@@ -234,6 +240,7 @@ function DiaryEdit() {
                   width: "100px",
                   height: "100px",
                   borderRadius: "25px",
+                  objectFit: "cover",
                 }}
                 onClick={imgClickHandler}
               />

@@ -157,7 +157,7 @@ const MainPage = () => {
                   idx={0}
                   activeIdxForSelfmade={activeIdxForSelfmade}
                   item={{
-                    title: "로그인하기",
+                    title: "다이어리 만들기",
                   }}
                 ></DiaryCardTopBig>
               </SwiperSlide>
@@ -172,7 +172,7 @@ const MainPage = () => {
                   idx={0}
                   activeIdxForSelfmade={activeIdxForSelfmade}
                   item={{
-                    title: "로그인하기",
+                    title: "다이어리 만들기",
                   }}
                 ></DiaryCardTopBig>
               </SwiperSlide>
