@@ -43,6 +43,11 @@ const Diary = () => {
 
     const formData = new FormData();
     formData.append("img", file);
+    if (title.trim() === "") {
+      setAlertMsg("공백은 입력할 수 없습니다");
+      setAlertOpen(true);
+      return;
+    }
 
     const data = {
       title: title.trim(),
