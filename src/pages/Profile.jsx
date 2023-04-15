@@ -69,9 +69,10 @@ function Profile() {
   const mutation = useMutation(() => editProfile(formData, accessToken), {
     onSuccess: () => {
       getProfile();
+      navigate("/mypage");
     },
-    onError: () => {
-      setAlertMsg("프로필 변경 실패! 사진 용량이 큽니다.");
+    onError: (data) => {
+      setAlertMsg("프로필 변경 실패!");
       setAlertOpen(true);
     },
   });
@@ -380,6 +381,7 @@ const StTextarea = styled.textarea`
   font-size: 16px;
   margin-bottom: 20px;
   background: #f5f5f5;
+  resize: none;
 `;
 
 const Label = styled.div`

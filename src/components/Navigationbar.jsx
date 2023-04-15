@@ -10,11 +10,7 @@ import { Badge } from "@mui/material";
 import { useQuery } from "react-query";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-import {
-  getCommentAlarm,
-  getFriendAlarm,
-  getInviteAlarm,
-} from "../contexts/alarmSlice";
+import { getCommentAlarm, getFriendAlarm, getInviteAlarm } from "../contexts/alarmSlice";
 
 const Navigationbar = () => {
   const navigate = useNavigate();
@@ -22,32 +18,10 @@ const Navigationbar = () => {
   const accessToken = window.localStorage.getItem("accessToken");
   const [navMode, setNavMode] = useState("HOME");
 
-  // const location = useLocation();
-
   const { curMode } = useSelector((state) => state.curNavbarModeSlice);
   useEffect(() => {
     setNavMode(curMode);
   }, [curMode]);
-
-  // useEffect(() => {
-  //   switch (location.pathname) {
-  //     case "/notification":
-  //       setNavMode("BELL");
-  //       return;
-  //     case "diary":
-  //       setNavMode("PLUS");
-  //       return;
-  //     case "/new-friend":
-  //       setNavMode("MAGNIFIER");
-  //       return;
-  //     case "/mypage":
-  //       setNavMode("PERSON");
-  //       return;
-  //     default:
-  //       setNavMode("HOME");
-  //       return;
-  //   }
-  // }, []);
 
   const { data: dataForInviteAlarm } = useQuery(["getInviteAlarmAtNav"], () => {
     return axios.get(`${process.env.REACT_APP_BASEURL}/invite/alarm`, {
@@ -55,59 +29,35 @@ const Navigationbar = () => {
     });
   });
 
-  const { data: dataForFriendAlarm } = useQuery(
-    ["getFriendRequestsAtNav"],
-    () => {
-      return axios.get(`${process.env.REACT_APP_BASEURL}/friend/request`, {
-        headers: { Authorization: accessToken },
-      });
-    }
-  );
+  const { data: dataForFriendAlarm } = useQuery(["getFriendRequestsAtNav"], () => {
+    return axios.get(`${process.env.REACT_APP_BASEURL}/friend/request`, {
+      headers: { Authorization: accessToken },
+    });
+  });
 
-  const { data: dataForCommentAlarm } = useQuery(
-    ["getCommentAlarmAtNav"],
-    () => {
-      return axios.get(`${process.env.REACT_APP_BASEURL}/comment/alarm`, {
-        headers: { Authorization: accessToken },
-      });
-    }
-  );
+  const { data: dataForCommentAlarm } = useQuery(["getCommentAlarmAtNav"], () => {
+    return axios.get(`${process.env.REACT_APP_BASEURL}/comment/alarm`, {
+      headers: { Authorization: accessToken },
+    });
+  });
 
-  dispatch(
-    getCommentAlarm(
-      dataForCommentAlarm?.data.filter((item) => item.alarm === false)
-    )
-  );
-  dispatch(
-    getFriendAlarm(
-      dataForFriendAlarm?.data.filter((item) => item.alarm === false)
-    )
-  );
-  dispatch(
-    getInviteAlarm(
-      dataForInviteAlarm?.data.filter((item) => item.alarm === false)
-    )
-  );
+  dispatch(getCommentAlarm(dataForCommentAlarm?.data.filter((item) => item.alarm === false)));
+  dispatch(getFriendAlarm(dataForFriendAlarm?.data.filter((item) => item.alarm === false)));
+  dispatch(getInviteAlarm(dataForInviteAlarm?.data.filter((item) => item.alarm === false)));
 
-  let friendAlarmCnt = dataForFriendAlarm?.data.filter(
-    (item) => item.alarm === false
-  ).length;
+  let friendAlarmCnt = dataForFriendAlarm?.data.filter((item) => item.alarm === false).length;
 
   if (isNaN(friendAlarmCnt)) {
     friendAlarmCnt = 0;
   }
 
-  let commentAlarmCnt = dataForCommentAlarm?.data.filter(
-    (item) => item.alarm === false
-  ).length;
+  let commentAlarmCnt = dataForCommentAlarm?.data.filter((item) => item.alarm === false).length;
 
   if (isNaN(commentAlarmCnt)) {
     commentAlarmCnt = 0;
   }
 
-  let inviteAlarmCnt = dataForInviteAlarm?.data.filter(
-    (item) => item.alarm === false
-  ).length;
+  let inviteAlarmCnt = dataForInviteAlarm?.data.filter((item) => item.alarm === false).length;
 
   if (isNaN(inviteAlarmCnt)) {
     inviteAlarmCnt = 0;
@@ -127,12 +77,7 @@ const Navigationbar = () => {
             goToPage("/");
           }}
         >
-          <Button
-            src={home}
-            buttonType={"HOME"}
-            navMode={navMode}
-            style={{ cursor: "pointer" }}
-          />
+          <Button src={home} buttonType={"HOME"} navMode={navMode} style={{ cursor: "pointer" }} />
         </div>
         <div
           onClick={() => {
@@ -140,16 +85,8 @@ const Navigationbar = () => {
             // checkAllAlarm();
           }}
         >
-          <Badge
-            badgeContent={isNaN(totalAlarmNumber) ? "" : totalAlarmNumber}
-            color="primary"
-          >
-            <Button
-              src={bell}
-              buttonType={"BELL"}
-              navMode={navMode}
-              style={{ cursor: "pointer" }}
-            />
+          <Badge badgeContent={isNaN(totalAlarmNumber) ? "" : totalAlarmNumber} color="primary">
+            <Button src={bell} buttonType={"BELL"} navMode={navMode} style={{ cursor: "pointer" }} />
           </Badge>
         </div>
         <div
@@ -157,36 +94,21 @@ const Navigationbar = () => {
             goToPage("/diary");
           }}
         >
-          <Button
-            src={plus}
-            buttonType={"PLUS"}
-            navMode={navMode}
-            style={{ cursor: "pointer" }}
-          />
+          <Button src={plus} buttonType={"PLUS"} navMode={navMode} style={{ cursor: "pointer" }} />
         </div>
         <div
           onClick={() => {
             goToPage("/new-friend");
           }}
         >
-          <Button
-            src={magnifier}
-            buttonType={"MAGNIFIER"}
-            navMode={navMode}
-            style={{ cursor: "pointer" }}
-          />
+          <Button src={magnifier} buttonType={"MAGNIFIER"} navMode={navMode} style={{ cursor: "pointer" }} />
         </div>
         <div
           onClick={() => {
             goToPage("/mypage");
           }}
         >
-          <Button
-            src={person}
-            buttonType={"PERSON"}
-            navMode={navMode}
-            style={{ cursor: "pointer" }}
-          />
+          <Button src={person} buttonType={"PERSON"} navMode={navMode} style={{ cursor: "pointer" }} />
         </div>
       </NavbarArea>
     </div>
@@ -206,7 +128,7 @@ const NavbarArea = styled.div`
   z-index: 1;
   bottom: -1px;
   border-radius: 20px 20px 0 0;
-  box-shadow: -2px -2px 9px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 0px 5px rgba(192, 193, 194, 0.527);
 `;
 
 const Button = styled.img`

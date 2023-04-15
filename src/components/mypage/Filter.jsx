@@ -33,6 +33,7 @@ const Filter = ({ setCards, existCards, placeholder }) => {
           <SearchStyle>
             <Searchinput
               type="text"
+              maxLength={11}
               onChange={handleOnChangeFilterInput}
               placeholder={placeholder}
               ref={inputRef}

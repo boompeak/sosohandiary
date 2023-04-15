@@ -5,7 +5,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { useInView } from "react-intersection-observer";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { useNavigate } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import ellipse from "../../assets/main-page/Ellipse 111.png";
@@ -18,6 +18,7 @@ import { VscBlank } from "react-icons/vsc";
 import { useDispatch } from "react-redux";
 import { changeCurNavbarMode } from "../../contexts/curNavbarModeSlice";
 import defaultProfileImg from "../../assets/defaultProfileImg.jpeg";
+import { isTokenNull } from "../../api/isTokenNull";
 
 const MainPage = () => {
   const navigate = useNavigate();
@@ -31,7 +32,11 @@ const MainPage = () => {
 
   //비로그인 -> 로그인창으로
   const accessToken = window.localStorage.getItem("accessToken");
+  console.log(accessToken);
 
+  // if (accessToken === null) {
+  //   navigate("/login");
+  // }
   // 로그인 유저 정보
   const {
     data: dataOfUserInfo,
@@ -76,15 +81,12 @@ const MainPage = () => {
   useEffect(() => {
     setIsLoadingForPrivate(true);
     axios
-      .get(
-        `${process.env.REACT_APP_BASEURL}/invite?page=${privatePage}&size=10`,
-        {
-          headers: { Authorization: accessToken },
-        }
-      )
+      .get(`${process.env.REACT_APP_BASEURL}/invite?page=${privatePage}&size=10`, {
+        headers: { Authorization: accessToken },
+      })
       .then((res) => {
+        console.log("res : ", res);
         setIsLoadingForPrivate(false);
-
         if (res.data === "") {
           return;
         }
@@ -224,11 +226,7 @@ const MainPage = () => {
         <div style={{ margin: "10px 10px 80px 10px" }}>
           <Label>공개 다이어리</Label>
           <SwiperArea>
-            <Swiper
-              slidesPerView={"auto"}
-              spaceBetween={20}
-              className="mySwiper"
-            >
+            <Swiper slidesPerView={"auto"} spaceBetween={20} className="mySwiper">
               {dataListForPublic.map((item, i) => (
                 <SwiperSlide
                   key={i}
@@ -243,7 +241,7 @@ const MainPage = () => {
                 <SwiperSlide
                   style={{
                     width: "375px",
-                    backgroundColor: "#e4e4e4",
+                    backgroundColor: "#e1e7fc",
                     borderRadius: "25px",
                   }}
                 >
@@ -252,16 +250,8 @@ const MainPage = () => {
               ) : (
                 ""
               )}
-              {IsLoadingForPublic ? (
-                <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
-              ) : (
-                ""
-              )}
-              <span
-                slot="wrapper-end"
-                ref={refForPublic}
-                style={{ margin: "0px 10px" }}
-              >
+              {IsLoadingForPublic ? <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div> : ""}
+              <span slot="wrapper-end" ref={refForPublic} style={{ margin: "0px 10px" }}>
                 <Skeleton width={140} height={196} borderRadius={25} />
               </span>
               <span slot="wrapper-end" style={{ margin: "0px 10px" }}>
@@ -274,11 +264,7 @@ const MainPage = () => {
           </SwiperArea>
           <Label>초대된 다이어리</Label>
           <SwiperArea>
-            <Swiper
-              slidesPerView={"auto"}
-              spaceBetween={20}
-              className="mySwiper"
-            >
+            <Swiper slidesPerView={"auto"} spaceBetween={20} className="mySwiper">
               {dataListForPrivate.map((item) => (
                 <SwiperSlide
                   key={item.id}
@@ -293,7 +279,8 @@ const MainPage = () => {
                 <SwiperSlide
                   style={{
                     width: "100vw",
-                    backgroundColor: "#e4e4e4",
+                    backgroundColor: "##e1e7fc",
+                    borderRadius: "25px",
                   }}
                   onClick={goToLogin}
                 >
@@ -303,7 +290,7 @@ const MainPage = () => {
                 <SwiperSlide
                   style={{
                     width: "375px",
-                    backgroundColor: "#e4e4e4",
+                    backgroundColor: "#e1e7fc",
                     borderRadius: "25px",
                   }}
                 >
@@ -312,16 +299,8 @@ const MainPage = () => {
               ) : (
                 ""
               )}
-              {IsLoadingForPrivate ? (
-                <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
-              ) : (
-                ""
-              )}
-              <span
-                slot="wrapper-end"
-                ref={refForPrivate}
-                style={{ margin: "0px 10px 0px 0px" }}
-              >
+              {IsLoadingForPrivate ? <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div> : ""}
+              <span slot="wrapper-end" ref={refForPrivate} style={{ margin: "0px 10px 0px 0px" }}>
                 <Skeleton width={140} height={196} borderRadius={25} />
               </span>
               <span slot="wrapper-end" style={{ margin: "0px 10px" }}>
@@ -417,8 +396,7 @@ const SlideOne = styled.div`
   z-index: 1;
   width: 100%;
   height: 100%;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
-    url(${({ imageUrl }) => imageUrl});
+  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(${({ imageUrl }) => imageUrl});
   background-size: cover;
 `;
 

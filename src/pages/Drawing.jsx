@@ -43,7 +43,10 @@ import CssBaseline from "@mui/material/CssBaseline";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
 import { List } from "antd";
 import { Grid, ListItemText } from "@mui/material";
-import { IoIosSave } from "react-icons/io";
+import { BiSave } from "react-icons/bi";
+import { IoIosArrowBack } from "react-icons/io";
+
+import AlertMessage from "../components/alert/AlertMessage";
 
 // <---------------스티커 크기 조절----------------->
 const ImageSticker = ({
@@ -283,6 +286,12 @@ const Drawing = () => {
   const [touchStartY, setTouchStartY] = useState(0);
   const [movementY, setmovementY] = useState(0);
   const [drawerOpen, setDrawerOpen] = useState(false);
+
+  const [alertMsg, setAlertMsg] = useState("");
+  const [alertOpen, setAlertOpen] = useState(false);
+  const [alertNavigateLink, setAlertNavigateLink] = useState("");
+  const [alertReload, setAlertReload] = useState(false);
+
   const isDrawing = useRef(false);
   const { diaryid, paperid } = useParams();
 
@@ -438,7 +447,8 @@ const Drawing = () => {
         }
       )
       .then((res) => {
-        window.location.reload();
+        setAlertMsg("저장완료");
+        setAlertOpen(true);
       });
   };
 
@@ -610,278 +620,300 @@ const Drawing = () => {
   };
   // 도화지
   return (
-    <div style={{ overflow: "hidden", width: "100vw" }}>
-      <DiaryBack src={diaryBack} onClick={goBackDiaryHandler} />
-      {/* <SaveButton src={saveImg} onClick={handleSave} /> */}
-      <SaveButtonArea>
-        <IoIosSave onClick={handleSave} />
-      </SaveButtonArea>
-      <PaperArea>
-        <Stage
-          width={375}
-          height={600}
-          onMouseDown={handleMouseDown}
-          onMousemove={handleMouseMove}
-          onMouseup={handleMouseUp}
-          onTouchStart={handleMouseDown}
-          onTouchMove={handleMouseMove}
-          onTouchEnd={handleMouseUp}
-          style={{
-            position: "absolute",
-            top: "0px",
+    <>
+      {alertOpen ? (
+        <AlertMessage
+          setAlertOpen={setAlertOpen}
+          message={alertMsg}
+          navigateLink={alertNavigateLink}
+          reload={alertReload}
+        />
+      ) : (
+        ""
+      )}
+
+      <div style={{ overflow: "hidden", width: "100vw" }}>
+        <BackButtonArea>
+          <IoIosArrowBack
+            className="IoIosArrowBack"
+            onClick={goBackDiaryHandler}
+          />
+        </BackButtonArea>
+        <SaveButtonArea>
+          <BiSave className="BiSave" onClick={handleSave} />
+        </SaveButtonArea>
+        <PaperArea>
+          <Stage
+            width={375}
+            height={600}
+            onMouseDown={handleMouseDown}
+            onMousemove={handleMouseMove}
+            onMouseup={handleMouseUp}
+            onTouchStart={handleMouseDown}
+            onTouchMove={handleMouseMove}
+            onTouchEnd={handleMouseUp}
+            style={{
+              position: "absolute",
+              top: "0px",
+            }}
+          >
+            <Layer>
+              {lines.map((line, i) => (
+                <Line
+                  key={i}
+                  points={line.points}
+                  stroke={line.lineColor}
+                  strokeWidth={line.lineWidth}
+                  tension={0.5}
+                  lineCap="round"
+                  lineJoin="round"
+                  globalCompositeOperation={
+                    line.lineTool === "eraser"
+                      ? "destination-out"
+                      : "source-over"
+                  }
+                />
+              ))}
+              {stickers.map((sticker, i) => {
+                return (
+                  <ImageSticker
+                    key={i}
+                    mode={mode}
+                    shapeProps={sticker}
+                    isSelected={sticker.id === selectedId}
+                    sticker={sticker}
+                    onSelect={() => {
+                      if (mode === "STICKER") {
+                        selectShape(sticker.id);
+                      }
+                    }}
+                    onChange={(newAttrs) => {
+                      const sticks = stickers.slice();
+                      sticks[i] = newAttrs;
+                      setStickers(sticks);
+                      console.log(sticks);
+                    }}
+                  />
+                );
+              })}
+            </Layer>
+          </Stage>
+          <TextAreaStyle mode={mode}>
+            <Editor
+              editorState={editorState}
+              onChange={setEditorState}
+              onEditorStateChange={handleKeyCommand}
+              handleBeforeInput={handleBeforeInput}
+              handlePastedText={handlePastedText}
+            />
+          </TextAreaStyle>
+        </PaperArea>
+        <DeleteButtonArea mode={mode}>
+          <SubmitButton onClick={deleteStickerHandler}>
+            선택한 스티커 삭제
+          </SubmitButton>
+        </DeleteButtonArea>
+        <AllToolbarStyle isOpenAllToolbar={isOpenAllToolbar}>
+          <ToolButton
+            src={textImg}
+            onClick={() => touchAllToolbarButtonHandler("TEXT")}
+            style={{ cursor: "pointer" }}
+          />
+          <ToolButton
+            src={drawImg}
+            onClick={() => touchAllToolbarButtonHandler("DRAW")}
+            style={{ cursor: "pointer" }}
+          />
+          <ToolButton
+            src={stickerImg}
+            onClick={() => {
+              setDrawerOpen(true);
+              touchAllToolbarButtonHandler("STICKER");
+            }}
+            style={{ cursor: "pointer" }}
+          />
+        </AllToolbarStyle>
+        <TextToolbarStyle isOpenTextToolbar={isOpenTextToolbar}>
+          <ToolButton
+            src={backImg}
+            width="25px"
+            height="35px"
+            onMouseDown={() => {
+              setIsOpenTextToolbar(false);
+              setIsOpenAllToolbar(true);
+              setMode("TEXT");
+            }}
+          />
+          <ToolButton
+            src={uImg}
+            width="40px"
+            height="40px"
+            onMouseDown={() => handleTogggleClick("UNDERLINE")}
+          />
+          <ToolButton
+            src={sImg}
+            width="40px"
+            height="40px"
+            onMouseDown={() => handleTogggleClick("STRIKETHROUGH")}
+          />
+          <ToolButton
+            src={iImg}
+            width="40px"
+            height="40px"
+            onMouseDown={() => handleTogggleClick("ITALIC")}
+          />
+          <ToolButton
+            src={bImg}
+            width="40px"
+            height="40px"
+            onMouseDown={() => handleTogggleClick("BOLD")}
+          />
+        </TextToolbarStyle>
+        <DrawToolbarStyle isOpenDrawToolbar={isOpenDrawToolbar}>
+          <ToolButton
+            src={backImg}
+            width="25px"
+            height="35px"
+            style={{ marginRight: "40px" }}
+            onClick={() => {
+              setIsOpenDrawToolbar(false);
+              setIsOpenAllToolbar(true);
+              setMode("TEXT");
+            }}
+          />
+          <a id={lineTool === "pen" ? "openerPenWidth" : ""}>
+            <PenStyle
+              src={pen}
+              lineTool={lineTool}
+              onClick={() => {
+                setLineTool("pen");
+              }}
+            />
+          </a>
+          <Tooltip
+            anchorSelect="#openerPenWidth"
+            clickable
+            place="left"
+            noArrow={true}
+            style={{ backgroundColor: "rgba(150,150,150,0.5)" }}
+          >
+            <WidthArea>
+              <WidthButton
+                src={widthSmall}
+                onMouseDown={() => {
+                  setLineWidth(5);
+                  setLineTool("pen");
+                }}
+              ></WidthButton>
+              <WidthButton
+                src={widthMedium}
+                onMouseDown={() => {
+                  setLineWidth(10);
+                  setLineTool("pen");
+                }}
+              ></WidthButton>
+              <WidthButton
+                src={widthLarge}
+                onMouseDown={() => {
+                  setLineWidth(20);
+                  setLineTool("pen");
+                }}
+              ></WidthButton>
+            </WidthArea>
+          </Tooltip>
+
+          <a id="openerEraserWidth">
+            <EraserStyle
+              src={eraser}
+              lineTool={lineTool}
+              onClick={() => {
+                setLineTool("eraser");
+              }}
+            />
+          </a>
+          <Tooltip
+            anchorSelect="#openerEraserWidth"
+            clickable
+            place="left"
+            noArrow={true}
+            style={{ backgroundColor: "rgba(150,150,150,0.5)" }}
+          >
+            <WidthArea>
+              <WidthButton
+                src={widthSmallEraser}
+                onMouseDown={() => {
+                  setLineWidth(5);
+                  setLineTool("eraser");
+                }}
+              ></WidthButton>
+              <WidthButton
+                src={widthMediumEraser}
+                onMouseDown={() => {
+                  setLineWidth(10);
+                  setLineTool("eraser");
+                }}
+              ></WidthButton>
+              <WidthButton
+                src={widthLargeEraser}
+                onMouseDown={() => {
+                  setLineWidth(20);
+                  setLineTool("eraser");
+                }}
+              ></WidthButton>
+            </WidthArea>
+          </Tooltip>
+          {colorPallette.map((item, i) => (
+            <ColorPea
+              key={i}
+              color={item}
+              lineColor={lineColor}
+              onClick={() => setLineColor(item)}
+            ></ColorPea>
+          ))}
+        </DrawToolbarStyle>
+        <StickerToolbarStyle
+          isOpenStickerToolbar={isOpenStickerToolbar}
+          onTouchStart={(e) => {
+            setTouchStartY(e.touches[0].clientY);
+          }}
+          onTouchMove={(e) => {
+            if (e.touches[0].clientY - touchStartY > 10) {
+              setIsOpenStickerToolbar(false);
+              setIsOpenAllToolbar(true);
+            }
+          }}
+          onMouseDown={(e) => {
+            setTouchStartY(e.clientY);
+          }}
+          onMouseUp={(e) => {
+            if (e.clientY - touchStartY > 10) {
+              setIsOpenStickerToolbar(false);
+              setIsOpenAllToolbar(true);
+            }
           }}
         >
-          <Layer>
-            {lines.map((line, i) => (
-              <Line
-                key={i}
-                points={line.points}
-                stroke={line.lineColor}
-                strokeWidth={line.lineWidth}
-                tension={0.5}
-                lineCap="round"
-                lineJoin="round"
-                globalCompositeOperation={
-                  line.lineTool === "eraser" ? "destination-out" : "source-over"
-                }
-              />
-            ))}
-            {stickers.map((sticker, i) => {
-              return (
-                <ImageSticker
-                  key={i}
-                  mode={mode}
-                  shapeProps={sticker}
-                  isSelected={sticker.id === selectedId}
-                  sticker={sticker}
-                  onSelect={() => {
-                    if (mode === "STICKER") {
-                      selectShape(sticker.id);
-                    }
-                  }}
-                  onChange={(newAttrs) => {
-                    const sticks = stickers.slice();
-                    sticks[i] = newAttrs;
-                    setStickers(sticks);
-                    console.log(sticks);
+          <StickerTitle>스티커</StickerTitle>
+          <Grid
+            container
+            spacing={{ xs: 2, md: 2, sm: 2 }}
+            columns={{ xs: 8, sm: 8, md: 8 }}
+          >
+            {stickerUrlList.map((item, i) => (
+              <Grid item xs={2} sm={2} md={2} key={i}>
+                <StickerPea
+                  imgUrl={item}
+                  onClick={() => {
+                    addStickerButtonHandler(i);
+                    setIsOpenStickerToolbar(false);
+                    setIsOpenAllToolbar(true);
                   }}
                 />
-              );
-            })}
-          </Layer>
-        </Stage>
-        <TextAreaStyle mode={mode}>
-          <Editor
-            editorState={editorState}
-            onChange={setEditorState}
-            onEditorStateChange={handleKeyCommand}
-            handleBeforeInput={handleBeforeInput}
-            handlePastedText={handlePastedText}
-          />
-        </TextAreaStyle>
-      </PaperArea>
-      <DeleteButtonArea mode={mode}>
-        <SubmitButton onClick={deleteStickerHandler}>
-          선택한 스티커 삭제
-        </SubmitButton>
-      </DeleteButtonArea>
-      <AllToolbarStyle isOpenAllToolbar={isOpenAllToolbar}>
-        <ToolButton
-          src={textImg}
-          onClick={() => touchAllToolbarButtonHandler("TEXT")}
-        />
-        <ToolButton
-          src={drawImg}
-          onClick={() => touchAllToolbarButtonHandler("DRAW")}
-        />
-        <ToolButton
-          src={stickerImg}
-          onClick={() => {
-            setDrawerOpen(true);
-            touchAllToolbarButtonHandler("STICKER");
-          }}
-        />
-      </AllToolbarStyle>
-      <TextToolbarStyle isOpenTextToolbar={isOpenTextToolbar}>
-        <ToolButton
-          src={backImg}
-          width="25px"
-          height="35px"
-          onMouseDown={() => {
-            setIsOpenTextToolbar(false);
-            setIsOpenAllToolbar(true);
-            setMode("TEXT");
-          }}
-        />
-        <ToolButton
-          src={uImg}
-          width="40px"
-          height="40px"
-          onMouseDown={() => handleTogggleClick("UNDERLINE")}
-        />
-        <ToolButton
-          src={sImg}
-          width="40px"
-          height="40px"
-          onMouseDown={() => handleTogggleClick("STRIKETHROUGH")}
-        />
-        <ToolButton
-          src={iImg}
-          width="40px"
-          height="40px"
-          onMouseDown={() => handleTogggleClick("ITALIC")}
-        />
-        <ToolButton
-          src={bImg}
-          width="40px"
-          height="40px"
-          onMouseDown={() => handleTogggleClick("BOLD")}
-        />
-      </TextToolbarStyle>
-      <DrawToolbarStyle isOpenDrawToolbar={isOpenDrawToolbar}>
-        <ToolButton
-          src={backImg}
-          width="25px"
-          height="35px"
-          style={{ marginRight: "40px" }}
-          onClick={() => {
-            setIsOpenDrawToolbar(false);
-            setIsOpenAllToolbar(true);
-            setMode("TEXT");
-          }}
-        />
-        <a id={lineTool === "pen" ? "openerPenWidth" : ""}>
-          <PenStyle
-            src={pen}
-            lineTool={lineTool}
-            onClick={() => {
-              setLineTool("pen");
-            }}
-          />
-        </a>
-        <Tooltip
-          anchorSelect="#openerPenWidth"
-          clickable
-          place="left"
-          noArrow={true}
-          style={{ backgroundColor: "rgba(150,150,150,0.5)" }}
-        >
-          <WidthArea>
-            <WidthButton
-              src={widthSmall}
-              onMouseDown={() => {
-                setLineWidth(5);
-                setLineTool("pen");
-              }}
-            ></WidthButton>
-            <WidthButton
-              src={widthMedium}
-              onMouseDown={() => {
-                setLineWidth(10);
-                setLineTool("pen");
-              }}
-            ></WidthButton>
-            <WidthButton
-              src={widthLarge}
-              onMouseDown={() => {
-                setLineWidth(20);
-                setLineTool("pen");
-              }}
-            ></WidthButton>
-          </WidthArea>
-        </Tooltip>
-
-        <a id="openerEraserWidth">
-          <EraserStyle
-            src={eraser}
-            lineTool={lineTool}
-            onClick={() => {
-              setLineTool("eraser");
-            }}
-          />
-        </a>
-        <Tooltip
-          anchorSelect="#openerEraserWidth"
-          clickable
-          place="left"
-          noArrow={true}
-          style={{ backgroundColor: "rgba(150,150,150,0.5)" }}
-        >
-          <WidthArea>
-            <WidthButton
-              src={widthSmallEraser}
-              onMouseDown={() => {
-                setLineWidth(5);
-                setLineTool("eraser");
-              }}
-            ></WidthButton>
-            <WidthButton
-              src={widthMediumEraser}
-              onMouseDown={() => {
-                setLineWidth(10);
-                setLineTool("eraser");
-              }}
-            ></WidthButton>
-            <WidthButton
-              src={widthLargeEraser}
-              onMouseDown={() => {
-                setLineWidth(20);
-                setLineTool("eraser");
-              }}
-            ></WidthButton>
-          </WidthArea>
-        </Tooltip>
-        {colorPallette.map((item, i) => (
-          <ColorPea
-            key={i}
-            color={item}
-            lineColor={lineColor}
-            onClick={() => setLineColor(item)}
-          ></ColorPea>
-        ))}
-      </DrawToolbarStyle>
-      <StickerToolbarStyle
-        isOpenStickerToolbar={isOpenStickerToolbar}
-        onTouchStart={(e) => {
-          setTouchStartY(e.touches[0].clientY);
-        }}
-        onTouchMove={(e) => {
-          if (e.touches[0].clientY - touchStartY > 10) {
-            setIsOpenStickerToolbar(false);
-            setIsOpenAllToolbar(true);
-          }
-        }}
-        onMouseDown={(e) => {
-          setTouchStartY(e.clientY);
-        }}
-        onMouseUp={(e) => {
-          if (e.clientY - touchStartY > 10) {
-            setIsOpenStickerToolbar(false);
-            setIsOpenAllToolbar(true);
-          }
-        }}
-      >
-        <StickerTitle>스티커</StickerTitle>
-        <Grid
-          container
-          spacing={{ xs: 2, md: 2, sm: 2 }}
-          columns={{ xs: 8, sm: 8, md: 8 }}
-        >
-          {stickerUrlList.map((item, i) => (
-            <Grid item xs={2} sm={2} md={2} key={i}>
-              <StickerPea
-                imgUrl={item}
-                onClick={() => {
-                  addStickerButtonHandler(i);
-                  setIsOpenStickerToolbar(false);
-                  setIsOpenAllToolbar(true);
-                }}
-              />
-            </Grid>
-          ))}
-        </Grid>
-      </StickerToolbarStyle>
-    </div>
+              </Grid>
+            ))}
+          </Grid>
+        </StickerToolbarStyle>
+      </div>
+    </>
   );
 };
 
@@ -1066,6 +1098,21 @@ const SubmitButton = styled.div`
   position: fixed;
   top: 0px;
 `;
+const BackButtonArea = styled.div`
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  z-index: 10;
+  width: 100px;
+  font-size: 70px;
+  cursor: pointer;
+  @media (min-width: 700px) {
+    width: 80px;
+  }
+  .IoIosArrowBack {
+    color: gray;
+  }
+`;
 
 const SaveButtonArea = styled.div`
   position: absolute;
@@ -1073,9 +1120,13 @@ const SaveButtonArea = styled.div`
   right: 10px;
   z-index: 10;
   width: 100px;
-  font-size: 80px;
+  font-size: 70px;
+  cursor: pointer;
   @media (min-width: 700px) {
     width: 80px;
+  }
+  .BiSave {
+    color: gray;
   }
 `;
 

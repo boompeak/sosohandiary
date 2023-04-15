@@ -25,7 +25,7 @@ const StyledUserBox = styled.div`
   justify-content: center;
   align-items: center;
   top: 20px;
-  left: -100px;
+  left: -90px;
 
   span {
     &:first-of-type {

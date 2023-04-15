@@ -51,8 +51,7 @@ const FlipBook = ({ data, diaryId }) => {
         ""
       ) : (
         <ButtonArea>
-          [<span>{page + 1}</span> of
-          <span> {totalPage}</span>]
+          [<span>{page + 1}</span> /<span> {totalPage}</span>]
         </ButtonArea>
       )}
     </FlipBookArea>

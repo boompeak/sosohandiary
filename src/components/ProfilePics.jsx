@@ -48,4 +48,5 @@ const Image = styled.img`
   height: ${({ size }) => {
     return size === "large" ? "120px" : size === "medium" ? "80px" : "56px";
   }};
+  object-fit: cover;
 `;

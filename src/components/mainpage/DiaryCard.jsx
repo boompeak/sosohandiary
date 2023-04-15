@@ -5,7 +5,7 @@ const DiaryCard = ({ item, color }) => {
   const getColorCode = (color = purple) => {
     switch (color) {
       case "purple":
-        return "#E0C7FF";
+        return "#f7e8ec";
       case "green":
         return "#B5FFB4";
       case "pink":

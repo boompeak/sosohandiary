@@ -4,6 +4,7 @@ import store from "./contexts/configStore";
 import { QueryClient, QueryClientProvider } from "react-query";
 import ReactGA from "react-ga";
 import { createBrowserHistory } from "history";
+import "./App.css";
 
 // 구글 애널리틱스
 const gaTrackingId = process.env.REACT_APP_GA_TRACKING_ID;

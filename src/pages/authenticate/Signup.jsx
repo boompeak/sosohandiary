@@ -7,6 +7,8 @@ import styled from "styled-components";
 import { MintButtonLargeForSubmitInput } from "../../styles/Buttons";
 import { WholeAreaWithMargin } from "../../styles/WholeAreaStyle";
 import AlertMessage from "../../components/alert/AlertMessage";
+import { IoIosArrowBack } from "react-icons/io";
+import { VscBlank } from "react-icons/vsc";
 
 const Signup = () => {
   const navigate = useNavigate();
@@ -39,6 +41,7 @@ const Signup = () => {
   const xButtonClickHandler = () => {
     navigate("/login");
   };
+
   return (
     <WholeAreaWithMargin>
       {alertOpen ? (
@@ -46,10 +49,21 @@ const Signup = () => {
       ) : (
         ""
       )}
+
       <XandTitle>
+        <Xbutton onClick={xButtonClickHandler}>
+          <IoIosArrowBack
+            className="IoIosArrowBack"
+            style={{ cursor: "pointer", fontSize: "20px", marginLeft: "30px" }}
+          />
+        </Xbutton>
         <Title>회원가입</Title>
+        <VscBlank
+          className="VscBlank"
+          style={{ fontSize: "20px", marginRight: "30px" }}
+        />
       </XandTitle>
-      <Xbutton onClick={xButtonClickHandler}>X</Xbutton>
+
       <Greeting>
         처음 오셨네요!
         <br />
@@ -191,13 +205,15 @@ const Signup = () => {
 export default Signup;
 
 const XandTitle = styled.div`
+  width: 400px;
   display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 `;
 
 const Xbutton = styled.div`
   position: relative;
-  right: 120px;
-  bottom: 15px;
+  cursor: pointer;
 `;
 
 const Title = styled.div``;
@@ -231,7 +247,6 @@ const Content = styled.div`
     right: 4%;
     border: none;
     background: none;
-    cursor: pointer;
     .TbAlertCircle {
       font-size: 145%;
       color: red;
@@ -254,4 +269,5 @@ const ValidationAlert = styled.small`
   position: relative;
   color: red;
   margin-top: -16px;
+  cursor: default;
 `;

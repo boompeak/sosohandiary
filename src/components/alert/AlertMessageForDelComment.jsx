@@ -5,7 +5,6 @@ import DialogTitle from "@mui/material/DialogTitle";
 import Slide from "@mui/material/Slide";
 import styled from "styled-components";
 import { VscBlank } from "react-icons/vsc";
-import axios from "axios";
 import AlertMessage from "./AlertMessage";
 import { useState } from "react";
 
@@ -13,13 +12,7 @@ const Transition = React.forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
 });
 
-const AlertMessageForDeleteDiary = ({
-  setAlertOpenDeleteAlert,
-  message,
-  diaryId,
-}) => {
-  const accessToken = window.localStorage.getItem("accessToken");
-
+const AlertMessageForDelComment = ({ setAlertOpenDeleteAlert, message, onDeleteHandler }) => {
   const [open, setOpen] = React.useState(true);
   const [alertOpen, setAlertOpen] = useState(false);
   const [alertMsg, setAlertMsg] = useState("");
@@ -29,36 +22,9 @@ const AlertMessageForDeleteDiary = ({
     setAlertOpenDeleteAlert(false);
   };
 
-  const handleDelete = async () => {
-    try {
-      const config = {
-        headers: {
-          Authorization: accessToken,
-        },
-      };
-      await axios.delete(
-        `${process.env.REACT_APP_BASEURL}/diary/${diaryId}`,
-        config
-      );
-      setAlertOpen(true);
-      setAlertMsg("삭제되었습니다");
-    } catch (error) {
-      setAlertOpen(true);
-      setAlertMsg("삭제에 실패했습니다");
-    }
-  };
-
   return (
     <>
-      {alertOpen ? (
-        <AlertMessage
-          setAlertOpen={setAlertOpen}
-          message={alertMsg}
-          navigateLink={"/mypage"}
-        />
-      ) : (
-        ""
-      )}
+      {alertOpen ? <AlertMessage setAlertOpen={setAlertOpen} message={alertMsg} /> : ""}
       <Invisible>
         <Dialog
           open={open}
@@ -79,7 +45,7 @@ const AlertMessageForDeleteDiary = ({
               <CancelButton onClick={handleClose}>취소</CancelButton>
             </DialogActions>
             <DialogActions>
-              <OkButton onClick={handleDelete}>삭제하기</OkButton>
+              <OkButton onClick={onDeleteHandler}>삭제하기</OkButton>
             </DialogActions>
           </ButtonArea>
         </Dialog>
@@ -88,7 +54,7 @@ const AlertMessageForDeleteDiary = ({
   );
 };
 
-export default AlertMessageForDeleteDiary;
+export default AlertMessageForDelComment;
 
 const Invisible = styled.div`
   position: absolute;

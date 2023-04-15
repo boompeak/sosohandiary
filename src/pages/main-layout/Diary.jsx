@@ -62,10 +62,7 @@ const Diary = () => {
       diaryCondition: diaryCondition,
     };
 
-    formData.append(
-      "data",
-      new Blob([JSON.stringify(data)], { type: "application/json" })
-    );
+    formData.append("data", new Blob([JSON.stringify(data)], { type: "application/json" }));
 
     axios
       .post(`${process.env.REACT_APP_BASEURL}/diary`, formData, {
@@ -77,9 +74,9 @@ const Diary = () => {
       .then((res) => {
         setAlertMsg("작성이 완료되었습니다");
         setAlertOpen(true);
-        setAlertNavigateLink("/");
+        setAlertNavigateLink(`/diaries/${res.data.id}`);
       })
-      .catch((error) => {
+      .catch((err) => {
         setAlertMsg("다이어리 표지 사진을 첨부하세요!");
         setAlertOpen(true);
       });
@@ -94,11 +91,7 @@ const Diary = () => {
   return (
     <Wholebox>
       {alertOpen ? (
-        <AlertMessage
-          setAlertOpen={setAlertOpen}
-          message={alertMsg}
-          navigateLink={alertNavigateLink}
-        />
+        <AlertMessage setAlertOpen={setAlertOpen} message={alertMsg} navigateLink={alertNavigateLink} />
       ) : (
         ""
       )}
@@ -108,7 +101,7 @@ const Diary = () => {
         <VscBlank className="VscBlank" />
       </TopBox>
       <Card>
-        <SideLabel colorCode={"#E0C7FF"}></SideLabel>
+        <SideLabel colorCode={"#F7E8F6"}></SideLabel>
         <InnerArea>
           <Title>{title}</Title>
           <ImgArea>
@@ -131,12 +124,7 @@ const Diary = () => {
       </Card>
       <InputBox>
         <VscBlank className="VscBlank" />
-        <FileInput
-          type="file"
-          onChange={handleChange}
-          className="StyledInput"
-          ref={selectFile}
-        />
+        <FileInput type="file" onChange={handleChange} className="StyledInput" ref={selectFile} />
         <VscBlank className="VscBlank" />
       </InputBox>
       <form>
@@ -146,7 +134,7 @@ const Diary = () => {
             type="text"
             value={title}
             onChange={(e) => {
-              if (e.target.value.length > 8) {
+              if (e.target.value.length > 7) {
                 setAlertMsg("7자 이하로 설정해주세요");
                 setAlertOpen(true);
                 return;
@@ -338,8 +326,7 @@ const SelectButtonLeft = styled.div`
   justify-content: center;
   align-items: center;
   height: 50px;
-  background-color: ${({ diaryCondition }) =>
-    diaryCondition === "PUBLIC" ? "#ffe2e2" : ""};
+  background-color: ${({ diaryCondition }) => (diaryCondition === "PUBLIC" ? "#ffe2e2" : "")};
   width: 100%;
   border-radius: 20px 0 0 20px;
 `;
@@ -350,8 +337,7 @@ const SelectButtonRight = styled.div`
   justify-content: center;
   align-items: center;
   height: 50px;
-  background-color: ${({ diaryCondition }) =>
-    diaryCondition === "PRIVATE" ? "#ffe2e2" : ""};
+  background-color: ${({ diaryCondition }) => (diaryCondition === "PRIVATE" ? "#ffe2e2" : "")};
   width: 100%;
   border-radius: 0 20px 20px 0;
 `;

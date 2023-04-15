@@ -32,9 +32,7 @@ function Detail() {
 
   const accessToken = localStorage.getItem("accessToken");
 
-  const { data: diaryData } = useQuery(["getDiary"], () =>
-    getDiary(diaryId, detailId, accessToken)
-  );
+  const { data: diaryData } = useQuery(["getDiary"], () => getDiary(diaryId, detailId, accessToken));
 
   const myDiary = diaryData?.data;
 
@@ -54,10 +52,7 @@ function Detail() {
   }, []);
 
   //delete
-  const { mutate: deleteDiaryMutate } = useMutation(
-    (detailId) => deleteDiary(diaryId, detailId, accessToken),
-    {}
-  );
+  const { mutate: deleteDiaryMutate } = useMutation((detailId) => deleteDiary(diaryId, detailId, accessToken), {});
 
   const navToModify = () => {
     navigate(`/drawing/${diaryId}/${detailId}`);
@@ -77,29 +72,23 @@ function Detail() {
   return (
     <>
       {alertOpen ? (
-        <AlertMessage
-          setAlertOpen={setAlertOpen}
-          message={alertMsg}
-          navigateLink={alertNavigateLink}
-        />
+        <AlertMessage setAlertOpen={setAlertOpen} message={alertMsg} navigateLink={alertNavigateLink} />
       ) : (
         ""
       )}
       <StyledGobackButton onClick={() => navigate(`/diaries/${diaryId}`)} />
       {myDiary && (
         <StyledDerailPage>
-          <GetUser
-            ProfileImg={myDiary?.profileImageUrl}
-            createdAt={myDiary?.createdAt}
-            nickname={myDiary?.nickname}
-          />
+          <GetUser ProfileImg={myDiary?.profileImageUrl} createdAt={myDiary?.createdAt} nickname={myDiary?.nickname} />
           {curUserInfo?.data?.memberId === diaryData?.data?.authorId ? (
             <DiaryModalWrapper>
               <DiaryModal
                 navToModify={navToModify}
                 onDeleteHandler={onDeleteHandler}
                 detailId={detailId}
+                customJson={myDiary?.customJson}
               />
+
             </DiaryModalWrapper>
           ) : (
             ""
@@ -117,23 +106,14 @@ function Detail() {
                     margin: "10px",
                   }}
                 >
-                  <Thumbnail
-                    diaryId={diaryId}
-                    paperId={detailId}
-                    width={700}
-                    height={window.innerHeight}
-                  />
+                  <Thumbnail diaryId={diaryId} paperId={detailId} width={700} height={window.innerHeight} />
                 </div>
               </StyledDetailCard>
             </StyledDetailCardWrapper>
           </div>
         </StyledDerailPage>
       )}
-      <button
-        style={{ display: "none" }}
-        ref={sheetRef}
-        onClick={() => setOpen(true)}
-      ></button>
+      <button style={{ display: "none" }} ref={sheetRef} onClick={() => setOpen(true)}></button>
       {myDiary ? (
         <StBottomSheet
           open={open}
@@ -147,6 +127,7 @@ function Detail() {
                 height="28"
                 style={{
                   marginRight: "5px",
+                  objectFit: "cover",
                 }}
               />
               {myDiary.commentCount}
@@ -225,7 +206,7 @@ const DiaryModalWrapper = styled.div`
 `;
 
 const StBottomSheet = styled(BottomSheet)`
-  --rsbs-max-w: 400px;
+  --rsbs-max-w: 418px;
   --rsbs-ml: auto;
   --rsbs-mr: auto;
 `;

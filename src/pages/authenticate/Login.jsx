@@ -29,7 +29,7 @@ const Login = () => {
   };
 
   const goToSignup = () => {
-    navigate("/onboarding");
+    navigate("/signup");
   };
 
   //form 처리 관련
@@ -72,7 +72,7 @@ const Login = () => {
           <Content>
             <input
               type="text"
-              placeholder="아이디를 입력해주세요"
+              placeholder="이메일를 입력해주세요"
               {...register("email", {
                 required: "이메일을 입력해주세요",
                 minLength: { value: 2, message: "2자리 이상 입력하세요" },
@@ -123,7 +123,7 @@ const Login = () => {
         <Underline
           style={{ marginTop: "7vh", marginBottom: "3vh" }}
         ></Underline>
-        <div>
+        <div style={{ cursor: "pointer" }}>
           <img
             src={kakaoLoginImage}
             alt="카카오 로그인"

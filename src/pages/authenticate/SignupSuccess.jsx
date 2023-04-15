@@ -4,6 +4,7 @@ import styled from "styled-components";
 import { MintButtonLarge } from "../../styles/Buttons";
 import { WholeAreaWithMargin } from "../../styles/WholeAreaStyle";
 import logoImg from "../../assets/logoImg.png";
+import signupSuccess from "../../assets/onboarding/signupSuccess.png";
 
 const SignupSuccess = () => {
   const navigate = useNavigate();
@@ -30,7 +31,7 @@ const SignupSuccess = () => {
         <br />
         회원가입을 축하합니다!
       </CelebratingMsg>
-      <Circle imgUrl={logoImg}></Circle>
+      <Circle imgUrl={signupSuccess}></Circle>
       <WelcomeMsg>{countdown}초 후 홈으로 이동합니다</WelcomeMsg>
       <WelcomeMsg>이제부터 소소한 일상을 담아보세요!</WelcomeMsg>
       <MintButtonLarge onClick={goToLogin}>로그인하러 가기</MintButtonLarge>

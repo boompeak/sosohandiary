@@ -19,6 +19,8 @@ import Navigationbar from "../../components/Navigationbar";
 import { useDispatch } from "react-redux";
 import { changeCurNavbarMode } from "../../contexts/curNavbarModeSlice";
 
+import { FaUserFriends, FaGlobeAmericas } from "react-icons/fa";
+
 const MyPage = () => {
   const accessToken = localStorage.getItem("accessToken");
   const dispatch = useDispatch();
@@ -166,9 +168,13 @@ const MyPage = () => {
                         </StText>
                       )}
                       {item.diaryCondition === "PUBLIC" ? (
-                        <Public size="16">공개 다이어리</Public>
+                        <Public size="16">
+                          <FaGlobeAmericas className="FaGlobeAmericas" />
+                        </Public>
                       ) : (
-                        <Public size="16">공유 다이어리</Public>
+                        <Public size="16">
+                          <FaUserFriends className="FaUserFriends" />
+                        </Public>
                       )}
                     </StTextBox>
                     <StTextBox>
@@ -178,8 +184,7 @@ const MyPage = () => {
                     </StTextBox>
 
                     <ConfirmButton
-                      onClick={() => navToModifyCover(item.id, index)}
-                    >
+                      onClick={() => navToModifyCover(item.id, index)}>
                       <IoIosArrowForward size={28} color="#A1B2FA" />
                     </ConfirmButton>
                   </DiaryCards>
@@ -222,7 +227,6 @@ const Title = styled.div`
   font-weight: bold;
   font-size: ${({ size }) => `${size}px`};
   color: black;
-
   padding-top: 30px;
   margin-bottom: 17px;
   display: flex;
@@ -292,15 +296,11 @@ const DiaryCards = styled.div`
   max-width: 720px;
   padding: 30px;
   position: relative;
-
   background: #f5f5f5;
-
   margin: 5px;
-
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-
   @media (max-width: 425px) {
     text-overflow: clip;
     white-space: normal;
@@ -339,8 +339,17 @@ const Public = styled.div`
   color: #858585;
   font-size: ${({ size }) => `${size}px`};
   margin-left: ${({ marginLeft }) => `${marginLeft}px`};
-
   display: flex;
+  .FaGlobeAmericas {
+    font-size: 15px;
+    color: #9b9b9b;
+    padding-top: 5px;
+  }
+  .FaUserFriends {
+    font-size: 16px;
+    color: #9b9b9b;
+    padding-top: 4px;
+  }
 `;
 
 const StTextBox = styled.div`

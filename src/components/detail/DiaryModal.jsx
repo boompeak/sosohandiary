@@ -9,6 +9,7 @@ const options = ["수정하기", "삭제하기"];
 const ITEM_HEIGHT = 48;
 
 const DiaryModal = (props) => {
+  console.log(props);
   const { navToModify, onDeleteHandler, detailId } = props;
   const [anchorEl, setAnchorEl] = useState(null);
   const open = Boolean(anchorEl);
@@ -46,6 +47,9 @@ const DiaryModal = (props) => {
             maxHeight: ITEM_HEIGHT * 4.5,
             width: "15ch",
           },
+          sx: {
+            left: "52% !important"
+          }
         }}
       >
         {options.map((option) => (
@@ -61,7 +65,11 @@ const DiaryModal = (props) => {
             }}
             sx={{ display: "flex", justifyContent: "center" }}
           >
-            {option}
+            {option === "수정하기"
+              ? props.customJson === ""
+                ? "작성하기"
+                : "수정하기"
+              : "삭제하기"}
           </MenuItem>
         ))}
       </Menu>

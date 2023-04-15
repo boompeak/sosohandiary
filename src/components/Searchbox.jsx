@@ -20,6 +20,7 @@ function Searchbox({placeholder, onChangeInput, onKeyPress, setSearchInput}) {
           <SlMagnifier className="SlMagnifier" />
           <SearchStyle>
             <Searchinput
+              maxLength={11}
               type="text"
               name="searchbox"
               placeholder={placeholder}
