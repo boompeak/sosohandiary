@@ -12,13 +12,13 @@ import { useQuery } from "react-query";
 import { useParams } from "react-router-dom";
 import { getDiary } from "../api/detail";
 import Spinner from "../styles/Spinner";
-import CommentImage from "../assets//comment.png";
 import DiaryModal from "../components/detail/DiaryModal";
 import { useMutation } from "react-query";
 import { deleteDiary } from "../api/detail";
 import Thumbnail from "../components/drawing/Thumbnail";
 import axios from "axios";
 import AlertMessage from "../components/alert/AlertMessage";
+import { IoChatbubbleEllipsesSharp } from "react-icons/io5";
 
 function Detail() {
   const navigate = useNavigate();
@@ -120,16 +120,7 @@ function Detail() {
           scrollLocking={false}
           header={
             <DetailElement>
-              <img
-                src={CommentImage}
-                alt="코멘트 아이콘"
-                width="28"
-                height="28"
-                style={{
-                  marginRight: "5px",
-                  objectFit: "cover",
-                }}
-              />
+              <IoChatbubbleEllipsesSharp style={{ fontSize: "28px", color: "#b4d0f5", marginRight: "5" }} />
               {myDiary.commentCount}
               <Like diaryData={myDiary} />
               {myDiary.likeCount}
@@ -158,12 +149,12 @@ function Detail() {
 export default Detail;
 
 const StyledDerailPage = styled.div`
-  margin-top: 70px;
+  margin-top: 20px;
   position: relative;
 `;
 
 const StyledGobackButton = styled(MdArrowBack)`
-  position: absolute;
+  position: relative;
   top: 30px;
   left: 50%;
   transform: translateX(-500%);

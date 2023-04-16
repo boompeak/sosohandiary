@@ -92,14 +92,14 @@ function Page() {
           <HeaderIsPublic>{getDate(mypage?.data?.createdAt)}</HeaderIsPublic>
           <HeaderCreatedAt>
             {mypage?.data?.diaryCondition === "PUBLIC"
-              ? "공개 다이어리"
-              : "공유 다이어리"}
+              ? "전체공개 다이어리"
+              : "친구공개 다이어리"}
           </HeaderCreatedAt>
         </HeaderRightArea>
       </HeaderArea>
       <ButtonArea>
         <Upbutton backgroundColor="#A1B2FA" color="white" onClick={handleClick}>
-          수정하기
+          수정
         </Upbutton>
         <Upbutton
           backgroundColor="#FC9F9F"
@@ -107,9 +107,8 @@ function Page() {
           onClick={() => {
             setAlertOpenDeleteAlert(true);
             setAlertMsgOfDelete("다이어리를 삭제하시겠습니까?");
-          }}
-        >
-          삭제하기
+          }}>
+          삭제
         </Upbutton>
       </ButtonArea>
       {previewImage && ( // 업로드하려는 이미지를 미리 보여줌
@@ -117,7 +116,7 @@ function Page() {
           alt="preview"
           src={previewImage}
           style={{
-            margin: "auto",
+            margin: "0 auto",
             width: "300px",
             height: "300px",
             borderRadius: "7px",
@@ -145,56 +144,44 @@ const StyledGobackButton = styled(MdArrowBack)`
   cursor: pointer;
 `;
 
+const ButtonArea = styled.div`
+  display: flex;
+  justify-content: flex-end;
+  flex-direction: row;
+  margin-top: 10px;
+  margin-bottom: 50px;
+`;
+
 const Upbutton = styled.button`
   color: ${(props) => props.color};
-  background-color: #e8fefb;
-  background-color: ${(props) => props.backgroundColor};
-
-  width: 230px;
-  height: 35px;
+  background-color: #b9b9b9;
+  width: 50px;
+  height: 25px;
   border: none;
-  border-radius: 5px;
+  border-radius: 7px;
   font-weight: 700;
-  font-size: 100%;
-  margin: 10px;
+  font-size: 80%;
+  margin-right: 10px;
   cursor: pointer;
+  &:hover {
+    width: 50px;
+    background-color: ${(props) => props.backgroundColor};
+  }
 `;
 
 const Wholebox = styled.div`
   display: flex;
   flex-direction: column;
   /* padding: 5vw; */
-
   min-height: 100vh;
   height: auto;
-
   border-left: 0.0625rem solid rgb(225, 226, 228);
   border-right: 0.0625rem solid rgb(225, 226, 228);
-
   margin: 0 auto;
   width: 400px;
 `;
 
-const TopBox = styled.div`
-  /* background-color: white;
-  position: sticky;
-  top: 0%;
-  width: 100%;
-  z-index: 1;
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: 10px; */
-  /* .VscBlank {
-    font-size: 35px;
-    color: #afafaf;
-    padding: 10px;
-  }
-  .MdArrowBack {
-    font-size: 35px;
-    color: #afafaf;
-    padding: 10px;
-  } */
-`;
+const TopBox = styled.div``;
 
 const Textbox = styled.div`
   font-weight: bold;
@@ -213,9 +200,11 @@ const HeaderArea = styled.div`
   align-items: center;
   margin-top: 10px;
 `;
+
 const HeaderRightArea = styled.div`
   text-align: right;
 `;
+
 const HeaderCreatedAt = styled.div`
   font-size: 12px;
   margin-right: 10px;
@@ -230,11 +219,4 @@ const HeaderIsPublic = styled.div`
   font-size: 10px;
   margin-right: 10px;
   color: rgba(1, 1, 1, 0.3);
-`;
-
-const ButtonArea = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
 `;

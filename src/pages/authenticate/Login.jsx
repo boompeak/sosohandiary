@@ -5,16 +5,12 @@ import { useNavigate } from "react-router-dom";
 import { kakaoLoginApi } from "../../api/kakaoLogin";
 import { disableColor, subColor1 } from "../../constants/colorPalette";
 import { useForm } from "react-hook-form";
-import {
-  MintButtonLarge,
-  MintButtonLargeForSubmitInput,
-} from "../../styles/Buttons";
+import { MintButtonLarge, MintButtonLargeForSubmitInput } from "../../styles/Buttons";
 import { HiOutlineXCircle } from "react-icons/hi";
 import axios from "axios";
 import { useDispatch } from "react-redux";
 import AlertMessage from "../../components/alert/AlertMessage";
 import logoImg from "../../assets/logoImg.png";
-import { a } from "@react-spring/web";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -56,11 +52,7 @@ const Login = () => {
   return (
     <WholeArea>
       {alertOpen ? (
-        <AlertMessage
-          setAlertOpen={setAlertOpen}
-          message={alertMsg}
-          navigateLink={alertNavigateLink}
-        />
+        <AlertMessage setAlertOpen={setAlertOpen} message={alertMsg} navigateLink={alertNavigateLink} />
       ) : (
         ""
       )}
@@ -83,16 +75,9 @@ const Login = () => {
               })}
             />
 
-            <HiOutlineXCircle
-              className="HiOutlineXCircle"
-              onClick={() => reset({ email: "" })}
-            />
+            <HiOutlineXCircle className="HiOutlineXCircle" onClick={() => reset({ email: "" })} />
           </Content>
-          {errors.email && (
-            <ValidationAlert role="alert">
-              {errors.email.message}
-            </ValidationAlert>
-          )}
+          {errors.email && <ValidationAlert role="alert">{errors.email.message}</ValidationAlert>}
           <Content>
             <input
               type="password"
@@ -104,31 +89,18 @@ const Login = () => {
               })}
             />
             <div>
-              <HiOutlineXCircle
-                className="HiOutlineXCircle"
-                onClick={() => reset({ password: "" })}
-              />
+              <HiOutlineXCircle className="HiOutlineXCircle" onClick={() => reset({ password: "" })} />
             </div>
           </Content>
-          {errors.password && (
-            <ValidationAlert role="alert">
-              {errors.password.message}
-            </ValidationAlert>
-          )}
+          {errors.password && <ValidationAlert role="alert">{errors.password.message}</ValidationAlert>}
           <MintButtonLargeForSubmitInput>
             <input type="submit" value="로그인" disabled={isSubmitting} />
           </MintButtonLargeForSubmitInput>
         </LoginForm>
         <MintButtonLarge onClick={goToSignup}>회원가입</MintButtonLarge>
-        <Underline
-          style={{ marginTop: "7vh", marginBottom: "3vh" }}
-        ></Underline>
+        <Underline style={{ marginTop: "7vh", marginBottom: "3vh" }}></Underline>
         <div style={{ cursor: "pointer" }}>
-          <img
-            src={kakaoLoginImage}
-            alt="카카오 로그인"
-            onClick={kakaoLoginButtonHandler}
-          />
+          <img src={kakaoLoginImage} alt="카카오 로그인" onClick={kakaoLoginButtonHandler} />
         </div>
       </LoginArea>
     </WholeArea>

@@ -5,7 +5,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { useInView } from "react-intersection-observer";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { redirect, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import ellipse from "../../assets/main-page/Ellipse 111.png";
@@ -14,11 +14,11 @@ import DiaryCardTopBig from "../../components/mainpage/DiaryCardTopBig";
 import { useQuery } from "react-query";
 import { getDiariesOfSelfmade } from "../../api/mainpage";
 import { getProfile } from "../../api/mypage";
-import { VscBlank } from "react-icons/vsc";
 import { useDispatch } from "react-redux";
 import { changeCurNavbarMode } from "../../contexts/curNavbarModeSlice";
 import defaultProfileImg from "../../assets/defaultProfileImg.jpeg";
-import { isTokenNull } from "../../api/isTokenNull";
+import { ImQuotesLeft, ImQuotesRight } from "react-icons/im";
+import removebg from "../../assets/decoration/stickers/removebg-preview.png";
 
 const MainPage = () => {
   const navigate = useNavigate();
@@ -32,7 +32,9 @@ const MainPage = () => {
 
   //비로그인 -> 로그인창으로
   const accessToken = window.localStorage.getItem("accessToken");
-  console.log(accessToken);
+
+  // // 토큰
+  // console.log(accessToken);
 
   // if (accessToken === null) {
   //   navigate("/login");
@@ -78,6 +80,10 @@ const MainPage = () => {
     return getDiariesOfSelfmade(accessToken);
   });
 
+  const resizedRemovebg = new Image();
+  resizedRemovebg.src = removebg;
+  resizedRemovebg.width = 100;
+
   useEffect(() => {
     setIsLoadingForPrivate(true);
     axios
@@ -85,7 +91,7 @@ const MainPage = () => {
         headers: { Authorization: accessToken },
       })
       .then((res) => {
-        console.log("res : ", res);
+        // console.log("res : ", res);
         setIsLoadingForPrivate(false);
         if (res.data === "") {
           return;
@@ -141,7 +147,8 @@ const MainPage = () => {
             justifyContent: "space-between",
           }}
         >
-          <div>내가 만든 다이어리</div>
+          <Label style={{ marginTop: "25px" }}>내가 만든 다이어리</Label>
+
           <CurProfileImage
             style={{ marginRight: "15px" }}
             url={
@@ -171,6 +178,7 @@ const MainPage = () => {
                   activeIdxForSelfmade={activeIdxForSelfmade}
                   item={{
                     title: "다이어리 만들기",
+                    img: removebg,
                   }}
                 ></DiaryCardTopBig>
               </SwiperSlide>
@@ -186,6 +194,7 @@ const MainPage = () => {
                   activeIdxForSelfmade={activeIdxForSelfmade}
                   item={{
                     title: "다이어리 만들기",
+                    img: removebg,
                   }}
                 ></DiaryCardTopBig>
               </SwiperSlide>
@@ -201,6 +210,7 @@ const MainPage = () => {
                   activeIdxForSelfmade={activeIdxForSelfmade}
                   item={{
                     title: "다이어리 만들기",
+                    img: removebg,
                   }}
                 ></DiaryCardTopBig>
               </SwiperSlide>
@@ -245,7 +255,9 @@ const MainPage = () => {
                     borderRadius: "25px",
                   }}
                 >
-                  다이어리가 없습니다.
+                  <ImQuotesLeft />
+                  &nbsp;다이어리가 없어요&nbsp;
+                  <ImQuotesRight />
                 </SwiperSlide>
               ) : (
                 ""
@@ -294,7 +306,9 @@ const MainPage = () => {
                     borderRadius: "25px",
                   }}
                 >
-                  다이어리가 없습니다.
+                  <ImQuotesLeft />
+                  &nbsp;다이어리가 없어요&nbsp;
+                  <ImQuotesRight />
                 </SwiperSlide>
               ) : (
                 ""
@@ -324,7 +338,6 @@ const MainContainer = styled.div`
   margin: 0 auto;
   width: 400px;
   height: auto;
-
   border-left: 0.0625rem solid rgb(225, 226, 228);
   border-right: 0.0625rem solid rgb(225, 226, 228);
 `;
@@ -340,7 +353,6 @@ const WelcomeArea = styled.div`
 
 const CurProfileImage = styled.div`
   z-index: 10;
-
   /* position: absolute; */
   /* top: 70px;
   right: 23px; */
@@ -358,25 +370,21 @@ const SwiperArea = styled.div`
     width: 100%;
     height: 100%;
   }
-
   .swiper-slide {
     text-align: center;
     font-size: 18px;
     background: #fff;
-
     /* Center slide text vertically */
     display: flex;
     justify-content: center;
     align-items: center;
   }
-
   .swiper-slide img {
     display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
-
   .swiper-slide {
     height: 196px;
     width: 140px;
@@ -410,7 +418,6 @@ const SelfmadeArea = styled.div`
     background-repeat: no-repeat;
     margin-top: -10px;
   }
-
   .swiper-slide {
     text-align: center;
     font-size: 18px;
@@ -419,7 +426,6 @@ const SelfmadeArea = styled.div`
     justify-content: center;
     align-items: center;
   }
-
   .swiper-slide img {
     display: block;
     width: 100%;

@@ -272,7 +272,6 @@ const MenuBox = styled.div`
   border: 1px solid #f8f8f8;
   background: #f8f8f8;
   margin-bottom: 20px;
-
   text-align: center;
   align-items: center;
   justify-content: center;
@@ -284,7 +283,6 @@ const EachMenuBox = styled.div`
   color: ${(props) => props.color};
   border-right: ${(props) => props.boderRight};
   border-right-color: #e1e7ff;
-
   text-align: center;
   align-items: center;
   justify-content: center;
@@ -311,10 +309,8 @@ const ThumbnailBox = styled.div`
   position: absolute;
   top: 10px;
   left: 10px;
-
   box-sizing: border-box;
   border-radius: 18px;
-
   @media (max-width: 390px) {
     top: 25px;
   }
@@ -343,12 +339,14 @@ const Public = styled.div`
   .FaGlobeAmericas {
     font-size: 15px;
     color: #9b9b9b;
-    padding-top: 5px;
+    /* padding-top: 5px; */
+    padding-top: 2px;
   }
   .FaUserFriends {
     font-size: 16px;
     color: #9b9b9b;
-    padding-top: 4px;
+    /* padding-top: 4px; */
+    padding-top: 1px;
   }
 `;
 
@@ -356,7 +354,6 @@ const StTextBox = styled.div`
   margin-left: 70px;
   display: ${({ display }) => `${display}`};
   gap: 10px;
-
   @media (max-width: 425px) {
     flex-direction: column;
     gap: 0px;
@@ -367,11 +364,9 @@ const StText = styled.div`
   font-weight: ${(props) => props.fontWeight};
   font-size: ${({ size }) => `${size}px`};
   color: ${(props) => props.color};
-
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-
   @media (min-width: 425px) {
     text-overflow: clip;
     white-space: normal;
@@ -382,12 +377,9 @@ const ConfirmButton = styled.button`
   position: absolute;
   top: 35px;
   right: 25px;
-
   background: none;
   border: none;
-
   cursor: pointer;
-
   @media (max-width: 390px) {
     top: 50px;
   }

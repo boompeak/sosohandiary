@@ -74,6 +74,7 @@ const ImgArea = styled.div`
   width: 100px;
   background-image: url(${({ imgSrc }) => imgSrc});
   background-size: cover;
+  border-radius: 10px;
   margin: 0 0 0 15px;
 `;
 
