@@ -1,3 +1,5 @@
 body {
   font-family: "NanumSquareAcr";
+  background-image: url(../src/assets/background.jpg);
+  background-size: cover;
 }

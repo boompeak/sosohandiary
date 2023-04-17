@@ -83,4 +83,5 @@ const CreatedAt = styled.div`
   position: absolute;
   bottom: 14px;
   right: 14px;
+  top: 90%;
 `;

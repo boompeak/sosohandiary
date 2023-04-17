@@ -374,6 +374,7 @@ const SwiperArea = styled.div`
     text-align: center;
     font-size: 18px;
     background: #fff;
+    border-radius: 13px 0px 13px 13px;
     /* Center slide text vertically */
     display: flex;
     justify-content: center;
@@ -386,8 +387,8 @@ const SwiperArea = styled.div`
     object-fit: cover;
   }
   .swiper-slide {
-    height: 196px;
-    width: 140px;
+    height: 180px;
+    width: 135px;
   }
 `;
 
