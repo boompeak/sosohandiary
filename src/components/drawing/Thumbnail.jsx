@@ -93,10 +93,10 @@ const ImageSticker = ({
     "https://mysosodiary.s3.ap-northeast-2.amazonaws.com/sticker/Group+1423.png"
   );
   const [imgUrl20] = useImage(
-    "https://mysosodiary.s3.ap-northeast-2.amazonaws.com/sticker/Union-1.png"
+    "https://mysosodiary.s3.ap-northeast-2.amazonaws.com/sticker/Group+1424.png"
   );
   const [imgUrl21] = useImage(
-    "https://mysosodiary.s3.ap-northeast-2.amazonaws.com/sticker/Union.png"
+    "https://mysosodiary.s3.ap-northeast-2.amazonaws.com/sticker/Group+1425.png"
   );
   const [imgUrl22] = useImage(
     "https://mysosodiary.s3.ap-northeast-2.amazonaws.com/sticker/Group+1426.png"
@@ -152,6 +152,7 @@ const ImageSticker = ({
     imgUrl28,
   ];
 
+  console.log("THUMB", sticker.stickerUrlNum);
   return (
     <React.Fragment>
       <Image
