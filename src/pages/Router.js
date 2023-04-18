@@ -1,4 +1,10 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import {
+  BrowserRouter,
+  Navigate,
+  Route,
+  Routes,
+  useNavigate,
+} from "react-router-dom";
 import Login from "./authenticate/Login";
 import Profile from "./Profile";
 import Notification from "./main-layout/Notification";
@@ -19,20 +25,39 @@ import DiaryDetail from "./DiaryDetail";
 import AlertMessage from "../components/alert/AlertMessage";
 import NotFound from "./NotFound";
 import ScrollToTop from "../utils/ScrollToTop";
+import AuthRoute from "./AuthRoute";
+import { useEffect, useState } from "react";
 
 const Router = () => {
+  const [accessToken, setAccessToken] = useState(null);
+  useEffect(() => {
+    setAccessToken(window.localStorage.getItem("accessToken"));
+  }, [accessToken]);
+
   return (
     <BrowserRouter>
       <ScrollToTop />
       <Routes>
-        <Route element={<MainLayout />}>
-          <Route path="/" element={<MainPage />} />
+        <Route element={<MainLayout accessToken={accessToken} />}>
+          <Route
+            path="/"
+            element={
+              accessToken === null ? (
+                <Navigate replace to="/login" />
+              ) : (
+                <MainPage />
+              )
+            }
+          />
           <Route path="/notification" element={<Notification />} />
           <Route path="/diary" element={<Diary />} />
           <Route path="/new-friend" element={<NewFriend />} />
           <Route path="/mypage" element={<MyPage />} />
         </Route>
-        <Route path="/login" element={<Login />} />
+        <Route
+          path="/login"
+          element={<Login setAccessToken={setAccessToken} />}
+        />
         <Route path="/signup" element={<Signup />} />
         <Route path="/signup-success" element={<SignupSuccess />} />
         <Route path="/profile" element={<Profile />} />

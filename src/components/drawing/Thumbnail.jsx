@@ -281,12 +281,12 @@ const EditorStyle = styled.div`
       background-color: transparent;
     }
   }
-
+  overflow: hidden;
   font-size: 20px;
   position: relative;
   top: 0px;
   width: 390px;
-  height: 500vh;
+  height: 560px;
   z-index: ${({ mode }) => (mode === "TEXT" ? 1 : -1)};
   border-radius: 25px;
   background-color: rgba(200, 200, 200, 0);

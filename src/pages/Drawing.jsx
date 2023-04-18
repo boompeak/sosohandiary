@@ -534,6 +534,8 @@ const Drawing = () => {
   ];
 
   const MAX_LENGTH = 1000;
+  const MAX_CHARACTERS_CNT_IN_ONE_LINE = 21;
+  const MAX_LINES_CNT_IN_ONE_PAGE = 25;
 
   const getLengthOfSelectedText = () => {
     const currentSelection = editorState.getSelection();
@@ -580,7 +582,6 @@ const Drawing = () => {
     const currentContentLength = currentContent.getPlainText("").length;
     const selectedTextLength = getLengthOfSelectedText();
 
-    console.log(currentContent.getPlainText().split("\n"));
     if (
       currentContent.getPlainText().split("\n").length +
         currentContent
@@ -588,12 +589,13 @@ const Drawing = () => {
           .split("\n")
           .reduce(
             (acc, cur) => {
-              if (cur.length > 21) acc += Math.floor(cur.length / 21);
+              if (cur.length > MAX_CHARACTERS_CNT_IN_ONE_LINE)
+                acc += Math.floor(cur.length / MAX_CHARACTERS_CNT_IN_ONE_LINE);
               return Number(acc);
             },
             [0]
           ) >
-      25
+      MAX_LINES_CNT_IN_ONE_PAGE
     ) {
       alert("입력 범위를 초과하였습니다");
       return "handled";
@@ -617,12 +619,13 @@ const Drawing = () => {
           .split("\n")
           .reduce(
             (acc, cur) => {
-              if (cur.length > 21) acc += Math.floor(cur.length / 21);
+              if (cur.length > MAX_CHARACTERS_CNT_IN_ONE_LINE)
+                acc += Math.floor(cur.length / MAX_CHARACTERS_CNT_IN_ONE_LINE);
               return Number(acc);
             },
             [0]
           ) >
-      25
+      MAX_LINES_CNT_IN_ONE_PAGE
     ) {
       alert("입력 범위를 초과하였습니다");
       return "handled";
@@ -709,7 +712,6 @@ const Drawing = () => {
                       const sticks = stickers.slice();
                       sticks[i] = newAttrs;
                       setStickers(sticks);
-                      console.log(sticks);
                     }}
                   />
                 );

@@ -5,7 +5,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { useInView } from "react-intersection-observer";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { useNavigate } from "react-router-dom";
+import { redirect, useNavigate } from "react-router-dom";
 import Skeleton from "react-loading-skeleton";
 import "react-loading-skeleton/dist/skeleton.css";
 import ellipse from "../../assets/main-page/Ellipse 111.png";
@@ -14,11 +14,11 @@ import DiaryCardTopBig from "../../components/mainpage/DiaryCardTopBig";
 import { useQuery } from "react-query";
 import { getDiariesOfSelfmade } from "../../api/mainpage";
 import { getProfile } from "../../api/mypage";
+import { VscBlank } from "react-icons/vsc";
 import { useDispatch } from "react-redux";
 import { changeCurNavbarMode } from "../../contexts/curNavbarModeSlice";
 import defaultProfileImg from "../../assets/defaultProfileImg.jpeg";
-import { ImQuotesLeft, ImQuotesRight } from "react-icons/im";
-import removebg from "../../assets/decoration/stickers/removebg-preview.png";
+import { isTokenNull } from "../../api/isTokenNull";
 
 const MainPage = () => {
   const navigate = useNavigate();
@@ -32,9 +32,6 @@ const MainPage = () => {
 
   //비로그인 -> 로그인창으로
   const accessToken = window.localStorage.getItem("accessToken");
-
-  // // 토큰
-  // console.log(accessToken);
 
   // if (accessToken === null) {
   //   navigate("/login");
@@ -80,18 +77,16 @@ const MainPage = () => {
     return getDiariesOfSelfmade(accessToken);
   });
 
-  const resizedRemovebg = new Image();
-  resizedRemovebg.src = removebg;
-  resizedRemovebg.width = 100;
-
   useEffect(() => {
     setIsLoadingForPrivate(true);
     axios
-      .get(`${process.env.REACT_APP_BASEURL}/invite?page=${privatePage}&size=10`, {
-        headers: { Authorization: accessToken },
-      })
+      .get(
+        `${process.env.REACT_APP_BASEURL}/invite?page=${privatePage}&size=10`,
+        {
+          headers: { Authorization: accessToken },
+        }
+      )
       .then((res) => {
-        // console.log("res : ", res);
         setIsLoadingForPrivate(false);
         if (res.data === "") {
           return;
@@ -147,8 +142,7 @@ const MainPage = () => {
             justifyContent: "space-between",
           }}
         >
-          <Label style={{ marginTop: "25px" }}>내가 만든 다이어리</Label>
-
+          <div>내가 만든 다이어리</div>
           <CurProfileImage
             style={{ marginRight: "15px" }}
             url={
@@ -178,7 +172,6 @@ const MainPage = () => {
                   activeIdxForSelfmade={activeIdxForSelfmade}
                   item={{
                     title: "다이어리 만들기",
-                    img: removebg,
                   }}
                 ></DiaryCardTopBig>
               </SwiperSlide>
@@ -194,7 +187,6 @@ const MainPage = () => {
                   activeIdxForSelfmade={activeIdxForSelfmade}
                   item={{
                     title: "다이어리 만들기",
-                    img: removebg,
                   }}
                 ></DiaryCardTopBig>
               </SwiperSlide>
@@ -210,7 +202,6 @@ const MainPage = () => {
                   activeIdxForSelfmade={activeIdxForSelfmade}
                   item={{
                     title: "다이어리 만들기",
-                    img: removebg,
                   }}
                 ></DiaryCardTopBig>
               </SwiperSlide>
@@ -236,7 +227,11 @@ const MainPage = () => {
         <div style={{ margin: "10px 10px 80px 10px" }}>
           <Label>공개 다이어리</Label>
           <SwiperArea>
-            <Swiper slidesPerView={"auto"} spaceBetween={20} className="mySwiper">
+            <Swiper
+              slidesPerView={"auto"}
+              spaceBetween={20}
+              className="mySwiper"
+            >
               {dataListForPublic.map((item, i) => (
                 <SwiperSlide
                   key={i}
@@ -251,19 +246,25 @@ const MainPage = () => {
                 <SwiperSlide
                   style={{
                     width: "375px",
-                    backgroundColor: "#e1e7fc",
+                    backgroundColor: "#e4e4e4",
                     borderRadius: "25px",
                   }}
                 >
-                  <ImQuotesLeft />
-                  &nbsp;다이어리가 없어요&nbsp;
-                  <ImQuotesRight />
+                  다이어리가 없습니다.
                 </SwiperSlide>
               ) : (
                 ""
               )}
-              {IsLoadingForPublic ? <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div> : ""}
-              <span slot="wrapper-end" ref={refForPublic} style={{ margin: "0px 10px" }}>
+              {IsLoadingForPublic ? (
+                <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+              ) : (
+                ""
+              )}
+              <span
+                slot="wrapper-end"
+                ref={refForPublic}
+                style={{ margin: "0px 10px" }}
+              >
                 <Skeleton width={140} height={196} borderRadius={25} />
               </span>
               <span slot="wrapper-end" style={{ margin: "0px 10px" }}>
@@ -276,7 +277,11 @@ const MainPage = () => {
           </SwiperArea>
           <Label>초대된 다이어리</Label>
           <SwiperArea>
-            <Swiper slidesPerView={"auto"} spaceBetween={20} className="mySwiper">
+            <Swiper
+              slidesPerView={"auto"}
+              spaceBetween={20}
+              className="mySwiper"
+            >
               {dataListForPrivate.map((item) => (
                 <SwiperSlide
                   key={item.id}
@@ -291,8 +296,7 @@ const MainPage = () => {
                 <SwiperSlide
                   style={{
                     width: "100vw",
-                    backgroundColor: "##e1e7fc",
-                    borderRadius: "25px",
+                    backgroundColor: "#e4e4e4",
                   }}
                   onClick={goToLogin}
                 >
@@ -302,19 +306,25 @@ const MainPage = () => {
                 <SwiperSlide
                   style={{
                     width: "375px",
-                    backgroundColor: "#e1e7fc",
+                    backgroundColor: "#e4e4e4",
                     borderRadius: "25px",
                   }}
                 >
-                  <ImQuotesLeft />
-                  &nbsp;다이어리가 없어요&nbsp;
-                  <ImQuotesRight />
+                  다이어리가 없습니다.
                 </SwiperSlide>
               ) : (
                 ""
               )}
-              {IsLoadingForPrivate ? <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div> : ""}
-              <span slot="wrapper-end" ref={refForPrivate} style={{ margin: "0px 10px 0px 0px" }}>
+              {IsLoadingForPrivate ? (
+                <div className="swiper-lazy-preloader swiper-lazy-preloader-white"></div>
+              ) : (
+                ""
+              )}
+              <span
+                slot="wrapper-end"
+                ref={refForPrivate}
+                style={{ margin: "0px 10px 0px 0px" }}
+              >
                 <Skeleton width={140} height={196} borderRadius={25} />
               </span>
               <span slot="wrapper-end" style={{ margin: "0px 10px" }}>
@@ -338,6 +348,7 @@ const MainContainer = styled.div`
   margin: 0 auto;
   width: 400px;
   height: auto;
+
   border-left: 0.0625rem solid rgb(225, 226, 228);
   border-right: 0.0625rem solid rgb(225, 226, 228);
 `;
@@ -353,6 +364,7 @@ const WelcomeArea = styled.div`
 
 const CurProfileImage = styled.div`
   z-index: 10;
+
   /* position: absolute; */
   /* top: 70px;
   right: 23px; */
@@ -370,25 +382,28 @@ const SwiperArea = styled.div`
     width: 100%;
     height: 100%;
   }
+
   .swiper-slide {
     text-align: center;
     font-size: 18px;
     background: #fff;
-    border-radius: 13px 0px 13px 13px;
+
     /* Center slide text vertically */
     display: flex;
     justify-content: center;
     align-items: center;
   }
+
   .swiper-slide img {
     display: block;
     width: 100%;
     height: 100%;
     object-fit: cover;
   }
+
   .swiper-slide {
-    height: 180px;
-    width: 135px;
+    height: 196px;
+    width: 140px;
   }
 `;
 
@@ -405,7 +420,8 @@ const SlideOne = styled.div`
   z-index: 1;
   width: 100%;
   height: 100%;
-  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), url(${({ imageUrl }) => imageUrl});
+  background-image: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)),
+    url(${({ imageUrl }) => imageUrl});
   background-size: cover;
 `;
 
@@ -419,6 +435,7 @@ const SelfmadeArea = styled.div`
     background-repeat: no-repeat;
     margin-top: -10px;
   }
+
   .swiper-slide {
     text-align: center;
     font-size: 18px;
@@ -427,6 +444,7 @@ const SelfmadeArea = styled.div`
     justify-content: center;
     align-items: center;
   }
+
   .swiper-slide img {
     display: block;
     width: 100%;

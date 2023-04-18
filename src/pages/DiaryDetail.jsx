@@ -43,14 +43,11 @@ const DiaryDetail = () => {
         headers: { Authorization: accessToken },
       })
       .then((res) => {
-        console.log(res);
         setData([...res.data]); // 객체로 반환되길래 배열로 만듬
       });
 
     return response;
   };
-
-  console.log(data);
 
   useEffect(() => {
     fetchData();
@@ -189,7 +186,7 @@ const DiaryTitle = styled.div`
 `;
 
 const DiaryCreatedAt = styled.div`
-  font-size: 16px;
+  font-size: 10px;
 `;
 
 const StyledPagination = styled(ReactPaginate)`

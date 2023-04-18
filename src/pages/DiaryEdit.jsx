@@ -4,14 +4,14 @@ import axios from "axios";
 import { MdArrowBack } from "react-icons/md";
 import { VscBlank } from "react-icons/vsc";
 import { useLocation, useNavigate } from "react-router-dom";
-import leftArrow from "../assets/leftArrow.png";
 import Searchbox from "../components/Searchbox";
-import checkedImg from "../assets/diary-edit/checkedImg.png";
-import uncheckedImg from "../assets/diary-edit/uncheckedImg.png";
 import { Badge } from "@mui/material";
 import { data } from "jquery";
 import AlertMessage from "../components/alert/AlertMessage";
 import defaultProfileImg from "../assets/defaultProfileImg.jpeg";
+import BsCheckCircleFill from "../assets/diary-edit/BsCheckCircleFill.png";
+import FaRegCircle from "../assets/diary-edit/FaRegCircle.png";
+import { MdClose } from "react-icons/md";
 
 function DiaryEdit() {
   const accessToken = window.localStorage.getItem("accessToken");
@@ -293,7 +293,7 @@ function DiaryEdit() {
             <TopTopBox>
               <VscBlank className="VscBlank" />
               <MemberTextbox>멤버 추가</MemberTextbox>
-              <VscBlank className="VscBlank" />
+              <MdClose className="MdClose" onClick={handleCloseModal} />
             </TopTopBox>
             <Searchbox
               placeholder="친구를 검색하세요"
@@ -306,6 +306,9 @@ function DiaryEdit() {
                 return (
                   <MemberBox key={i}>
                     <Badge
+                      style={{
+                        cursor: "pointer",
+                      }}
                       badgeContent="-"
                       color="primary"
                       onClick={() => {
@@ -393,11 +396,12 @@ function DiaryEdit() {
               <TextBlank>-</TextBlank>
               <TextBlank>-</TextBlank>
               <TextBlank>-</TextBlank>
+              <TextBlank>-</TextBlank>
             </div>
           </ModalContent>
         </ModalWrapper>
       )}
-      <SubmitButton onClick={handleClick}>생성하기</SubmitButton>
+      <SubmitButton onClick={handleClick}>완료</SubmitButton>
     </Wholebox>
   );
 }
@@ -418,6 +422,14 @@ const TopTopBox = styled.div`
   .VscBlank {
     font-size: 35px;
   }
+  .MdClose {
+    font-size: 170%;
+    font-weight: bolder;
+    border-top: none;
+    padding-top: 26px;
+    color: gray;
+    cursor: pointer;
+  }
 `;
 
 const TopBox = styled.div``;
@@ -435,6 +447,8 @@ const CheckedListBox = styled.div`
   flex-wrap: wrap;
   padding-left: 32px;
   padding-right: 10px;
+  padding-bottom: 10px;
+  margin-bottom: 10px;
   border-bottom: 1px solid #dcdcdc;
 `;
 
@@ -445,6 +459,7 @@ const MemberBox = styled.div`
   width: 60px;
   margin: 7px;
 `;
+
 const StArrow = styled.div`
   position: relative;
   left: 16px;
@@ -560,14 +575,10 @@ const TitleText = styled.div`
 const Wholebox = styled.div`
   display: flex;
   flex-direction: column;
-  /* padding: 5vw; */
-
   height: auto;
   min-height: 100vh;
-
   border-left: 0.0625rem solid rgb(225, 226, 228);
   border-right: 0.0625rem solid rgb(225, 226, 228);
-
   margin: 0 auto;
   width: 400px;
 `;
@@ -624,6 +635,7 @@ const ImgArea = styled.div`
   margin-left: 10px;
   margin-top: 40px;
 `;
+
 const CreatedAt = styled.div`
   font-size: 10px;
   position: absolute;
@@ -654,9 +666,10 @@ const CheckBox = styled.div`
   width: 20px;
   height: 20px;
   background-image: url(${({ friend, checkedList }) =>
-    checkedList.includes(friend) ? checkedImg : uncheckedImg});
+    checkedList.includes(friend) ? BsCheckCircleFill : FaRegCircle});
   background-repeat: no-repeat;
   background-size: cover;
+  cursor: pointer;
 `;
 
 const CompleteButtonArea = styled.div`
@@ -664,6 +677,7 @@ const CompleteButtonArea = styled.div`
   justify-content: center;
   margin: 10px 10px 50px 10px;
 `;
+
 const Completebutton = styled.button`
   color: black;
   background-color: #e1e7ff;
@@ -686,6 +700,7 @@ const ListStyle = styled.div`
 const AlreadyMember = styled.div`
   display: ${({ disabled }) => (disabled ? "" : "none")};
 `;
+
 const TopName = styled.div`
   font-size: 16px;
   font-weight: bolder;

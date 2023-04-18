@@ -1,6 +1,8 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
+import error4041 from "../assets/error4041.png";
+import error4042 from "../assets/error4042.png";
 
 const NotFound = () => {
   const navigate = useNavigate();
@@ -12,7 +14,24 @@ const NotFound = () => {
     <>
       <MainContainer>
         <AlertMsgArea>
-          <AlertMsg>잘못된 접근입니다</AlertMsg>
+          {/* <img
+            src={error4041}
+            style={{
+              width: "90%",
+              objectFit: "cover",
+            }}
+          /> */}
+          <img
+            src={error4042}
+            style={{
+              width: "90%",
+              objectFit: "cover",
+            }}
+          />
+          <AlertMsg>페이지를 찾을 수 없습니다.</AlertMsg>
+          <AlertSmall>
+            요청하신 페이지가 삭제되었거나, 잘못된 경로입니다.
+          </AlertSmall>
           <GoHomeButton onClick={goToHome}>홈으로 가기</GoHomeButton>
         </AlertMsgArea>
       </MainContainer>
@@ -29,6 +48,7 @@ const MainContainer = styled.div`
   border-left: 0.0625rem solid rgb(225, 226, 228);
   border-right: 0.0625rem solid rgb(225, 226, 228);
 `;
+
 const AlertMsgArea = styled.div`
   background-color: #f7f1fd;
   width: 100%;
@@ -38,9 +58,17 @@ const AlertMsgArea = styled.div`
   align-items: center;
   flex-direction: column;
 `;
+
 const AlertMsg = styled.div`
-  font-size: 30px;
-  margin: 50px;
+  font-size: 27px;
+  margin-top: 50px;
+  margin-bottom: 10px;
+`;
+
+const AlertSmall = styled.div`
+  font-size: 16px;
+  margin-top: 10px;
+  margin-bottom: 80px;
 `;
 
 const GoHomeButton = styled.div`
@@ -49,4 +77,7 @@ const GoHomeButton = styled.div`
   padding: 20px;
   border-radius: 25px;
   cursor: pointer;
+  &:hover {
+    background-color: #cde4ff;
+  }
 `;
