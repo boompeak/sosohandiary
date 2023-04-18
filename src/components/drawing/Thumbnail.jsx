@@ -152,7 +152,6 @@ const ImageSticker = ({
     imgUrl28,
   ];
 
-  console.log("THUMB", sticker.stickerUrlNum);
   return (
     <React.Fragment>
       <Image
