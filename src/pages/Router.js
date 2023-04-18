@@ -1,10 +1,4 @@
-import {
-  BrowserRouter,
-  Navigate,
-  Route,
-  Routes,
-  useNavigate,
-} from "react-router-dom";
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Login from "./authenticate/Login";
 import Profile from "./Profile";
 import Notification from "./main-layout/Notification";
@@ -25,14 +19,12 @@ import DiaryDetail from "./DiaryDetail";
 import AlertMessage from "../components/alert/AlertMessage";
 import NotFound from "./NotFound";
 import ScrollToTop from "../utils/ScrollToTop";
-import AuthRoute from "./AuthRoute";
 import { useEffect, useState } from "react";
 
 const Router = () => {
-  const [accessToken, setAccessToken] = useState(null);
-  useEffect(() => {
-    setAccessToken(window.localStorage.getItem("accessToken"));
-  }, [accessToken]);
+  const [accessToken, setAccessToken] = useState(
+    window.localStorage.getItem("accessToken")
+  );
 
   return (
     <BrowserRouter>
